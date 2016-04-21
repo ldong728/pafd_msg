@@ -28,10 +28,23 @@ function CLICK($msg){
     return;
 }
 function subscribe($msg){
+    $openid=$msg['FromUserName'];
     if(isset($msg['EventKey'])){
-        $f_sdp_id=preg_replace('/qrscene_/','',$msg['EventKey']);
-        pdoInsert('sdp_subscribe_tbl',array('open_id'=>$msg['FromUserName'],'f_sdp_id'=>$f_sdp_id));
+        $group_id=preg_replace('/qrscene_/','',$msg['EventKey']);
+        addtoGroup($openid,$group_id);
+
     }
+    $userinf=getUnionId($msg['FromUserName']);
+    if (isset($userinf)) {
+        foreach ($userinf as $k => $v) {
+            if ('subscribe_time' == $k) {
+                $v = date('Y-m-d H:i:s', $v);
+            }
+            $data[$k] = addslashes($v);
+        }
+        $re = pdoInsert('user_tbl', $data, 'update');
+    }
+
 
 
     return;

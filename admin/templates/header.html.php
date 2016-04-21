@@ -39,9 +39,7 @@
                 <?php if (isset($_SESSION['pms']['user'])): ?>
                     <dd><a href="index.php?userList=1">用户列表</a></dd><?php endif ?>
                 <?php if (isset($_SESSION['pms']['user'])): ?>
-                    <dd><a href="index.php?goods-config=1">分组管理</a></dd><?php endif ?>
-<!--                --><?php //if (isset($_SESSION['pms']['user'])): ?>
-<!--                    <dd><a href="index.php?category-config=1">类别管理</a></dd>--><?php //endif ?>
+                    <dd><a href="index.php?groupManage=1">分组管理</a></dd><?php endif ?>
             </dl>
         </li>
         <li>
