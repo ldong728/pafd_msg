@@ -21,44 +21,21 @@ if (isset($_SESSION['login'])) {
             exit;
         }
     }
-    if (isset($_GET['category-config'])) {
-        if(isset($_SESSION['pms']['cate'])) {
-            $category = pdoQuery('category_tbl', null, null, null);
-            printView('admin/view/category_config.html.php', '分类修改');
+    if(isset($_GET['userList'])){
+        if(isset($_SESSION['pms']['news'])) {
+            $num=15;
+            $page=isset($_GET['page'])?$_GET['page']:0;
+            $index=$page*$num;
+            $userquery=pdoQuery('user_tbl',null,null," limit $page,$num");
+            $userlist=$userquery->fetchAll();
+            printView('admin/view/user_list.html.php','已关注列表');
             exit;
         }else{
             echo '权限不足';
             exit;
         }
     }
-    if (isset($_GET['promotions'])) {
-        if(isset($_SESSION['pms']['index'])) {
-            printView('admin/view/promotions.html.php', '首页设置');
-            exit;
-        }else{
-            echo '权限不足';
-            exit;
-        }
-    }
-    if (isset($_GET['ad'])) {
-        $adQuery = pdoQuery('ad_tbl', null, null, '');
-        printView('admin/view/ad.html.php', '广告设置');
-        exit;
-    }
-    if(isset($_GET['orders'])){
-        if(isset($_SESSION['pms']['order'])) {
-            $query = pdoQuery('express_tbl', null, null, '');
-            foreach ($query as $row) {
-                $expressQuery[] = $row;
-            }
-            $orderQuery = pdoQuery('order_view', null, array('stu' => $_GET['orders']), '');
-            printView('admin/view/orderManage.html.php', '订单管理');
-            exit;
-        }else{
-            echo '权限不足';
-            exit;
-        }
-    }
+
     if(isset($_GET['review'])){
         if(isset($_SESSION['pms']['review'])) {
             $limit = isset($_GET['index']) ? ' limit ' . $_GET['index'] . ', 20' : ' limit 20';
@@ -97,7 +74,7 @@ if (isset($_SESSION['login'])) {
             $config=getConfig('../mobile/config/config.json');
             $remarkQuery = pdoQuery('index_remark_tbl', null, null, null);
             $frontImg = pdoQuery('ad_tbl', null, array('category' => 'banner'), null);
-            printView('admin/view/admin_index.html.php', '阿诗顿官方商城控制台');
+            printView('admin/view/admin_index.html.php', '信息管理发布系统');
             exit;
         }else{
             echo '权限不足';
@@ -132,49 +109,12 @@ if (isset($_SESSION['login'])) {
             exit;
         }
     }
-    if(isset($_GET['sdp'])){
-        if(isset($_SESSION['pms']['sdp'])){
-            if(isset($_GET['level'])){
-                $levelQuery=pdoQuery('sdp_level_tbl',null,null,null);
-                foreach ($levelQuery as $row) {
-                    $levelList[]=$row;
-                }
-                $gainShare=pdoQuery('sdp_gainshare_tbl',null,array('root'=>'root'),' limit 3');
-                printView('admin/view/sdpLevel.html.php','分销管理');
-
-            }
-            if(isset($_GET['rootsdp'])){
-                $page=isset($_GET['page'])?$_GET['page']-1:0;
-                $levelQuery=pdoQuery('sdp_level_tbl',null,null,' where level_id>1');
-                foreach ($levelQuery as $row) {
-                    $levelList[]=$row;
-                }
-                $sdpInf=getSdpInf($page*20,20,$_GET['rootsdp']);
-                printView('admin/view/sdpManage.html.php','分销商管理');
-            }
-            if(isset($_GET['usersdp'])){
-                $levelQuery=pdoQuery('sdp_level_tbl',null,null,' where level_id>1');
-                foreach ($levelQuery as $row) {
-                    $levelList[]=$row;
-                }
-                $page=isset($_GET['page'])?$_GET['page']-1:0;
-                $sdpInf=getSdpInf($page*20,20,1);
-                printView('admin/view/sdpUser.html.php','微商管理');
-            }
-
-
-        }else{
-            echo '权限不足';
-            exit;
-        }
-        exit;
-    }
     if (isset($_GET['logout'])) {//登出
         session_unset();
         include 'view/login.html.php';
         exit;
     }
-    printView('admin/view/blank.html.php','阿诗顿官方商城控制台');
+    printView('admin/view/blank.html.php','信息管理发布系统');
     exit;
 } else {
     if (isset($_GET['login'])) {
@@ -187,7 +127,7 @@ if (isset($_SESSION['login'])) {
             foreach ($pms as $row) {
                 $_SESSION['pms'][$row['key']]=1;
             }
-            printView('admin/view/blank.html.php','阿诗顿官方商城控制台');
+            printView('admin/view/blank.html.php','信息管理发布系统');
         }else{
             $query=pdoQuery('operator_tbl',null,array('name'=>$name,'md5'=>md5($pwd)),' limit 1');
             $op_inf=$query->fetch();
@@ -201,7 +141,7 @@ if (isset($_SESSION['login'])) {
                 foreach ($pms as $row) {
                     $_SESSION['pms'][$row['pms']]=1;
                 }
-                printView('admin/view/blank.html.php','阿诗顿官方商城控制台');
+                printView('admin/view/blank.html.php','信息管理发布系统');
                 exit;
             }
 

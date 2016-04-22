@@ -8,8 +8,10 @@
 include_once '../includePackage.php';
 session_start();
 setcookie('group','1');
-header('location:http://weixin.qq.com/r/YTgrM6jE4PWfrexQ921z');
+include 'view/index.html.php';
+//header('location:http://weixin.qq.com/r/YTgrM6jE4PWfrexQ921z');
 //header('location:http://weixin.com/contacts/profile/gh_bc1d700f0582');
+//header('location:http://www.baidu.com');
 exit;
 
 

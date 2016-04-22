@@ -33,13 +33,13 @@
 define('ADMIN','admin');
 define('PASSWORD','admin');
 //测试号
-//define('APP_ID','wx03393af10613da23');
-//define('APP_SECRET','40751854901cc489eddd055538224e8a');
-//define('WEIXIN_ID','gh_964192c927cb');
+define('APP_ID','wx03393af10613da23');
+define('APP_SECRET','40751854901cc489eddd055538224e8a');
+define('WEIXIN_ID','gh_964192c927cb');
 //承天
-define('APP_ID','wxe351f7bfd5b5e2a6');
-define('APP_SECRET','1eb1e0701b845f183ff2843fcddb4b7e');
-define('WEIXIN_ID','gh_bc1d700f0582');
+//define('APP_ID','wxe351f7bfd5b5e2a6');
+//define('APP_SECRET','1eb1e0701b845f183ff2843fcddb4b7e');
+//define('WEIXIN_ID','gh_bc1d700f0582');
 
 define("TOKEN", "godlee");
 define('DOMAIN',"/pafd_msg");
