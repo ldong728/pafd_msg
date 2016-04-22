@@ -31,8 +31,7 @@ function subscribe($msg){
     $openid=$msg['FromUserName'];
     if(isset($msg['EventKey'])){
         $group_id=preg_replace('/qrscene_/','',$msg['EventKey']);
-        addtoGroup($openid,$group_id);
-
+        changeGroup($openid,$group_id);
     }
     $userinf=getUnionId($msg['FromUserName']);
     if (isset($userinf)) {

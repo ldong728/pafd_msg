@@ -193,7 +193,7 @@ function getMediaList($type, $offset,$count='15')
     $json = $GLOBALS['mInterface']->postArrayByCurl('https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN', $request);
     return json_decode($json, true);
 }
-function addtoGroup($openid,$groupId){
+function changeGroup($openid,$groupId){
     $data=array('openid'=>$openid,'to_group'=>$groupId);
     $data=json_encode($data);
     $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN', $data);
