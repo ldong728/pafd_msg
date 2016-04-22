@@ -644,8 +644,9 @@ a.foot-cate-name {
     background-image: url(images/favw.png);
 }
 .sdp-inf-header {
-    z-index: 100;
+    z-index: 999;
     position: fixed;
+    top:0;
     left: 0;
     width: 100%;
     height: 45px;
@@ -656,6 +657,17 @@ a.foot-cate-name {
     font-size: 18px;
     text-align: center;
     display: none;
+}
+.sdp-inf-header a {
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    display: block;
+    line-height: 48px;
+    font-size: 18px;
+    color: #ffffff;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .mBaner {

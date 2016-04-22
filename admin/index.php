@@ -60,15 +60,6 @@ if (isset($_SESSION['login'])) {
             exit;
         }
     }
-    if(isset($_GET['card'])){
-        if(isset($_SESSION['pms']['card'])) {
-            printView('admin/view/cardManager.html.php', '卡券管理');
-            exit;
-        }else{
-            echo '权限不足';
-            exit;
-        }
-    }
     if(isset($_GET['index'])){
         if(isset($_SESSION['pms']['index'])) {
             $config=getConfig('../mobile/config/config.json');

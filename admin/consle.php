@@ -167,43 +167,6 @@ if (isset($_SESSION['login'])) {
 
         exit;
     }
-    if(isset($_GET['sdp'])){
-        if(isset($_GET['setWholesale'])){
-            $level=$_GET['setWholesale'];
-            $wholesale=getSdpWholesale($_GET['setWholesale']);
-//            $levelInf=pdoQuery('sdp_level_tbl',null,array('level_id'=>$_GET['setWholesale']),' limit 1');
-//            $levelInf=$levelInf->fetch();
-//            $wsQuery=pdoQuery('sdp_wholesale_tbl',null,array('level_id'=>$level),null);
-//            foreach ($wsQuery as $row) {
-//                $wslist[$row['g_id']]=$row;
-//            }
-//            $gList=pdoQuery('user_tmp_list_view',null,null,' group by g_id');
-//            foreach ($gList as $row) {
-//                if(isset($wslist[$row['g_id']])){
-//                   $ws= $wslist[$row['g_id']]['price'];
-//                    $min=isset($wslist[$row['g_id']]['min_sell'])?$wslist[$row['g_id']]['min_sell']:$levelInf['min_sell']*$row['sale'];
-//                    $max=isset($wslist[$row['g_id']]['max_sell'])?$wslist[$row['g_id']]['max_sell']:$levelInf['max_sell']*$row['sale'];
-//                }else{
-//                    $ws=$levelInf['discount']*$row['sale'];
-//                    $min=$levelInf['min_sell']*$row['sale'];
-//                    $max=$levelInf['max_sell']*$row['sale'];
-//                }
-//                $wholesale[]=array(
-//                    'g_id'=>$row['g_id'],
-//                    'produce_id'=>$row['produce_id'],
-//                    'url'=>$row['url'],
-//                    'sale'=>$row['sale'],
-//                    'wholesale'=>$ws,
-//                    'min_sell'=>$min,
-//                    'max_sell'=>$max
-//                );
-//            }
-            printView('admin/view/sdp_wholesale.html.php',$levelInf['level_name'].'价格设置');
-            exit;
-
-        }
-
-    }
     exit;
 }
 header('location:index.php');

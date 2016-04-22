@@ -12,22 +12,12 @@ function deleteButton()
 function createButtonTemp()
 {
 
-    $url='https://open.weixin.qq.com/connect/oauth2/authorize?'
-        .'appid='.APP_ID
-        .'&redirect_uri='.urlencode('http://'.$_SERVER['HTTP_HOST'].DOMAIN.'/mobile/controller.php?oauth=1')
-        .'&response_type=code&scope=snsapi_base'
-        .'&state=root#wechat_redirect';
-    $button1sub1=array('type'=>'view','name'=>'关于品牌','url'=>'http://www.rabbitpre.com/m/fybUReEnj');
-    $button1sub2=array('type'=>'view','name'=>'企业简介','url'=>'http://www.rabbitpre.com/m/ei7YZfiNi');
-    $button1sub3=array('type'=>'view','name'=>'了解产品','url'=>'http://www.rabbitpre.com/m/yQbiqi7');
-    $button1=array('name'=>'关于品牌','sub_button'=>array($button1sub1,$button1sub2,$button1sub3));
-//    $button2sub1=array('type'=>'click','name'=>'微信下单减5元','key'=>'wxpromotion');
-//    $button2sub2=array('type'=>'click','name'=>'新年抢红包','key'=>'hongbao');
-    $button2=array('type'=>'view','name'=>'微商城','url'=>$url);
-    $button3sub1=array('type'=>'click','name'=>'在线客服','key'=>'kf');
-    $button3sub2=array('type'=>'click','name'=>'个人中心','key'=>'user');
-    $button3sub3=array('type'=>'click','name'=>'会员优惠','key'=>'artical');
-    $button3=array('name'=>'咨询专区','sub_button'=>array($button3sub1,$button3sub2,$button3sub3));
+    $url='http://www.anmiee.com/pafd_msg/index.php?mainSite=1';
+    $button1=array('name'=>'文章列表','type'=>'view','url'=>$url);
+    $button2=array('type'=>'click','name'=>'功能按钮','key'=>'module1');
+    $button3sub1=array('type'=>'click','name'=>'功能按钮1','key'=>'moldule2');
+    $button3sub2=array('type'=>'click','name'=>'功能按钮2','key'=>'moldule3');
+    $button3=array('name'=>'功能区','sub_button'=>array($button3sub1,$button3sub2));
     $mainButton=array('button'=>array($button1,$button2,$button3));
     $jsondata = json_encode($mainButton,JSON_UNESCAPED_UNICODE);
     mylog($jsondata);
@@ -147,16 +137,11 @@ function downloadImgToHost($media_id,$filePath)
 }
 function getUnionId($openId)
 {
+    $sI=new interfaceHandler(WEIXIN_ID);
     $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=' . $openId . '&lang=zh_CN';
-    $jsonData = $GLOBALS['mInterface']->getByCurl($url);
+    $jsonData = $sI->getByCurl($url);
     $inf=json_decode($jsonData,true);
-    if(!isset($inf['nickname'])||$inf['nickname']==''){
-        $inf['nickname']='游客';
-        $inf['subscribe']=0;
-        $jsonData=json_encode($inf,JSON_UNESCAPED_UNICODE);
-    }
-//    mylog(getArrayInf($inf));
-    return json_decode($jsonData, true);
+    return $inf;
 }
 function getOauthToken($code){
     $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.APP_ID.'&secret='.APP_SECRET.'&code='.$code.'&grant_type=authorization_code';

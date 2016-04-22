@@ -10,13 +10,10 @@ include_once $GLOBALS['mypath'].'/wechat/serveManager.php';
 $myHandler=new interfaceHandler(WEIXIN_ID);
 $msg=$weixin->receiverFilter();
 $random=rand(1000,9999);
+
 $eventList=array
 (
     'VIEW',
-    'kf_create_session',
-    'kf_close_session',
-    'user_get_card',
-    'user_del_card',
     'CLICK',
     'subscribe'
 
