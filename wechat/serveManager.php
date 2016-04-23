@@ -184,6 +184,29 @@ function changeGroup($openid,$groupId){
     $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN', $data);
     return $json;
 }
+function getGroupList(){
+    $json=$GLOBALS['mInterface']->getByCurl('https://api.weixin.qq.com/cgi-bin/groups/get?access_token=ACCESS_TOKEN');
+    $list=json_decode($json,true);
+    return $list['groups'];
+}
+function createGroup($name){
+    $list=array('group'=>array('name'=>$name));
+    $listjson=json_encode($list,JSON_UNESCAPED_UNICODE);
+    $json=$GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/create?access_token=ACCESS_TOKEN',$listjson);
+    return $json;
+}
+function altGroup($name,$id){
+    $list=array('group'=>array('id'=>$id,'name'=>$name));
+    $listjson=json_encode($list,JSON_UNESCAPED_UNICODE);
+    $json=$GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/update?access_token=ACCESS_TOKEN',$listjson);
+    return $json;
+}
+function deleteGroup($id){
+    $list=array('group'=>array('id'=>$id));
+    $listjson=json_encode($list,JSON_UNESCAPED_UNICODE);
+    $json=$GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/delete?access_token=ACCESS_TOKEN',$listjson);
+    return $json;
+}
 function getMedia($jsonMediaId)
 {
 //    $GLOBALS['mInterface']=($GLOBALS['ready']?$GLOBALS['mInterface']:new interfaceHandler($weixinId) );

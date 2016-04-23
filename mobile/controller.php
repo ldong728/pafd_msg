@@ -13,8 +13,14 @@ if(isset($_GET['showShareSite'])){
     exit;
 }
 if(isset($_GET['signIn'])){
+    $open_id=$_GET['code'];
     $group_id=isset($_COOKIE['group_id'])?$_COOKIE['group_id']:'0';
-    mylog('group_id:'.$group_id);
+    if($group_id!=0){
+        include_once '../wechat/serveManager.php';
+        changeGroup($open_id,$group_id);
+
+    }
+//    mylog('group_id:'.$group_id);
 
 
 }

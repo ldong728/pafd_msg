@@ -28,8 +28,13 @@
                 <dt>首页管理</dt>
                 <?php if (isset($_SESSION['pms']['index'])): ?>
                     <dd><a href="index.php?index=1">首页编辑</a></dd><?php endif ?>
-                <?php if (isset($_SESSION['pms']['index'])): ?>
-                    <dd><a href="index.php?promotions=1">首页商品</a></dd><?php endif ?>
+            </dl>
+        </li>
+        <li>
+            <dl class="main-menu">
+                <dt>分组管理</dt>
+                <?php if (isset($_SESSION['pms']['group'])): ?>
+                    <dd><a href="index.php?groupManager=1&groupList=1">分组列表</a></dd><?php endif ?>
             </dl>
         </li>
         <li>
@@ -58,7 +63,7 @@
                 <dl class="main-menu">
                     <dt>图文信息管理</dt>
                     <dd><a href="index.php?newslist=1">图文信息列表</a></dd>
-<!--                    <dd><a href="index.php?sdp=1&rootsdp=2">分销商管理</a></dd>-->
+                    <dd><a href="index.php?createNews=2">新建图文信息</a></dd>
 <!--                    <dd><a href="index.php?sdp=1&usersdp=1">微商管理</a></dd>-->
 <!--                    <dd><a href="index.php?sdp=1&sdpInf=1">数据分析</a></dd>-->
                 </dl>

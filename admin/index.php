@@ -1,16 +1,36 @@
 <?php
 
 include_once '../includePackage.php';
+include_once '../wechat/serveManager.php';
 session_start();
 
 if (isset($_SESSION['login'])) {
+
+    if(isset($_GET['groupManager'])){
+        if(isset($_SESSION['pms']['group'])){
+            if(isset($_GET['groupList'])){
+                $slist=getGroupList();
+                foreach ($slist as $row) {
+                    if($row['id']==1||$row['id']==2)continue;//屏蔽星标组和黑名单
+                    $list[]=$row;
+                }
+                if(!isset($list))$list=array();
+                printView('admin/view/groupManage.html.php','分组管理');
+                exit;
+            }
+
+        }else{
+            echo '权限不足';
+            exit;
+        }
+
+    }
 
 
     if (isset($_GET['newslist'])) {
         $num=15;
         $page=isset($_GET['page'])?$_GET['page']:0;
-        include_once '../wechat/serveManager.php';
-
+//        include_once '../wechat/serveManager.php';
         $newsList=getMediaList('news',$num*$page);
         if(isset($_SESSION['pms']['news'])) {
 //            echo getArrayInf($newsList);
@@ -19,6 +39,11 @@ if (isset($_SESSION['login'])) {
         }else{
             echo '权限不足';
             exit;
+        }
+    }
+    if(isset($_GET['createNews'])){
+        if(isset($_SESSION['pms']['news'])){
+            printView('admin/view/createNews.html.php','新建图文信息');
         }
     }
     if(isset($_GET['userList'])){
