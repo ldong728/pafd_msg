@@ -4,21 +4,6 @@ include_once 'upload.class.php';
 session_start();
 if(isset($_SESSION['login'])) {
     $uploader= new uploader();
-//    if (isset($_POST['altAd'])) {
-//
-//        if (isset($_FILES['adPic'])) {
-//            $file = $_FILES['adPic'];
-//            if (fileFilter($file, array('image/gif', 'image/jpeg', 'image/pjpeg','image/png'), 500000)) {
-//                $temp = move_uploaded_file($file['tmp_name'], $_POST['adImg']);
-//                if (false == $temp) mylog('fileerrer');
-//            }
-//        }
-//        if (isset($_POST['g_id'])) {
-//            pdoUpdate('ad_tbl', array('g_id' => $_POST['g_id']), array('id' => $_POST['altAd']));
-//        }
-//        header('location:index.php?ad=1');
-//        exit;
-//    }
     if (isset($_GET['infImgUpload'])){
         $file=$_FILES['upfile'];
         $uploader->upFile(time().rand(1000,9999));

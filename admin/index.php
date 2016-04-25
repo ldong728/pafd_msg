@@ -44,6 +44,7 @@ if (isset($_SESSION['login'])) {
     if(isset($_GET['createNews'])){
         if(isset($_SESSION['pms']['news'])){
             printView('admin/view/createNews.html.php','新建图文信息');
+            exit;
         }
     }
     if(isset($_GET['userList'])){
