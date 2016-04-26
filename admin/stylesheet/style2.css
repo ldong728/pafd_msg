@@ -759,6 +759,12 @@ header .rt_nav li .quit_icon:before {
     position: relative;
     border: 1px #139667 solid;
 }
+img.uploadedImg {
+    min-width: 60px;
+    max-width: 150px;
+    height: auto;
+    position: relative;
+}
 
 .uploadImg input {
     display: none;

@@ -25,13 +25,36 @@ if (isset($_SESSION['login'])) {
         }
 
     }
+    if(isset($_GET['sendNotice'])){
+        if(isset($_SESSION['pms']['notice'])){
+            $readyQuery=pdoQuery('notice_tbl',null,array('situation'=>'0'),null);
+            foreach ($readyQuery as $row) {
+                $ready[]=$row;
+            }
+            $groupList=getGroupList();
+            foreach ($groupList as $row) {
+                if($row['id']<3)continue;//屏蔽星标组和黑名单
+                $glist[]=$row;
+            }
+            printView('admin/view/sendNotice.html.php','发送通知');
+            exit;
+
+        }else{
+            echo '权限不足';
+            exit;
+        }
+
+    }
 
 
     if (isset($_GET['newslist'])) {
+        $where=null;
         $num=15;
         $page=isset($_GET['page'])?$_GET['page']:0;
-//        include_once '../wechat/serveManager.php';
-        $newsList=getMediaList('news',$num*$page);
+        if(isset($_GET['source']))$where['source']=$_GET['source'];
+        if(isset($_GET['group']))$where['groupid']=$_GET['group'];
+        $newsList=pdoQuery('news_tbl',null,$where,' order by create_time desc limit '.$page*$num.', '.$num);
+
         if(isset($_SESSION['pms']['news'])) {
 //            echo getArrayInf($newsList);
                 printView('admin/view/newslist.html.php', '图文列表');

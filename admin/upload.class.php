@@ -9,8 +9,8 @@
 
 //wxlog('include uploadClass ok');
 include_once '../includePackage.php';
-define('imgPath','g_img');
-define('maxSize',200);
+define('imgPath','img');
+define('maxSize',500);
 define('FILE_FIELD','upfile');
 class uploader
 {
@@ -120,9 +120,6 @@ class uploader
         }
         $this->md5=md5_file($file['tmp_name']);
 
-        if($this->checkFileMd5($this->md5)){
-            return;
-        }
 
         $this->fullName = $folder . $this->getName();
 

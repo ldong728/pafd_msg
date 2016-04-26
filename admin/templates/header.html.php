@@ -5,7 +5,6 @@
     <title><?php echo $title ?></title>
     <script type="text/javascript" src="../js/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheet/style.css?v=<?php echo rand(1000, 9999) ?>">
-    <link href="../uedit/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="stylesheet/style2.css?v=<?php echo rand(1000, 9999) ?>">
     <script src="js/html5.js"></script>
 
@@ -27,14 +26,14 @@
             <dl class="main-menu">
                 <dt>首页管理</dt>
                 <?php if (isset($_SESSION['pms']['index'])): ?>
-                    <dd><a href="index.php?index=1">首页编辑</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['index'])?'block':'none'?>"><a href="index.php?index=1">首页编辑</a></dd><?php endif ?>
             </dl>
         </li>
         <li>
             <dl class="main-menu">
                 <dt>分组管理</dt>
                 <?php if (isset($_SESSION['pms']['group'])): ?>
-                    <dd><a href="index.php?groupManager=1&groupList=1">分组列表</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['groupManager'])?'block':'none'?>"><a href="index.php?groupManager=1&groupList=1">分组列表</a></dd><?php endif ?>
             </dl>
         </li>
         <li>
@@ -42,28 +41,28 @@
                 <dt>用户管理</dt>
                 <!--当前链接则添加class:active-->
                 <?php if (isset($_SESSION['pms']['user'])): ?>
-                    <dd><a href="index.php?userList=1">用户列表</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['user'])?'block':'none'?>"><a href="index.php?user=1&userList=1">用户列表</a></dd><?php endif ?>
                 <?php if (isset($_SESSION['pms']['user'])): ?>
-                    <dd><a href="index.php?groupManage=1">分组管理</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['user'])?'block':'none'?>"><a href="index.php?user=1&groupManage=1">分组管理</a></dd><?php endif ?>
             </dl>
         </li>
         <li>
             <dl class="main-menu">
                 <dt>通知管理</dt>
                 <?php if (isset($_SESSION['pms']['notice'])): ?>
-                    <dd><a href="index.php?orders=-1">发送通知</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['notice'])?'block':'none'?>"><a href="index.php?notice=1&sendNotice=-1">发送通知</a></dd><?php endif ?>
                 <?php if (isset($_SESSION['pms']['notice'])): ?>
-                    <dd><a href="index.php?orders=0">状态查询</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['notice'])?'block':'none'?>"><a href="index.php?notice=1&orders=0">状态查询</a></dd><?php endif ?>
                 <?php if (isset($_SESSION['pms']['notice'])): ?>
-                    <dd><a href="index.php?orders=1">历史通知</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['notice'])?'block':'none'?>"><a href="index.php?notice=1&orders=1">历史通知</a></dd><?php endif ?>
             </dl>
         </li>
         <?php if (isset($_SESSION['pms']['news'])): ?>
             <li>
                 <dl class="main-menu">
                     <dt>图文信息管理</dt>
-                    <dd><a href="index.php?newslist=1">图文信息列表</a></dd>
-                    <dd><a href="index.php?createNews=2">新建图文信息</a></dd>
+                    <dd style="display: <?php echo isset($_GET['news'])?'block':'none'?>"><a href="index.php?news=1&newslist=1">图文信息列表</a></dd>
+                    <dd style="display: <?php echo isset($_GET['news'])?'block':'none'?>"><a href="index.php?news=1&createNews=2">新建图文信息</a></dd>
 <!--                    <dd><a href="index.php?sdp=1&usersdp=1">微商管理</a></dd>-->
 <!--                    <dd><a href="index.php?sdp=1&sdpInf=1">数据分析</a></dd>-->
                 </dl>
@@ -75,7 +74,7 @@
             <dl class="main-menu">
                 <dt>评价管理</dt>
                 <?php if (isset($_SESSION['pms']['review'])): ?>
-                    <dd><a href="index.php?review=1">查看评价</a></dd><?php endif ?>
+                    <dd style="display: <?php echo isset($_GET['review'])?'block':'none'?>"><a href="index.php?review=1">查看评价</a></dd><?php endif ?>
             </dl>
         </li>
 

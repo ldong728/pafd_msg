@@ -10,10 +10,33 @@ session_start();
 
 
 if (isset($_SESSION['login'])) {
-    if(isset($_GET['createNews'])){
-        $title=$_POST['title'];
-        $digest=$_POST['digest'];
-//        $
+    if (isset($_GET['createNews'])) {
+        $title = addslashes(trim($_POST['title']));
+        $digest = addslashes(trim($_POST['digest']));
+        $title_img = $_POST['title_img'] ? 'img/0.jpg' : $_POST['title_img'];
+        $content = addslashes($_POST['content']);
+        if ($title != '' && $content != '') {
+            pdoInsert('news_tbl', array('title' => $title, 'digest' => $digest, 'title_img' => $title_img, 'content' => $content, 'source' => 'local', 'create_time' => time()));
+            header('location:index.php?newslist=1');
+            exit;
+        } else {
+        }
+    }
+    if (isset($_GET['getNotice'])) {//在预览框架中显示
+        $css = '<style type="text/css">'
+  .'img {max-width:100%;}'
+.'</style>';
+
+        $noticeId = $_GET['getNotice'];
+        if ($noticeId == -1) {
+            echo '预览';
+            exit;
+        }
+        $notice = pdoQuery('notice_tbl', array('inf'), array('id' => $noticeId), ' limit 1');
+        $notice = $notice->fetch();
+        echo $css;
+        echo $notice['inf'];
+        exit;
     }
 
     //公众号操作
@@ -28,61 +51,15 @@ if (isset($_SESSION['login'])) {
             echo getMenuInf();
             exit;
         }
-        if (isset($_GET['test'])){
+        if (isset($_GET['test'])) {
 //            $data=curlTest();
-            $data=sendKFMessage('o_Luwt9OgYENChNK0bBZ4b1tl5hc','你好');
+            $data = sendKFMessage('o_Luwt9OgYENChNK0bBZ4b1tl5hc', '你好');
             echo $data;
             exit;
         }
 
     }
-    if (isset($_GET['imgUpdate'])) {
-        mylog('update');
-    }
-    if (isset($_GET['goodsSituation'])) {
-        pdoUpdate('g_inf_tbl', array('situation' => $_GET['goodsSituation']), array('id' => $_GET['g_id']));
-        $g_id = $_GET['g_id'];
-        header('location:index.php?goods-config=1&g_id=' . $g_id);
-        exit;
-    }
-    if (isset($_GET['updateParm'])) {
-        $value['g_id'] = $_GET['g_id'];
-        foreach ($_POST as $k => $v) {
-            $value[$k] = $v;
-        }
-        pdoInsert('parameter_tbl', $value, 'update');
-        $g_id = $_GET['g_id'];
-        header('location:index.php?goods-config=1&g_id=' . $g_id);
-        exit;
-    }
-    if (isset($_POST['importCard'])) {
-        $card_id = trim($_POST['card_id']);
-        $value['card_id']=$card_id;
-        include_once '../wechat/cardManager.php';
-        $data = getCardDetail($card_id);
-        $dataArray = json_decode($data, true);
-        $cardType = $dataArray['card']['card_type'];
-        $value['card_type'] = $cardType;
-        switch ($cardType) {
-            case 'CASH': {
-                $value['least_cost'] = $dataArray['card']['cash']['least_cost'] / 100;
-                $value['reduce_cost'] = $dataArray['card']['cash']['reduce_cost'] / 100;
-                break;
-            }
-            case 'DISCOUNT': {
-                $value['discount'] = (100 - $dataArray['card']['discount']['discount']) / 100;
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-        pdoInsert('card_tbl',$value,'update');
 
-        echo $data;
-
-        exit;
-    }
     exit;
 }
 header('location:index.php');

@@ -20,11 +20,12 @@
                 </li>
                 <li>
                     <span class="item_name" style="width:120px">首页图片：</span>
-                    <label class="uploadImg">
+                    <label class="uploadImg" >
                         <span>插入图片</span>
                     </label>
+                    <img class="uploadedImg" id="title_demo"style="max-width: 70px;height: auto;display: none"/>
                     <input type="file"id="title-img-up"name="title-img-up"style="display: none">
-                    <input type="hidden"name="title_img"value=""/>
+                    <input type="hidden"name="title_img"id="title_name"/>
                 </li>
             </ul>
             <script>
@@ -39,8 +40,12 @@
                         dataType: 'json', //返回值类型 一般设置为json
                         success: function (v, status){
                             if('SUCCESS'== v.state){
-                                var content = '<a href="#"class="delete-front-img"id="'+ v.id+'"><img src="../'+ v.url+'"/></a>';
-                                $('.front-img-upload').before(content);
+//                                var content = '<a href="#"class="delete-front-img"id="'+ v.id+'"><img src="../'+ v.url+'"/></a>';
+//                                $('.front-img-upload').before(content);
+                                $('#title_demo').attr('src','../'+ v.url);
+                                $('#title_demo').fadeIn('fast');
+                                $('.uploadImg').hide();
+                                $('#title_name').val(v.url);
                             }else{
                                 showToast(v.state);
                             }
@@ -62,7 +67,7 @@
             <script type="text/javascript">
                 var ue = UE.getEditor('container');
             </script>
-        <input type="button" class="link_btn" value="创建新图文信息"/>
+        <input type="button" class="link_btn" value="创建新图文信息"onclick="submit()"/>
 
     </form>
 
