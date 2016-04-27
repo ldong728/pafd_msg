@@ -12,10 +12,10 @@ function CLICK($msg)
 //    mylog('click');
     $openid = $msg['from'];
     switch ($msg['EventKey']) {
-        case 'moldule2': {
+        case 'moldule2': {//通知查看按钮
             $inf = getUserInf($openid);
             $groupid = $inf['groupid'];
-            $notice=pdoQuery('notice_tbl',null,array('groupid'=>$groupid),' order by create_time desc limit 1');
+            $notice=pdoQuery('notice_tbl',null,array('groupid'=>$groupid,'situation'=>'1'),' order by create_time desc limit 1');
             if($notice=$notice->fetch()) {
                 $title = $notice['title'];
                 $intro = $notice['intro'];

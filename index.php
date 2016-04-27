@@ -11,9 +11,11 @@ if(isset($_GET['share'])){
     exit;
 }
 if(isset($_GET['mainSite'])){
-    $groupid=isset($_COOKIE['group_id'])?$_COOKIE['group_id']:0;
-    echo $groupid;
+    header('location:mobile/controller.php?mainSite=1');
     exit;
+//    $groupid=isset($_COOKIE['group_id'])?$_COOKIE['group_id']:0;
+//    echo $groupid;
+//    exit;
 }
 
 

@@ -1,4 +1,8 @@
-<?php $newsList=$GLOBALS['newsList']?>
+<?php
+$newsList=$GLOBALS['newsList'];
+$cateList=$GLOBALS['cateList'];
+
+?>
 
 <section>
     <h2>
@@ -16,11 +20,22 @@
                 <td><?php echo $row['title']?></td>
                 <td><?php echo $row['source'] ?></td>
                 <td><?php echo $row['type'] ?></td>
-                <td><a class="inner_btn sendNotice"id="btn<?php echo $row['id']?>">作为通知发送</a></td>
+                <td>
+                    <a class="inner_btn sendNotice"id="btn<?php echo $row['id']?>">作为通知发送</a>
+                    <select class="select">
+                        <option value="0">未分类</option>
+                        <?php foreach($cateList as $row):?>
+
+                        <?php endforeach?>
+
+                    </select>
+
+                </td>
             </tr>
         <?php endforeach?>
 
     </table>
+    <button class="link_btn reflash">刷新</button>
 
 
 
@@ -33,6 +48,15 @@
         $.post('ajax_request.php',{sendNotice:1,newsId:id},function(data){
             var id=data;
             window.location.href='index.php?sendNotice='+id+'&notice_id='+id
+
+        })
+    });
+    $('.reflash').click(function(){
+        alert('reflash');
+        $.post('ajax_request.php',{reflashNews:1},function(data){
+            if(data=='ok'){
+                window.location.reload(true);
+            }
 
         })
     });

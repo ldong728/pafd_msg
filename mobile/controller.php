@@ -12,6 +12,14 @@ if(isset($_GET['showShareSite'])){
  include 'view/share.html.php';
     exit;
 }
+if(isset($_GET['mainSite'])){
+    $cateid=isset($_GET['cate'])?$_GET['cate']:1;
+    $cateQuery=pdoQuery('category_tbl',null,array('front'=>'1'),' limit 3');
+    $cate=$cateQuery->fetchAll();
+    $newsList=pdoQuery('news_tbl',null,array('category'=>$cateid),' order by create_time desc limit 30');
+    include 'view/newsList.html.php';
+    exit;
+}
 if(isset($_GET['signIn'])){
     $open_id=$_GET['code'];
     $group_id=isset($_COOKIE['group_id'])?$_COOKIE['group_id']:'0';
@@ -23,14 +31,19 @@ if(isset($_GET['signIn'])){
             pdoUpdate('user_tbl',array('groupid'=>$group_id),array('openid'=>$open_id));
         }
     }
-
-
+    exit;
+}
+if(isset($_GET['getNews'])){
+    $newsId=$_GET['getNews'];
+    $newInf=pdoQuery('news_tbl',null,array('id'=>$newsId),' limit 1');
+    $newsInf=$newInf->fetch();
+    include 'view/new.html.php';
     exit;
 }
 if(isset($_GET['getNotice'])){
     $open_id=$_GET['openid'];
     $group_id=$_GET['groupid'];
-    $noticeQuery=pdoQuery('notice_tbl',null,array('groupid'=>$group_id),' order by create_time desc limit 1');
+    $noticeQuery=pdoQuery('notice_tbl',null,array('groupid'=>$group_id,'situation'=>'1'),' order by create_time desc limit 1');
     if($noticeInf=$noticeQuery->fetch()){
         pdoinsert('read_mark_tbl',array('openid'=>$open_id,'notice_id'=>$noticeInf['id'],'groupid'=>$group_id),'ignore');//已读标记
         $reviewQuery=pdoQuery('review_tbl',null,array('notice_id'=>$noriceInf['id']),' order by review_time desc');

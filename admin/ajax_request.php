@@ -35,6 +35,35 @@ if(isset($_SESSION['login'])) {
         echo urlencode($url);
         exit;
     }
+    if(isset($_POST['reflashNews'])){
+        include_once '../wechat/serveManager.php';
+        $totalcount=getMediaCount();
+        $totalcount=json_decode($totalcount,true);
+        $newsNum=$totalcount['news_count'];
+        $local=pdoQuery('news_tbl',array('count(*) as num'),array('source'=>'wechat'),null);
+        $local=$local->fetch();
+        $localNum=$local['num'];
+        if($newsNum-$localNum>0){
+            $news=getMediaList('news',0,$newsNum-$localNum);
+            foreach($news['item'] as $row){
+                $media_id=$row['media_id'];
+                $title_img='img/'.$media_id.'.jpg';
+                $title=$row['content']['news_item'][0]['title'];
+                $digest=$row['content']['news_item'][0]['digest'];
+                $content=$row['content']['news_item'][0]['content'];
+                $url=$row['content']['news_item'][0]['url'];
+                $create_time=$row['content']['update_time'];
+                if(!file_exists('../'.$title_img)){
+                    $img=getFromUrl($row['content']['news_item'][0]['thumb_url']);
+                    file_put_contents('../'.$title_img,$img);
+                }
+
+                pdoInsert('news_tbl',array('media_id'=>$media_id,'title'=>addslashes($title),'digest'=>addslashes($digest),'title_img'=>$title_img,'content'=>addslashes($content),'url'=>$url,'create_time'=>$create_time),'ignore');
+            }
+        }
+        echo 'ok';
+        exit;
+    }
     if(isset($_POST['sendNotice'])){
         $newsId=$_POST['newsId'];
         $newsInf=pdoQuery('news_tbl',null,array('id'=>$newsId),' limit 1');
@@ -43,7 +72,65 @@ if(isset($_SESSION['login'])) {
         pdoUpdate('news_tbl',array('type'=>'notice'),array('id'=>$newsId));
         echo $notice_id;
         exit;
+    }
+    if(isset($_POST['changeGroupSingle'])){
+        include_once '../wechat/serveManager.php';
+        $openid=$_POST['openid'];
+//        $inf=getUnionId($openid);
+//        echo json_encode($inf,JSON_UNESCAPED_UNICODE);
+        $groupid=$_POST['groupid'];
+        $data=changeGroup($openid,$groupid);
+        $inf=json_decode($data,true);
+        if($inf['errcode']==0){
+            pdoUpdate('user_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
+        }
+        echo $data;
+        exit;
+    }
+    if(isset($_POST['ConfirmSendNotice'])){
+        $groupid=$_POST['groupId'];
+        $noticeid=$_POST['noticeId'];
+        $pre=$_POST['pre'];
+        $noticeInf=pdoQuery('notice_tbl',array('situation'),array('id'=>$noticeid),' limit 1');
+        $noticeInf=$noticeInf->fetch();
+        if(0==$noticeInf['situation']){
+            include_once '../wechat/serveManager.php';
+            pdoUpdate('notice_tbl',array('pre_notice'=>addslashes($pre),'groupid'=>$groupid,'situation'=>'1','create_time'=>time()),array('id'=>$noticeid));
+            $re=textSandAll($pre,$groupid);
+            echo $re;
+        }else{
+            echo 'not ok';
+        }
+        exit;
 
+    }
+    if(isset($_POST['operator'])){//操作员权限
+        if($_POST['altPms']){
+            if($_POST['stu']=='true'){
+                pdoInsert('op_pms_tbl',array('o_id'=>$_POST['id'],'pms'=>$_POST['altPms']),'ignore');
+                echo 'ok';
+            }else{
+                pdoDelete('op_pms_tbl',array('o_id'=>$_POST['id'],'pms'=>$_POST['altPms']));
+                echo 'ok';
+            }
+            exit;
+        }
+        if(isset($_POST['altName'])){
+            pdoUpdate('operator_tbl',array('name'=>$_POST['altName']),array('id'=>$_POST['id']));
+            echo 'ok';
+            exit;
+        }
+        if(isset($_POST['altPwd'])){
+            pdoUpdate('operator_tbl',array('pwd'=>$_POST['altPwd'],'md5'=>md5($_POST['altPwd'])),array('id'=>$_POST['id']));
+            echo 'ok';
+            exit;
+        }
+        if(isset($_POST['new'])){
+            pdoInsert('operator_tbl',array('name'=>$_POST['new'],'pwd'=>$_POST['pwd'],'md5'=>md5($_POST['pwd'])),'ignore');
+            echo 'ok';
+            exit;
+        }
+        exit;
     }
 }
 ?>

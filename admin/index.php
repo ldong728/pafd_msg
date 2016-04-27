@@ -48,12 +48,15 @@ if (isset($_SESSION['login'])) {
 
 
     if (isset($_GET['newslist'])) {
+        $cateQuery=pdo('category_tbl',null,null,null);
+        $cateList=$cateQuery->fetchAll();
         $where=null;
         $num=15;
         $page=isset($_GET['page'])?$_GET['page']:0;
         if(isset($_GET['source']))$where['source']=$_GET['source'];
         if(isset($_GET['group']))$where['groupid']=$_GET['group'];
         $newsList=pdoQuery('news_tbl',null,$where,' order by create_time desc limit '.$page*$num.', '.$num);
+
 
         if(isset($_SESSION['pms']['news'])) {
 //            echo getArrayInf($newsList);
@@ -77,6 +80,11 @@ if (isset($_SESSION['login'])) {
             $index=$page*$num;
             $userquery=pdoQuery('user_tbl',null,null," limit $page,$num");
             $userlist=$userquery->fetchAll();
+            $groupList=getGroupList();
+            foreach ($groupList as $row) {
+                if($row['id']<3)continue;//屏蔽星标组和黑名单
+                $glist[]=$row;
+            }
             printView('admin/view/user_list.html.php','已关注列表');
             exit;
         }else{
@@ -114,6 +122,16 @@ if (isset($_SESSION['login'])) {
             $config=getConfig('../mobile/config/config.json');
             $remarkQuery = pdoQuery('index_remark_tbl', null, null, null);
             $frontImg = pdoQuery('ad_tbl', null, array('category' => 'banner'), null);
+            printView('admin/view/admin_index.html.php', '信息管理发布系统');
+            exit;
+        }else{
+            echo '权限不足';
+            exit;
+        }
+    }
+    if(isset($_GET['category'])){
+        if(isset($_SESSION['pms']['index'])) {
+            $cate=pdoQuery('category_view',null,null,null);
             printView('admin/view/admin_index.html.php', '信息管理发布系统');
             exit;
         }else{

@@ -7,10 +7,10 @@ $glist = $GLOBALS['glist'];
     <section>
         <ul class="ulColumn2">
        <li> <span class="item_name" style="width: 120px">提示信息：</span>
-        <textarea class="textarea" class="pre_notice" placeholder="请输入通知提醒信息"style="width: 300px;height: 100px"></textarea></li>
+        <textarea class="textarea pre_notice" placeholder="请输入通知提醒信息"style="width: 300px;height: 100px"></textarea></li>
         <li><span class="item_name" style="width: 120px">分组：</span>
         <select class="select groupid">
-            <option value="-1">全部分组</option>
+            <option value="0">未分组</option>
             <?php foreach ($glist as $row): ?>
                 <option value="<?php echo $row['id'] ?>"<?php echo $row['id']?>"<?php echo $row['id']==$_GET['group_id']?'selected="selected"':''?>><?php echo $row['name'] ?></option>
             <?php endforeach ?>
@@ -47,6 +47,21 @@ $glist = $GLOBALS['glist'];
             $('.preview').get(0).location.href='consle.php?getNotice='+noticeid;
         });
         $('.sendNotice').click(function(){
+            var noticeId=$('.noticeid').val();
+            var groupId=$('.groupid').val();
+            var pre=$('.pre_notice').val();
+            if(-1==noticeId){
+                alert('请先选择需要发送的通知');
+            }else{
+                $.post('ajax_request.php',{ConfirmSendNotice:1,noticeId:noticeId,groupId:groupId,pre:pre},function(data){
+                   if(data=='ok'){
+                       showToast('通知已发送');
+                   }else{
+                       alert(data);
+                   }
+                });
+            }
+
 
         });
 

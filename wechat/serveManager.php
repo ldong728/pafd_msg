@@ -12,7 +12,7 @@ function deleteButton()
 function createButtonTemp()
 {
 
-    $url='http://www.anmiee.com/pafd_msg/index.php?mainSite=1';
+    $url='http://www.anmiee.com/pafd_msg/mobile/index.php?mainSite=1';
     $button1=array('name'=>'文章列表','type'=>'view','url'=>$url);
     $button2=array('type'=>'click','name'=>'功能按钮','key'=>'module1');
     $button3sub1=array('type'=>'click','name'=>'功能按钮1','key'=>'moldule2');
@@ -181,7 +181,7 @@ function getMediaList($type, $offset,$count='15')
 function changeGroup($openid,$groupId){
     $data=array('openid'=>$openid,'to_group'=>$groupId);
     $data=json_encode($data);
-    $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN', $data);
+    $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=ACCESS_TOKEN', $data);
     return $json;
 }
 function getGroupList(){
@@ -207,10 +207,25 @@ function deleteGroup($id){
     $json=$GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/delete?access_token=ACCESS_TOKEN',$listjson);
     return $json;
 }
+function textSandAll($text,$groupid=-1){
+    if(-1==$groupid){
+        $filter=array('is_to_all'=>true);
+    }else{
+        $filter=array('is_to_all'=>false,'group_id'=>$groupid);
+    }
+    $text=array('content'=>$text);
+    $type='text';
+    $data=array('filter'=>$filter,'text'=>$text,'msgtype'=>$type);
+    $listjson=json_encode($data,JSON_UNESCAPED_UNICODE);
+    mylog($listjson);
+    $json=$GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=ACCESS_TOKEN',$listjson);
+    return $json;
+}
 function getMedia($jsonMediaId)
 {
 //    $GLOBALS['mInterface']=($GLOBALS['ready']?$GLOBALS['mInterface']:new interfaceHandler($weixinId) );
     $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN', $jsonMediaId);
+//    mylog($json);
     return $json;
 }
 function reflashAutoReply()
@@ -232,8 +247,6 @@ function reflashAutoReply()
             $readyContent=formatContent( $row['reply_list_info'][0]['type'],$row['reply_list_info'][0]['news_info']['list']);
             $readyContent['key_word'] = $row['keyword_list_info'][0]['content'];
             pdoInsert('default_reply_tbl', $readyContent, ' ON DUPLICATE KEY UPDATE content="' .$readyContent['content']. '",update_time='.time());
-//            $reContent = json_encode(array('news_item' => $content));
-
         }
     }
 }
@@ -293,4 +306,12 @@ function curlTest(){
 //    $data=$GLOBALS['mInterface']->postArrayByCurl('http://www.anmiee.com/ashtonmall/test.php',$data);
     $data=$GLOBALS['mInterface']->postArrayByCurl('http://web.gooduo.net/ashton/test.php',$data);
     return $data;
+}
+function getFromUrl($url){
+    $replyinf = $GLOBALS['mInterface']->getByCurl($url);
+    return $replyinf;
+}
+function getMediaCount(){
+    $replyinf = $GLOBALS['mInterface']->getByCurl('https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN');
+    return $replyinf;
 }

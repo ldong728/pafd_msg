@@ -13,10 +13,10 @@ if (isset($_SESSION['login'])) {
     if (isset($_GET['createNews'])) {
         $title = addslashes(trim($_POST['title']));
         $digest = addslashes(trim($_POST['digest']));
-        $title_img = $_POST['title_img'] ? 'img/0.jpg' : $_POST['title_img'];
+        $title_img = isset($_POST['title_img']) ? $_POST['title_img']: 'img/0.jpg';
         $content = addslashes($_POST['content']);
         if ($title != '' && $content != '') {
-            pdoInsert('news_tbl', array('title' => $title, 'digest' => $digest, 'title_img' => $title_img, 'content' => $content, 'source' => 'local', 'create_time' => time()));
+            pdoInsert('news_tbl', array('title' => $title, 'digest' => $digest, 'title_img' => $title_img, 'content' => $content, 'source' => 'local','media_id'=>'local'.time().rand(100,999), 'create_time' => time()),'ignore');
             header('location:index.php?newslist=1');
             exit;
         } else {
