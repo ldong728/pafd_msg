@@ -48,9 +48,9 @@
                 <?php if (isset($_SESSION['pms']['user'])): ?>
                 <dd style="display: <?php echo isset($_GET['user']) ? 'block' : 'none' ?>"><a
                             href="index.php?user=1&userList=1">用户列表</a></dd><?php endif ?>
-                <?php if (isset($_SESSION['pms']['user'])): ?>
-                <dd style="display: <?php echo isset($_GET['user']) ? 'block' : 'none' ?>"><a
-                            href="index.php?user=1&groupManage=1">分组管理</a></dd><?php endif ?>
+<!--                --><?php //if (isset($_SESSION['pms']['user'])): ?>
+<!--                <dd style="display: --><?php //echo isset($_GET['user']) ? 'block' : 'none' ?><!--"><a-->
+<!--                            href="index.php?user=1&groupManage=1">分组管理</a></dd>--><?php //endif ?>
             </dl>
         </li>
         <li>
@@ -61,7 +61,7 @@
                             href="index.php?notice=1&sendNotice=-1">发送通知</a></dd><?php endif ?>
                 <?php if (isset($_SESSION['pms']['notice'])): ?>
                 <dd style="display: <?php echo isset($_GET['notice']) ? 'block' : 'none' ?>"><a
-                            href="index.php?notice=1&orders=0">状态查询</a></dd><?php endif ?>
+                            href="index.php?notice=1&noticeList=0">状态查询</a></dd><?php endif ?>
                 <?php if (isset($_SESSION['pms']['notice'])): ?>
                 <dd style="display: <?php echo isset($_GET['notice']) ? 'block' : 'none' ?>"><a
                             href="index.php?notice=1&orders=1">历史通知</a></dd><?php endif ?>

@@ -315,3 +315,9 @@ function getMediaCount(){
     $replyinf = $GLOBALS['mInterface']->getByCurl('https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN');
     return $replyinf;
 }
+function deleteMedia($media_id){
+    $data=array('media_id'=>$media_id);
+    $data=json_encode($data);
+    $re=$GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=ACCESS_TOKEN',$data);
+    return $re;
+}

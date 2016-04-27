@@ -25,6 +25,23 @@ if (isset($_SESSION['login'])) {
         }
 
     }
+    if(isset($_GET['noticeList'])){
+        if(isset($_SESSION['pms']['notice'])){
+            $where=null;
+            $num=15;
+            $page=isset($_GET['page'])?$_GET['page']:0;
+            if(isset($_GET['situation']))$where['situation']=$_GET['source'];
+            if(isset($_GET['group']))$where['groupid']=$_GET['group'];
+            if(isset($_GET['category']))$where['category']=$_GET['category'];
+            $notice=pdoQuery('notice_view',null,$where,' order by create_time desc limit '.$page*$num.', '.$num);
+            printView('admin/view/notice.html.php','通知列表');
+            exit;
+
+        }else{
+            echo '权限不足';
+            exit;
+        }
+    }
     if(isset($_GET['sendNotice'])){
         if(isset($_SESSION['pms']['notice'])){
             $readyQuery=pdoQuery('notice_tbl',null,array('situation'=>'0'),null);
@@ -48,13 +65,14 @@ if (isset($_SESSION['login'])) {
 
 
     if (isset($_GET['newslist'])) {
-        $cateQuery=pdo('category_tbl',null,null,null);
+        $cateQuery=pdoQuery('category_tbl',null,null,null);
         $cateList=$cateQuery->fetchAll();
         $where=null;
         $num=15;
         $page=isset($_GET['page'])?$_GET['page']:0;
         if(isset($_GET['source']))$where['source']=$_GET['source'];
         if(isset($_GET['group']))$where['groupid']=$_GET['group'];
+        if(isset($_GET['category']))$where['category']=$_GET['category'];
         $newsList=pdoQuery('news_tbl',null,$where,' order by create_time desc limit '.$page*$num.', '.$num);
 
 
@@ -132,7 +150,7 @@ if (isset($_SESSION['login'])) {
     if(isset($_GET['category'])){
         if(isset($_SESSION['pms']['index'])) {
             $cate=pdoQuery('category_view',null,null,null);
-            printView('admin/view/admin_index.html.php', '信息管理发布系统');
+            printView('admin/view/category.html.php', '信息管理发布系统');
             exit;
         }else{
             echo '权限不足';

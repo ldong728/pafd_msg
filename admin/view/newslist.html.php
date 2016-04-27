@@ -1,7 +1,8 @@
 <?php
 $newsList=$GLOBALS['newsList'];
 $cateList=$GLOBALS['cateList'];
-
+$page=$GLOBALS['page'];
+$num=$GLOBALS['num'];
 ?>
 
 <section>
@@ -11,24 +12,24 @@ $cateList=$GLOBALS['cateList'];
     <table class="table">
         <tr>
             <th>标题</th>
-            <th>来源</th>
+            <th>类别</th>
             <th>类型</th>
             <th>操作</th>
         </tr>
         <?php foreach($newsList as $row):?>
             <tr>
                 <td><?php echo $row['title']?></td>
-                <td><?php echo $row['source'] ?></td>
+                <td><select class="select changeCategory"id="sle<?php echo $row['id']?>">
+                        <option value="0"<?php echo $row['category']==0?'selected="selected"':''?>>未分类</option>
+                        <?php foreach($cateList as $crow):?>
+                            <option value="<?php echo $crow['id']?>"<?php echo $row['category']==$crow['id']?'selected="selected"':''?>><?php echo $crow['name']?></option>
+                        <?php endforeach ?>
+
+                    </select></td>
                 <td><?php echo $row['type'] ?></td>
                 <td>
                     <a class="inner_btn sendNotice"id="btn<?php echo $row['id']?>">作为通知发送</a>
-                    <select class="select">
-                        <option value="0">未分类</option>
-                        <?php foreach($cateList as $row):?>
-
-                        <?php endforeach?>
-
-                    </select>
+                    <a class="inner_btn delete"id="<?php echo $row['media_id']?>"data-source="<?php echo $row['source']?>">删除</a>
 
                 </td>
             </tr>
@@ -36,6 +37,8 @@ $cateList=$GLOBALS['cateList'];
 
     </table>
     <button class="link_btn reflash">刷新</button>
+    <aside class="paging"><?php if($page>0):?><a href="index.php?newslist=1&page=<?php echo $page-1?>">上一页</a><?php endif ?><a href="index.php?newslist=1&page=<?php echo $page+1?>">下一页</a></aside>
+
 
 
 
@@ -55,10 +58,27 @@ $cateList=$GLOBALS['cateList'];
         alert('reflash');
         $.post('ajax_request.php',{reflashNews:1},function(data){
             if(data=='ok'){
-                window.location.reload(true);
+                location.reload(true);
             }
 
         })
+    });
+    $('.changeCategory').change(function(){
+        var news_id=$(this).attr('id').slice(3);
+        var category=$(this).val();
+        $.post('ajax_request.php',{changeCategory:1,newsId:news_id,category:category},function(data){
+           if(data=='ok')showToast('设置完成')
+        });
+    });
+    $('.delete').click(function(){
+       var media_id=$(this).attr('id');
+        var source=$(this).data('source');
+        if(confirm('确定要删除此条图文信息吗？')){
+            $.post('ajax_request.php',{deleteNews:1,media_id:media_id,source:source},function(data){
+                location.reload(true);
+            })
+        }
+        alert(source);
     });
 
 </script>

@@ -64,6 +64,22 @@ if(isset($_SESSION['login'])) {
         echo 'ok';
         exit;
     }
+    if(isset($_POST['changeCategory'])){
+        $newsId=$_POST['newsId'];
+        $category=$_POST['category'];
+        pdoUpdate('news_tbl',array('category'=>$category),array('id'=>$newsId));
+        echo 'ok';
+        exit;
+    }
+    if(isset($_POST['deleteNews'])){
+        pdoDelete('news_tbl',array('media_id'=>$_POST['media_id']));
+        if('wechat'==$_POST['source']){
+            include_once '../wechat/serveManager.php';
+            $inf=deleteMedia($_POST['media_id']);
+
+        }
+        echo 'ok';
+    }
     if(isset($_POST['sendNotice'])){
         $newsId=$_POST['newsId'];
         $newsInf=pdoQuery('news_tbl',null,array('id'=>$newsId),' limit 1');
