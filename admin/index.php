@@ -113,12 +113,13 @@ if (isset($_SESSION['login'])) {
 
     if(isset($_GET['review'])){
         if(isset($_SESSION['pms']['review'])) {
-            $limit = isset($_GET['index']) ? ' limit ' . $_GET['index'] . ', 20' : ' limit 20';
-            $reviewQuery = pdoQuery('review_tbl', null, array('priority' => '5', 'public' => '0'), $limit);
-            foreach ($reviewQuery as $row) {
-                $review[] = $row;
-            };
-            if (null == $review) $review = array();
+//            $limit = isset($_GET['index']) ? ' limit ' . $_GET['index'] . ', 20' : ' limit 20';
+//            $reviewQuery = pdoQuery('review_tbl', null, array('priority' => '5', 'public' => '0'), $limit);
+//            foreach ($reviewQuery as $row) {
+//                $review[] = $row;
+//            };
+//            if (null == $review) $review = array();
+
             printView('admin/view/review.html.php', '评价管理');
             exit;
         }else{

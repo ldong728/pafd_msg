@@ -382,8 +382,9 @@ header h1 {
 
 header h1 img {
     width: auto;
-    max-width: 300px;
-    height: 70px;
+    margin-top: 12px;
+    /*max-width: 300px;*/
+    /*height: 70px;*/
 }
 
 header .rt_nav {

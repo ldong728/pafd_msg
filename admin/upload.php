@@ -5,7 +5,8 @@ session_start();
 if(isset($_SESSION['login'])) {
     if(isset($_FILES['title-img-up'])){
         $uploader=new uploader('title-img-up');
-        $uploader->upFile('title_'.time().rand(1000,9999));
+        $md5=md5_file($_FILES['title-img-up']['temp_name']);
+        $uploader->upFile($md5);
         $inf=$uploader->getFileInfo();
         $jsonInf=json_encode($inf,JSON_UNESCAPED_UNICODE);
         echo $jsonInf;

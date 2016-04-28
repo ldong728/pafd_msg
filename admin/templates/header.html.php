@@ -11,6 +11,7 @@
 </head>
 
 <header>
+    <h1><img src="logo/logo.png"/></h1>
     <ul class="rt_nav">
         <li><a href="#" target="_blank" class="website_icon">站点首页</a></li>
         <li><a href="index.php?logout=1" class="quit_icon">安全退出</a></li>

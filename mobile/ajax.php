@@ -262,63 +262,21 @@ if(isset($_SESSION['customerId'])){
 }
 
 //未登录
-if(isset($_POST['getdetailprice'])){
-    $query=pdoQuery('user_detail_view',null,array('d_id'=>$_POST['d_id']),' limit 1');
-    $row=$query->fetch();
-//    $price=(null==$row['price']? -1:$row['price']);
-    $inf=array(
-      'price'=>$row['price'],
-        'sale'=>$row['sale']
-    );
-    $data=json_encode($inf);
-    echo $data;
-
-}
-if(isset($_POST['getProduceList'])){
-    $query=pdoQuery('user_list_view',null,array('sc_id'=>$_POST['sc_id'],'situation'=>'1'),' group by g_id');
-    $data=array();
-    foreach ($query as $row) {
-        $data[]=$row;
-    }
-    echo json_encode($data);
-    exit;
-}
-if(isset($_POST['getGoodsInf'])){
-    $query=pdoQuery('g_inf_tbl',array('inf'),array('id'=>$_POST['g_id']),' limit 1');
-    $row=$query->fetch();
-    echo $row['inf'];
-    exit;
-}
-if(isset($_POST['addToCart'])){
-    if(isset($_SESSION['customerId'])){
-//            mylog(('insert'));
-           $cartId= pdoInsert('cart_tbl',array('c_id'=>$_SESSION['customerId'],'g_id'=>$_POST['g_id'],'d_id'=>$_POST['d_id'],'number'=>$_POST['number']),
-                'update');
-            $value=array();
-            foreach ($_SESSION['buyNow']['partsList'] as $k=>$v) {
-//                mylog($k.' :'.$v);
-                $value[]=array('cart_id'=>$cartId,'part_id'=>$k,'part_number'=>$_POST['number']);
-            }
-            pdoBatchInsert('part_cart_tbl',$value);
-
-        if(isset($_SESSION['tempCart'])){
-
+if(isset($_POST['inputReview'])){
+    $reviewTimeout=120;
+    $openid=$_POST['openid'];
+    $query=pdoQuery('review_tbl',array('review_time'),array('open_id'=>$openid),' order by review_time desc limit 1');
+    if($time=$query->fetch()){
+        $waite=$reviewTimeout-(time()-strtotime($time['review_time']));
+        if($waite>0){
+            echo $waite;
+            exit;
         }
-        if(!isset($_SESSION['customerLogin'])){
-            pdoInsert('custom_login_tbl',array('id'=>$_SESSION['customerId']),' ignore');
-            $_SESSION['customerLogin']=true;
-        }
-    }else{
-        $_SESSION['tempCart'][]=array('g_id'=>$_POST['g_id'],'d_id'=>$_POST['d_id'],'number'=>$_POST['number']);
     }
-}
-
-if(isset($_POST['adFilter'])){
-    $adQuery=pdoQuery('(select * from user_ad_filt_view order by sale asc) p',null,array('mc_id'=>$_POST['mc_id']),' group by g_id limit 10');
-    $inf=array();
-    foreach ($adQuery as $row) {
-        $inf[]=$row;
-    }
-    echo json_encode($inf);
+    $content=html($_POST['content']);
+    $noticeid=$_POST['noticeid'];
+    $f_id=$_POST['f_id'];
+    $id=pdoInsert('review_tbl',array('notice_id'=>$noticeid,'open_id'=>$openid,'content'=>addslashes($content),'f_id'=>$f_id));
+    echo 'ok';
     exit;
 }
