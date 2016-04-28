@@ -22,19 +22,25 @@
             padding: 5px 0;
             min-height: 80px;
         }
-        .review-block .sub-block{
+         .sub-block{
             overflow: hidden;
             zoom:1;
             position: relative;
-            width: 90%;
-            margin: 0 auto 0 8%;
-            padding: 5px 0;
-            min-height: 60px;
+            width: 80%;
+            margin: 0 auto 0 10%;
+            padding: 0;
+            min-height: 50px;
         }
+         .sub-img-block{
+             float: left;
+             width: 30px;
+             height: 30px;
+             border-radius: 2px;
+         }
         .review-block .img-block {
             float: left;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 2px;
         }
         .review-block .content-block {
@@ -142,14 +148,18 @@
                     <div class="nickname"><span class="nick"><?php echo $row['main']['nickname']?></span><a class="reply"id="<?php echo $row['main']['id']?>">回复</a></div>
                     <div class="content"><?php echo $row['main']['content'] ?></div>
                     <div class="time"><?php echo $row['main']['review_time'] ?></div>
-                    <?php foreach($row['subReview'] as $r):?>
-                        <?php echo $r['content']?>
-                    <?php endforeach ?>
                 </div>
+                <?php foreach($row['subReview'] as $r):?>
+                    <div class="sub-block">
+                        <div class="sub-img-block"><img src="<?php echo $r['img']?>"/></div>
+                        <div class="content-block">
+                            <div class="nickname"><?php echo $r['nickname']?></div>
+                            <div class="content"><?php echo $r['content']?></div>
+                            <div class="time"><?php echo $r['review_time'] ?></div>
+                        </div>
+                    </div>
+                <?php endforeach ?>
             </div>
-
-
-
         <?php endforeach;?>
     </div>
 </div>
@@ -169,6 +179,8 @@
     var openid='<?php echo $open_id?>';
     var noticeid=<?php echo $noticeInf['id']?>;
     $('.reviewbutton').click(function(){
+        $('.review-input').attr('placeholder','点击此处输入');
+        $('.f_id').val(-1);
         $('.hidden-container').fadeIn('fast');
     });
     $('.red').click(function(){
@@ -190,7 +202,9 @@
     });
     $('.reply').click(function(){
         var reviewid=$(this).attr('id');
-        var f_openid=$(this).siblings('.nick').text();
-        alert(f_openid);
+        var f_nick=$(this).siblings('.nick').text();
+        $('.review-input').attr('placeholder','回复'+f_nick);
+        $('.f_id').val(reviewid);
+        $('.hidden-container').fadeIn('fast');
     })
 </script>

@@ -18,7 +18,7 @@
                     <td><?php echo $row['count']?></td>
                     <td>
                         <?php if(0!=$row['id']):?><a class="inner_btn altGroup"id="upd<?php echo $row['id']?>">修改组名</a><?php endif ?>
-                        <a class="inner_btn notice"id="not<?php echo $row['id']?>">发布通知</a>
+                        <a class="inner_btn notice"id="not<?php echo $row['id']?>"href="index.php?sendNotice=1&group_id=<?php echo $row['id']?>">发布通知</a>
                         <a class="inner_btn Qr"id="qrr<?php echo $row['id']?>">二维码</a>
                     <?php if(0!=$row['id']):?><a class="inner_btn delGroup"id="del<?php echo $row['id']?>">删除分组</a><?php endif ?>
                     </td>

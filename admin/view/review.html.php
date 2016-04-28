@@ -1,46 +1,36 @@
 <?php
-$limit=$GLOBALS['limit'];
-$review=$GLOBALS['review'];
+$reviewList=$GLOBALS['reviewList'];
 ?>
-
-<div class="module-block review-block">
-    <div class="module-title">
-        评价管理
-    </div>
-
-    <?php foreach($review as $row):?>
-        <div class="review-box"id="box<?php echo $row['id']?>">
-            <div class="reviews">
-                <?php echo $row['review']?>
-            </div>
-            <div class="score">
-                评分：<?php echo $row['score']?>
-            </div>
-            <div class="priority">
-                优先级：<input type="tel"id="pri<?php echo $row['id']?>"value="<?php echo $row['priority']?>"/>
-            </div>
-            <button class="butt" id="public<?php echo $row['id']?>">公开</button>
-            <button class="butt" id="delete<?php echo $row['id']?>">删除</button>
-
-        </div>
+<h2>
+    <strong>留言列表</strong>
+</h2>
+<table class="table">
+    <tr>
+        <th>昵称</th>
+        <th>内容</th>
+        <th>发表时间</th>
+        <th>操作</th>
+    </tr>
+    <?php foreach($reviewList as $row):?>
+        <tr>
+            <td><?php echo $row['nickname']?></td>
+            <td><?php echo $row['content']?></td>
+            <td><?php echo $row['review_time'] ?></td>
+            <td>
+                <a class="inner_btn delete"id="<?php echo $row['id']?>">删除</a>
+            </td>
+        </tr>
     <?php endforeach?>
-</div>
-<script>
-    $(document).on('click','.butt',function(){
-//        alert('haha')
-        var mode=$(this).attr('id').slice(0,6);
-        var id=$(this).attr('id').slice(6);
-        if(mode=='public'){
-            var data={manageReview:1,id:id,public:1,priority:$('#pri'+id).val()}
 
-        }else{
-           var data={manageReview:1,id:id,public:0,priority:9}
-        }
-        $.post('ajax_request.php',data,function(data){
-            showToast('Done');
-//            alert(data);
-            $('#box'+id).remove();
-        })
-    })
+</table>
+<aside class="paging"><?php if($page>0):?><a href="index.php?notice=1&reviewList=<?php echo $_GET['reviewList']?>&page=<?php echo $page-1?>">上一页</a><?php endif ?><a href="index.php?notice=1&reviewList=<?php echo $_GET['reviewList']?>&page=<?php echo $page+1?>">下一页</a></aside>
+
+
+
+
+<div class="space"></div>
+</section>
+<script>
+
 
 </script>

@@ -26,9 +26,9 @@
         <li>
             <dl class="main-menu">
                 <dt>首页管理</dt>
-                <?php if (isset($_SESSION['pms']['index'])): ?>
-                <dd style="display: <?php echo isset($_GET['index']) ? 'block' : 'none' ?>"><a href="index.php?index=1">首页编辑</a>
-                    </dd><?php endif ?>
+<!--                --><?php //if (isset($_SESSION['pms']['index'])): ?>
+<!--                <dd style="display: --><?php //echo isset($_GET['index']) ? 'block' : 'none' ?><!--"><a href="index.php?index=1">首页编辑</a>-->
+<!--                    </dd>--><?php //endif ?>
                 <?php if (isset($_SESSION['pms']['index'])): ?>
                 <dd style="display: <?php echo isset($_GET['index']) ? 'block' : 'none' ?>"><a href="index.php?category=1">内容分类</a>
                     </dd><?php endif ?>
@@ -83,14 +83,14 @@
         <?php endif ?>
 
 
-        <li>
-            <dl class="main-menu">
-                <dt>评价管理</dt>
-                <?php if (isset($_SESSION['pms']['review'])): ?>
-                <dd style="display: <?php echo isset($_GET['review']) ? 'block' : 'none' ?>"><a
-                            href="index.php?review=1">查看评价</a></dd><?php endif ?>
-            </dl>
-        </li>
+<!--        <li>-->
+<!--            <dl class="main-menu">-->
+<!--                <dt>评价管理</dt>-->
+<!--                --><?php //if (isset($_SESSION['pms']['review'])): ?>
+<!--                <dd style="display: --><?php //echo isset($_GET['review']) ? 'block' : 'none' ?><!--"><a-->
+<!--                            href="index.php?review=1">查看评价</a></dd>--><?php //endif ?>
+<!--            </dl>-->
+<!--        </li>-->
 
         <li>
             <dl class="main-menu">

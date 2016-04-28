@@ -15,8 +15,8 @@ $notice=$GLOBALS['notice'];
         <?php foreach($notice as $row):?>
             <tr>
                 <td><?php echo $row['title']?></td>
-                <td><?php echo $row['mark_num']?></td>
-                <td><?php echo $row['review_num']?></td>
+                <td><a href="index.php?notice=1&markList=<?php echo $row['id']?>"><?php echo $row['mark_num']?></a></td>
+                <td><a href="index.php?notice=1&reviewList=<?php echo $row['id']?>"><?php echo $row['review_num']?></a></td>
             </tr>
         <?php endforeach?>
 

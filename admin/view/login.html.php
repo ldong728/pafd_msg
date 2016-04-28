@@ -41,7 +41,7 @@
 <body>
 <dl class="admin_login">
     <dt>
-        <strong>公众号信息管理系统</strong>
+        <strong>三北武装公众号后台管理系统</strong>
         <em>Management System</em>
     </dt>
     <form action="index.php?login=1" method="post">
