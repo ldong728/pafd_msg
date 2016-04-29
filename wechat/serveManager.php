@@ -6,18 +6,19 @@ $mInterface=new interfaceHandler(WEIXIN_ID);
 function deleteButton()
 {
     $data = $GLOBALS['mInterface']->sendGet('https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN');
-    echo $data;
-    echo 'delete ok';
+    return $data;
 }
 function createButtonTemp()
 {
 
-    $url='http://www.anmiee.com/pafd_msg/mobile/index.php?mainSite=1';
-    $button1=array('name'=>'文章列表','type'=>'view','url'=>$url);
-    $button2=array('type'=>'click','name'=>'功能按钮','key'=>'module1');
-    $button3sub1=array('type'=>'click','name'=>'功能按钮1','key'=>'moldule2');
-    $button3sub2=array('type'=>'click','name'=>'功能按钮2','key'=>'moldule3');
-    $button3=array('name'=>'功能区','sub_button'=>array($button3sub1,$button3sub2));
+    $url='http://www.anmiee.com/pafd_msg/mobile/controller.php?mainSite=1';
+
+    $button1sub1=array('name'=>'政策法规','type'=>'view','url'=>$url.'&cate=1');
+    $button1sub2=array('name'=>'征兵工作','type'=>'view','url'=>$url.'&cate=2');
+    $button1sub3=array('name'=>'政治教育','type'=>'view','url'=>$url.'&cate=4');
+    $button1=array('name'=>'文章列表','sub_button'=>array($button1sub1,$button1sub2,$button1sub3));
+    $button2=array('name'=>'军民融合','type'=>'view','url'=>$url.'&cate=3');
+    $button3=array('type'=>'click','name'=>'互动','key'=>'moldule2');
     $mainButton=array('button'=>array($button1,$button2,$button3));
     $jsondata = json_encode($mainButton,JSON_UNESCAPED_UNICODE);
     mylog($jsondata);
@@ -25,7 +26,11 @@ function createButtonTemp()
     $response = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN', $jsondata);
     mylog('createOk'.$response);
     echo $response;
-
+}
+function createUniButton($jsondata){
+    $response = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=ACCESS_TOKEN', $jsondata);
+    mylog('createOk'.$response);
+    return $response;
 }
 function createButton($buttonInf){
     $responInf=$GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN', $buttonInf);
@@ -35,6 +40,10 @@ function createButton($buttonInf){
 function getMenuInf()
 {
     $json = $GLOBALS['mInterface']->getByCurl('https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN');
+    return $json;
+}
+function getUserButton(){
+    $json = $GLOBALS['mInterface']->getByCurl('https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN');
     return $json;
 }
 function createNewKF($account_name, $name, $psw)
@@ -143,6 +152,11 @@ function getUnionId($openId)
     $inf=json_decode($jsonData,true);
     return $inf;
 }
+function getOpenidList($openid=''){
+    $url = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid='.$openid;
+    $jsonData = $GLOBALS['mInterface']->getByCurl($url);
+    return $jsonData;
+}
 function getOauthToken($code){
     $url='https://api.weixin.qq.com/sns/oauth2/access_token?appid='.APP_ID.'&secret='.APP_SECRET.'&code='.$code.'&grant_type=authorization_code';
     $jsonData=$GLOBALS['mInterface']->getByCurl($url);
@@ -179,7 +193,7 @@ function getMediaList($type, $offset,$count='15')
     return json_decode($json, true);
 }
 function changeGroup($openid,$groupId){
-    $data=array('openid'=>$openid,'to_group'=>$groupId);
+    $data=array('openid'=>$openid,'to_groupid'=>$groupId);
     $data=json_encode($data);
     $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=ACCESS_TOKEN', $data);
     return $json;

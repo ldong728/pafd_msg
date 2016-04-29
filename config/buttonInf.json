@@ -1,0 +1,110 @@
+[
+    {
+        "name": "default",
+        "id": "0",
+        "inf": {
+            "button": [
+                {
+                    "name": "文章列表",
+                    "sub_button": [
+                        {
+                            "name": "政策法规",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=1"
+                        },
+                        {
+                            "name": "征兵工作",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=2"
+                        },
+                        {
+                            "name": "政治教育",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=4"
+                        }
+                    ]
+                },
+                {
+                    "name": "军民融合",
+                    "type": "view",
+                    "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=3"
+                },
+                {"type": "click", "name": "互动", "key": "moldule2"}
+            ]
+        }
+    },
+    {
+        "name": "专武干部",
+        "id": "100",
+        "inf": {
+            "button": [
+                {
+                    "name": "文章列表",
+                    "sub_button": [
+                        {
+                            "name": "政策法规",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=1"
+                        },
+                        {
+                            "name": "征兵工作",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=2"
+                        },
+                        {
+                            "name": "政治教育",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=4"
+                        }
+                    ]
+                },
+                {
+                    "name": "军民融合",
+                    "type": "view",
+                    "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=3"
+                },
+                {"type": "click", "name": "专武干部", "key": "moldule2"}
+            ],
+            "matchrule":{
+                "group_id":"100"
+            }
+        }
+    },
+    {
+        "name": "应急力量",
+        "id": "101",
+        "inf": {
+            "button": [
+                {
+                    "name": "文章列表",
+                    "sub_button": [
+                        {
+                            "name": "政策法规",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=1"
+                        },
+                        {
+                            "name": "征兵工作",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=2"
+                        },
+                        {
+                            "name": "政治教育",
+                            "type": "view",
+                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=4"
+                        }
+                    ]
+                },
+                {
+                    "name": "军民融合",
+                    "type": "view",
+                    "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=3"
+                },
+                {"type": "click", "name": "应急力量", "key": "moldule2"}
+            ],
+            "matchrule":{
+                "group_id":"101"
+            }
+        }
+    }
+]

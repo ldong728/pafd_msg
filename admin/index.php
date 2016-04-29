@@ -106,8 +106,12 @@ if (isset($_SESSION['login'])) {
         if (isset($_GET['group'])) $where['groupid'] = $_GET['group'];
         if (isset($_GET['category'])) $where['category'] = $_GET['category'];
         $newsList = pdoQuery('news_tbl', null, $where, ' order by create_time desc limit ' . $page * $num . ', ' . $num);
-
-
+        $getStr='';
+        foreach ($_GET as $k => $v) {
+            if($k=='page')continue;
+            $getStr.=$k.'='.$v.'&';
+        }
+        $getStr=rtrim($getStr,'&');
         if (isset($_SESSION['pms']['news'])) {
 //            echo getArrayInf($newsList);
             printView('admin/view/newslist.html.php', '图文列表');
@@ -125,16 +129,24 @@ if (isset($_SESSION['login'])) {
     }
     if (isset($_GET['userList'])) {
         if (isset($_SESSION['pms']['news'])) {
+            $where=null;
             $num = 15;
             $page = isset($_GET['page']) ? $_GET['page'] : 0;
             $index = $page * $num;
-            $userquery = pdoQuery('user_tbl', null, null, " limit $page,$num");
+            if(isset($_GET['groupid']))$where['groupid']=$_GET['groupid'];
+            $userquery = pdoQuery('user_tbl', null, $where, ' limit ' . $page * $num . ', ' . $num);
             $userlist = $userquery->fetchAll();
             $groupList = getGroupList();
             foreach ($groupList as $row) {
                 if ($row['id'] < 3) continue;//屏蔽星标组和黑名单
                 $glist[] = $row;
             }
+            $getStr='';
+            foreach ($_GET as $k => $v) {
+                if($k=='page')continue;
+                $getStr.=$k.'='.$v.'&';
+            }
+            $getStr=rtrim($getStr,'&');
             printView('admin/view/user_list.html.php', '已关注列表');
             exit;
         } else {
@@ -180,7 +192,7 @@ if (isset($_SESSION['login'])) {
             exit;
         }
     }
-    if (isset($_GET['category'])) {
+    if (isset($_GET['categorylist'])) {
         if (isset($_SESSION['pms']['index'])) {
             $cate = pdoQuery('category_view', null, null, null);
             printView('admin/view/category.html.php', '三北武装');

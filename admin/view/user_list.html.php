@@ -1,5 +1,7 @@
 <?php $userlist=$GLOBALS['userlist'];
-        $glist=$GLOBALS['glist']
+        $glist=$GLOBALS['glist'];
+        $getStr=$GLOBALS['getStr'];
+$page=$GLOBALS['page'];
 ?>
 <section>
     <section>
@@ -10,6 +12,13 @@
         </h2>
         <input type="text"class="textbox"placeholder="输入关键词"/>
         <input type="button"value="搜索"class="group_btn"/>
+        <select class="select"id="groupFilter">
+            <option value="-1">全部分组</option>
+            <option value="0"<?php echo $_GET['category']==0?'selected="selected"':''?>>未分组</option>
+            <?php foreach($glist as $crow):?>
+                <option value="<?php echo $crow['id']?>"<?php echo $_GET['groupid']==$crow['id']?'selected="selected"':''?>><?php echo $crow['name']?></option>
+            <?php endforeach ?>
+        </select>
     </section>
 
     <div class="page_title">
@@ -29,7 +38,7 @@
         <?php foreach($userlist as $row): ?>
             <tr class="dyn-tr">
                 <td><img src="<?php echo $row['headimgurl']?>"style="width: 60px"/></td>
-                <td><?php echo $row['nickname']?></td>
+                <td><a href="consle.php?userdetail=<?php echo $row['openid']?>"><?php echo $row['nickname']?></a></td>
                 <td><?php echo $row['province']?></td>
                 <td><?php echo $row['city']?></td>
                 <td><?php echo $row['subscribe_time']?></td>
@@ -46,10 +55,27 @@
 
 
     </table>
+    <aside class="paging"><?php if($page>0):?><a href="index.php?<?php echo $getStr?>&page=<?php echo $page-1?>">上一页</a><?php endif ?><a href="index.php?<?php echo $getStr?>&page=<?php echo $page+1?>">下一页</a></aside>
+    <button class="link_btn reflashUsers">刷新列表</button>
 
 </section>
+<div class="space"></div>
 
 <script>
+    $('#groupFilter').change(function(){
+        var id=$(this).val();
+        if(id<0){
+            window.location.href='index.php?user=1&userList=1';
+        }else{
+            window.location.href='index.php?user=1&userList=1&groupid='+id;
+        }
+
+    });
+    $('.reflashUsers').click(function(){
+        $.post('ajax_request.php',{reflashUsers:1},function(data){
+            window.location.href='index.php?users=1&userList=1';
+        });
+    });
     $('#search-button').click(function(){
         $.post('ajax_request.php',{reflashUserList:1},function(data){
 

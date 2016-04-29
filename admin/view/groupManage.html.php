@@ -7,15 +7,13 @@
         <table class="table">
             <tr>
                 <th>组名</th>
-                <th>编号</th>
                 <th>人数</th>
                 <th>操作</th>
             </tr>
             <?php foreach($list as $row):?>
                 <tr>
                     <td id="name<?php echo $row['id']?>"><?php echo $row['name']?></td>
-                    <td><?php echo $row['id']?></td>
-                    <td><?php echo $row['count']?></td>
+                    <td><a href="index.php?user=1&userList=1&groupid=<?php echo $row['id']?>"><?php echo $row['count']?></a></td>
                     <td>
                         <?php if(0!=$row['id']):?><a class="inner_btn altGroup"id="upd<?php echo $row['id']?>">修改组名</a><?php endif ?>
                         <a class="inner_btn notice"id="not<?php echo $row['id']?>"href="index.php?sendNotice=1&group_id=<?php echo $row['id']?>">发布通知</a>

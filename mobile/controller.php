@@ -13,10 +13,13 @@ if(isset($_GET['showShareSite'])){
     exit;
 }
 if(isset($_GET['mainSite'])){
+
     $cateid=isset($_GET['cate'])?$_GET['cate']:1;
-    $cateQuery=pdoQuery('category_tbl',null,array('front'=>'1'),' limit 3');
+    $titleQuery=pdoQuery('news_tbl',array('id','category','title','digest','title_img','url','source','type','create_time'),array('type'=>'title','category'=>$cateid),'order by create_time desc limit 6');
+    $title=$titleQuery->fetchAll();
+    $cateQuery=pdoQuery('category_tbl',null,array('front'=>'1'),' limit 4');
     $cate=$cateQuery->fetchAll();
-    $newsList=pdoQuery('news_tbl',null,array('category'=>$cateid),' order by create_time desc limit 30');
+    $newsList=pdoQuery('news_tbl',array('id','category','title','digest','title_img','url','source','type','create_time'),array('category'=>$cateid),' order by create_time desc limit 30');
     include 'view/newsList.html.php';
     exit;
 }

@@ -30,7 +30,7 @@
 <!--                <dd style="display: --><?php //echo isset($_GET['index']) ? 'block' : 'none' ?><!--"><a href="index.php?index=1">首页编辑</a>-->
 <!--                    </dd>--><?php //endif ?>
                 <?php if (isset($_SESSION['pms']['index'])): ?>
-                <dd style="display: <?php echo isset($_GET['index']) ? 'block' : 'none' ?>"><a href="index.php?category=1">内容分类</a>
+                <dd style="display: <?php echo isset($_GET['index']) ? 'block' : 'none' ?>"><a href="index.php?categorylist=1">内容分类</a>
                     </dd><?php endif ?>
             </dl>
         </li>

@@ -10,12 +10,13 @@ $cate=$GLOBALS['cate'];
         <tr>
             <th>名称</th>
             <th>图文数</th>
+            <th>首页图片</th>
             <th>操作</th>
         </tr>
         <?php foreach($cate as $row):?>
             <tr>
                 <td><?php echo $row['name']?></td>
-                <td><?php echo $row['num']?></td>
+                <td><a href="index.php?newslist=1&category=<?php echo $row['id']?>"><?php echo $row['num']?></a></td>
                 <td>
                     <a class="inner_btn sendNotice"id="btn<?php echo $row['id']?>">修改</a>
                     <a class="inner_btn delete"id="<?php echo $row['media_id']?>"data-source="<?php echo $row['source']?>">删除</a>

@@ -38,8 +38,6 @@ function CLICK($msg)
             break;
         }
         case 'module1' : {
-
-
             $GLOBALS['weixin']->replytext('请点击');
             break;
         }

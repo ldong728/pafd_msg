@@ -20,11 +20,7 @@ $eventList=array
 );
 //mylog(getArrayInf($msg));
 if(in_array($msg['MsgType'],array('text','voice','img'))){
-//    mylog('inmsgType');
     normalReply($weixin,$msg);
-//    mylog('normalReply');
-//            exit;
-
 }
 
 if($msg['MsgType']=='event'){

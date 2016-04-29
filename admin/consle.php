@@ -38,17 +38,52 @@ if (isset($_SESSION['login'])) {
         echo $notice['inf'];
         exit;
     }
+    if(isset($_GET['userdetail'])){
+        $openid=$_GET['userdetail'];
+        $userinf=getUserInf($openid);
+        $markquery=pdoQuery('user_mark_view',null,array('openid'=>$openid),null);
+        $markStr='';
+        foreach ($markquery as $row) {
+            $markStr.=($row['notice_id'].',');
+            $markList[]=$row;
+        }
+        $markStr=rtrim($markStr,',');
+        $str=$markStr!=''?' and id not in('.$markStr.')':'';
+        $unmarkQuery=pdoQuery('notice_tbl',array('title','create_time'),array('situation'=>1),$str);
+        $unmarkList=$unmarkQuery->fetchAll();
+        printView('admin/view/user_detail.html.php','详细信息');
+
+    }
 
     //公众号操作
     if (isset($_GET['wechat'])) {
         include_once '../wechat/serveManager.php';
+//        $re='';
         if (isset($_GET['createButton'])) {
-//            echo 'ok';
+//            $inf=getConfig('../config/buttonInf.json');
+//            if(count($inf)>1){
+                deleteButton();
+//                foreach ($inf as $row) {
+//                    if($row['name']=='default'){
+//                        $buttoninf=json_encode($row['inf'],JSON_UNESCAPED_UNICODE);
+//                        $return=createButton($buttoninf);
+//
+//                    }else{
+//                        $buttoninf=json_encode($row['inf'],JSON_UNESCAPED_UNICODE);
+//                        $return=createUniButton($buttoninf);
+//                    }
+//                    $re.=$return;
+//                }
+//
+//                echo $re;
+//            }else{
+//                echo count($inf);
+//            }
             createButtonTemp();
             exit;
         }
         if (isset($_GET['getMenuInf'])) {
-            echo getMenuInf();
+            echo getUserButton();
             exit;
         }
         if (isset($_GET['test'])) {

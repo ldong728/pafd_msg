@@ -3,7 +3,14 @@ include_once '../includePackage.php';
 session_start();
 
 if(isset($_SESSION['login'])) {
-    if(isset($_POST['reflashUserList'])){
+    if(isset($_POST['reflashUsers'])){
+        include_once '../wechat/serveManager.php';
+        $inf=getOpenidList();
+        $list=json_decode($inf,true);
+        foreach ($list['data']['openid'] as $row) {
+            getUserInf($row);
+        }
+        echo 'ok';
 
     }
 
@@ -33,6 +40,13 @@ if(isset($_SESSION['login'])) {
         $group_id=$_POST['group_id'];
         $url='http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/index.php?share='.$group_id;
         echo urlencode($url);
+        exit;
+    }
+    if(isset($_POST['setTitle'])){
+        $newsid=$_POST['newsid'];
+        $type=$_POST['stu']=='true'?'title':'normal';
+        pdoUpdate('news_tbl',array('type'=>$type),array('id'=>$newsid));
+        echo 'ok';
         exit;
     }
     if(isset($_POST['reflashNews'])){
