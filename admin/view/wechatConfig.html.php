@@ -18,6 +18,7 @@
         测试块
     </div>
     <a href="consle.php?wechat=1&getMenuInf=1">获取按钮信息</a>
+    <a href="consle.php?wechat=1&createUniButton=1">创建个性化按钮</a>
     <a href="consle.php?wechat=1&createButton=1">创建按钮</a>
     <a href="consle.php?wechat=1&test=1">curl测试</a>
 </div>

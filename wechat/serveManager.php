@@ -11,8 +11,7 @@ function deleteButton()
 function createButtonTemp()
 {
 
-    $url='http://www.anmiee.com/pafd_msg/mobile/controller.php?mainSite=1';
-
+    $url='http://'.$_SERVER['HTTP_HOST'].DOMAIN.'/mobile/controller.php?mainSite=1';
     $button1sub1=array('name'=>'政策法规','type'=>'view','url'=>$url.'&cate=1');
     $button1sub2=array('name'=>'征兵工作','type'=>'view','url'=>$url.'&cate=2');
     $button1sub3=array('name'=>'政治教育','type'=>'view','url'=>$url.'&cate=4');

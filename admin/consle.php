@@ -60,27 +60,24 @@ if (isset($_SESSION['login'])) {
         include_once '../wechat/serveManager.php';
 //        $re='';
         if (isset($_GET['createButton'])) {
-//            $inf=getConfig('../config/buttonInf.json');
-//            if(count($inf)>1){
-                deleteButton();
-//                foreach ($inf as $row) {
-//                    if($row['name']=='default'){
-//                        $buttoninf=json_encode($row['inf'],JSON_UNESCAPED_UNICODE);
-//                        $return=createButton($buttoninf);
-//
-//                    }else{
-//                        $buttoninf=json_encode($row['inf'],JSON_UNESCAPED_UNICODE);
-//                        $return=createUniButton($buttoninf);
-//                    }
-//                    $re.=$return;
-//                }
-//
-//                echo $re;
-//            }else{
-//                echo count($inf);
-//            }
+            deleteButton();
             createButtonTemp();
             exit;
+        }
+        if(isset($_GET['createUniButton'])){
+            $url='http://'.$_SERVER['HTTP_HOST'].DOMAIN.'/mobile/controller.php?mainSite=1';
+            $button1sub1=array('name'=>'政策法规','type'=>'view','url'=>$url.'&cate=1');
+            $button1sub2=array('name'=>'征兵工作','type'=>'view','url'=>$url.'&cate=2');
+            $button1sub3=array('name'=>'政治教育','type'=>'view','url'=>$url.'&cate=4');
+            $button1=array('name'=>'文章列表','sub_button'=>array($button1sub1,$button1sub2,$button1sub3));
+            $button2=array('name'=>'军民融合','type'=>'view','url'=>$url.'&cate=3');
+//            $button3=array('type'=>'click','name'=>'专武干部','key'=>'moldule2');
+            $mainButton=array('button'=>array($button1,$button2,$button3),'matchrule'=>array('group_id'=>100));
+//            $jsondata = json_encode($mainButton,JSON_UNESCAPED_UNICODE);
+            $button3=array('type'=>'click','name'=>'应急力量','key'=>'moldule2');
+            $mainButton=array('button'=>array($button1,$button2,$button3),'matchrule'=>array('group_id'=>101));
+            $jsondata = json_encode($mainButton,JSON_UNESCAPED_UNICODE);
+            echo createUniButton($jsondata);
         }
         if (isset($_GET['getMenuInf'])) {
             echo getUserButton();

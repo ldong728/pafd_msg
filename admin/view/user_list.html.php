@@ -87,9 +87,13 @@ $page=$GLOBALS['page'];
         var openid=$(this).attr('id').slice(3);
         var groupid=$(this).val();
         $.post('ajax_request.php',{changeGroupSingle:1,openid:openid,groupid:groupid},function(data){
-            alert(data);
-
-        })
+            var inf =eval('('+data+')');
+            if(inf.errcode==0){
+                showToast('修改成功');
+            }else{
+                showToast('修改不成功，请稍后再试');
+            }
+        });
     });
 
 </script>
