@@ -263,7 +263,7 @@ if(isset($_SESSION['customerId'])){
 
 //未登录
 if(isset($_POST['inputReview'])){
-    $reviewTimeout=120;
+    $reviewTimeout=30;
     $openid=$_POST['openid'];
     $query=pdoQuery('review_tbl',array('review_time'),array('open_id'=>$openid),' order by review_time desc limit 1');
     if($time=$query->fetch()){
