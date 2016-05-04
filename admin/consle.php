@@ -41,6 +41,7 @@ if (isset($_SESSION['login'])) {
     if(isset($_GET['userdetail'])){
         $openid=$_GET['userdetail'];
         $userinf=getUserInf($openid);
+        $groupid=$userinf['groupid'];
         $markquery=pdoQuery('user_mark_view',null,array('openid'=>$openid),null);
         $markStr='';
         foreach ($markquery as $row) {
@@ -49,7 +50,7 @@ if (isset($_SESSION['login'])) {
         }
         $markStr=rtrim($markStr,',');
         $str=$markStr!=''?' and id not in('.$markStr.')':'';
-        $unmarkQuery=pdoQuery('notice_tbl',array('title','create_time'),array('situation'=>1),$str);
+        $unmarkQuery=pdoQuery('notice_tbl',array('title','create_time'),array('situation'=>1,'groupid'=>$groupid),$str);
         $unmarkList=$unmarkQuery->fetchAll();
         printView('admin/view/user_detail.html.php','详细信息');
 

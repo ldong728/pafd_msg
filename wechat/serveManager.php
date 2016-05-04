@@ -194,7 +194,9 @@ function getMediaList($type, $offset,$count='15')
 function changeGroup($openid,$groupId){
     $data=array('openid'=>$openid,'to_groupid'=>$groupId);
     $data=json_encode($data);
+    mylog($data);
     $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=ACCESS_TOKEN', $data);
+    mylog($json);
     return $json;
 }
 function getGroupListOnline(){

@@ -2,17 +2,34 @@
 
 
  function normalReply($weixin, $msg){
+     $openid=$msg['from'];
      if($msg['MsgType']=='voice'){
-         sendKFMessage($msg['FromUserName'],'已为您接入人工客服，请稍候');
-        $weixin->toKFMsg();
-         updateWechatMode($msg['from'],'kf');
+
      }elseif($msg['MsgType']=='img'){
-//         mylog('type:'.$msg['MsgType']);
-//         $weixin->replyText('你好');
+
      }else{
+         $match=array('专武干部','应急力量');
          $content=$msg['content'];
-         if(preg_match('/^dy[0-9]\d*$/',$content)){
-             $weixin->replyText(expressQuery($msg,$content));
+         if(in_array($content,$match)){
+             if($content=='专武干部'){
+                 $groupid=100;
+             }
+             if($content=='应急力量'){
+                $groupid=101;
+             }
+             $re=changeGroup($openid,$groupid);
+             mylog($re);
+             $re=json_decode($re,true);
+             if($re['errcode']=='0'){
+                 pdoUpdate('user_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
+                 $weixin->replytext('已加入“'.$content.'”分组');
+             }else{
+                 $weixin->replytext('服务器错误，请稍后再试');
+             }
+
+//             $userInf=pdoQuery('user_tbl',null,array('openid'=>$openid),' limit 1');
+//             $userInf=$userInf->fetch();
+//             if(content=='');
          }
      }
 

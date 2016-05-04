@@ -16,7 +16,7 @@ $unmarkList=$GLOBALS['unmarkList'];
         <?php foreach($markList as $row):?>
             <tr>
                 <td><?php echo $row['title']?></td>
-                <td><?php echo date('Y-m-d h:i:sa',$row['create_time'])?></td>
+                <td><?php echo date('Y-m-d H:i:s',$row['create_time'])?></td>
                 <td><?php echo $row['mark_time']?></td>
             </tr>
         <?php endforeach ?>

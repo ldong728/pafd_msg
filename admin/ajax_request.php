@@ -78,6 +78,23 @@ if(isset($_SESSION['login'])) {
         echo 'ok';
         exit;
     }
+    if(isset($_POST['reflashSingleNews'])){
+        $media_id=$_POST['media_id'];
+        $title_img='img/'.$media_id.'.jpg';
+        include_once '../wechat/serveManager.php';
+        $inf=array('media_id'=>$media_id);
+        $inf=json_encode($inf);
+        $news_inf=getMedia($inf);
+//        mylog($news_inf);
+        $newsInf=json_decode($news_inf,true);
+        $new=$newsInf['news_item'][0];
+//        mylog(json_encode($new,JSON_UNESCAPED_UNICODE));
+        $img=getFromUrl($new['thumb_url']);
+        file_put_contents('../'.$title_img,$img);
+        pdoUpdate('news_tbl',array('title'=>addslashes($new['title']),'digest'=>addslashes($new['digest']),'content'=>addslashes($new['content']),'url'=>$new['url']),array('media_id'=>$media_id));
+        return 'ok';
+
+    }
     if(isset($_POST['changeCategory'])){
         $newsId=$_POST['newsId'];
         $category=$_POST['category'];
