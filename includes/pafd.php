@@ -36,6 +36,13 @@ function getUserInf($open_id){
         return $inf;
     }
 }
+function getGroupList(){
+    if(!isset($_SESSION['groupList'])){
+        include_once '../wechat/serveManager.php';
+        $_SESSION['groupList']=getGroupListOnline();
+    }
+    return $_SESSION['groupList'];
+}
 function getReview($g_id,$index=0,$limit=3){
     $query=pdoQuery('user_output_review_view',null,array('g_id'=>$g_id,'father_v_id'=>'-1'),
         ' and (c_id="'.$_SESSION['customerId'].'" or public=1) order by priority asc,review_time desc limit '.$index.','.$limit*5);

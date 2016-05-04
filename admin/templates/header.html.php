@@ -45,13 +45,9 @@
         <li>
             <dl class="main-menu">
                 <dt>用户管理</dt>
-                <!--当前链接则添加class:active-->
                 <?php if (isset($_SESSION['pms']['user'])): ?>
                 <dd style="display: <?php echo isset($_GET['user']) ? 'block' : 'none' ?>"><a
                             href="index.php?user=1&userList=1">用户列表</a></dd><?php endif ?>
-<!--                --><?php //if (isset($_SESSION['pms']['user'])): ?>
-<!--                <dd style="display: --><?php //echo isset($_GET['user']) ? 'block' : 'none' ?><!--"><a-->
-<!--                            href="index.php?user=1&groupManage=1">分组管理</a></dd>--><?php //endif ?>
             </dl>
         </li>
         <li>
@@ -83,15 +79,6 @@
         <?php endif ?>
 
 
-<!--        <li>-->
-<!--            <dl class="main-menu">-->
-<!--                <dt>评价管理</dt>-->
-<!--                --><?php //if (isset($_SESSION['pms']['review'])): ?>
-<!--                <dd style="display: --><?php //echo isset($_GET['review']) ? 'block' : 'none' ?><!--"><a-->
-<!--                            href="index.php?review=1">查看评价</a></dd>--><?php //endif ?>
-<!--            </dl>-->
-<!--        </li>-->
-
         <li>
             <dl class="main-menu">
                 <dt>管理员</dt>
@@ -108,13 +95,10 @@
 </aside>
 <script>
     $('dt').click(function () {
-//        $('dd').hide()
         $(this).nextAll('dd').slideToggle('fast');
     });
 </script>
 <section class="rt_wrap content mCustomScrollbar">
     <div cla="rt_content">
 
-
-        <!--        --><?php //echo isset($_SESSION['pms']['card'])? '<li><a href="index.php?card=1">优惠券</a></li>':''?>
 

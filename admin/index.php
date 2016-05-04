@@ -26,11 +26,16 @@ if (isset($_SESSION['login'])) {
     }
     if (isset($_GET['noticeList'])) {
         if (isset($_SESSION['pms']['notice'])) {
+            $groupList = getGroupList();
+            foreach ($groupList as $row) {
+                if ($row['id'] < 3) continue;//屏蔽星标组和黑名单
+                $glist[] = $row;
+            }
             $where = null;
             $num = 15;
             $page = isset($_GET['page']) ? $_GET['page'] : 0;
             if (isset($_GET['situation'])) $where['situation'] = $_GET['source'];
-            if (isset($_GET['group'])) $where['groupid'] = $_GET['group'];
+            if (isset($_GET['groupid'])) $where['groupid'] = $_GET['groupid'];
             if (isset($_GET['category'])) $where['category'] = $_GET['category'];
             $notice = pdoQuery('notice_view', null, $where, ' order by create_time desc limit ' . $page * $num . ', ' . $num);
             printView('admin/view/notice.html.php', '通知列表');

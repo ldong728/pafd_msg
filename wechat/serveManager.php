@@ -197,8 +197,9 @@ function changeGroup($openid,$groupId){
     $json = $GLOBALS['mInterface']->postJsonByCurl('https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=ACCESS_TOKEN', $data);
     return $json;
 }
-function getGroupList(){
-    $json=$GLOBALS['mInterface']->getByCurl('https://api.weixin.qq.com/cgi-bin/groups/get?access_token=ACCESS_TOKEN');
+function getGroupListOnline(){
+    $handler=new interfaceHandler(WEIXIN_ID);
+    $json=$handler->getByCurl('https://api.weixin.qq.com/cgi-bin/groups/get?access_token=ACCESS_TOKEN');
     $list=json_decode($json,true);
     return $list['groups'];
 }
