@@ -16,7 +16,6 @@ $eventList=array
     'VIEW',
     'CLICK',
     'subscribe'
-
 );
 //mylog(getArrayInf($msg));
 if(in_array($msg['MsgType'],array('text','voice','img'))){

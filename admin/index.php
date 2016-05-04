@@ -139,7 +139,7 @@ if (isset($_SESSION['login'])) {
             $page = isset($_GET['page']) ? $_GET['page'] : 0;
             $index = $page * $num;
             if(isset($_GET['groupid']))$where['groupid']=$_GET['groupid'];
-            $userquery = pdoQuery('user_tbl', null, $where, ' limit ' . $page * $num . ', ' . $num);
+            $userquery = pdoQuery('user_tbl', null, $where, ' order by subscribe_time desc limit ' . $page * $num . ', ' . $num);
             $userlist = $userquery->fetchAll();
             $groupList = getGroupList();
             foreach ($groupList as $row) {

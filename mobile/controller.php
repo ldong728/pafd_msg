@@ -51,14 +51,23 @@ if(isset($_GET['getNotice'])){
     $noticeQuery=pdoQuery('notice_tbl',null,array('groupid'=>$group_id,'situation'=>'1'),' order by create_time desc limit 1');
     if($noticeInf=$noticeQuery->fetch()){
         pdoinsert('read_mark_tbl',array('openid'=>$open_id,'notice_id'=>$noticeInf['id'],'groupid'=>$group_id),'ignore');//已读标记
-        $reviewQuery=pdoQuery('review_view',null,array('notice_id'=>$noticeInf['id']),' order by review_time desc');
+        $reviewQuery=pdoQuery('review_view',null,array('notice_id'=>$noticeInf['id'],'f_id'=>'-1'),' order by review_time desc');
         foreach ($reviewQuery as $row) {
-            if(-1==$row['f_id']){
-                $review[$row['id']]['main']=$row;
-            }else{
-                $review[$row['f_id']]['subReview'][]=$row;
-            }
+            $review[$row['id']]['main']=$row;
         }
+        $subRviewQuery=pdoQuery('review_view',null,array('notice_id'=>$noticeInf['id']),' and f_id<>"-1" order by review_time asc');
+        foreach ($subRviewQuery as $srow) {
+            $review[$srow['f_id']]['subReview'][]=$srow;
+        }
+
+
+//        foreach ($reviewQuery as $row) {
+//            if(-1==$row['f_id']){
+//                $review[$row['id']]['main']=$row;
+//            }else{
+//                $review[$row['f_id']]['subReview'][]=$row;
+//            }
+//        }
         if(!isset($review))$review=array();
         include 'view/notice.html.php';
     }else{
