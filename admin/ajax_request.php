@@ -71,8 +71,11 @@ if(isset($_SESSION['login'])) {
                     $img=getFromUrl($row['content']['news_item'][0]['thumb_url']);
                     file_put_contents('../'.$title_img,$img);
                 }
-
-                pdoInsert('news_tbl',array('media_id'=>$media_id,'title'=>addslashes($title),'digest'=>addslashes($digest),'title_img'=>$title_img,'content'=>addslashes($content),'url'=>$url,'create_time'=>$create_time),'ignore');
+                $value[]=array('media_id'=>$media_id,'title'=>addslashes($title),'digest'=>addslashes($digest),'title_img'=>$title_img,'content'=>addslashes($content),'url'=>$url,'create_time'=>$create_time);
+//                pdoInsert('news_tbl',array('media_id'=>$media_id,'title'=>addslashes($title),'digest'=>addslashes($digest),'title_img'=>$title_img,'content'=>addslashes($content),'url'=>$url,'create_time'=>$create_time),'ignore');
+            }
+            if(isset($value)){
+                pdoBatchInsert('news_tbl',$value,'ignore');
             }
         }
         echo 'ok';
@@ -91,6 +94,7 @@ if(isset($_SESSION['login'])) {
 //        mylog(json_encode($new,JSON_UNESCAPED_UNICODE));
         $img=getFromUrl($new['thumb_url']);
         file_put_contents('../'.$title_img,$img);
+
         pdoUpdate('news_tbl',array('title'=>addslashes($new['title']),'digest'=>addslashes($new['digest']),'content'=>addslashes($new['content']),'url'=>$new['url']),array('media_id'=>$media_id));
         return 'ok';
 

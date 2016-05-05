@@ -42,9 +42,27 @@ if(isset($_GET['getNews'])){
     $newsId=$_GET['getNews'];
     $newInf=pdoQuery('news_tbl',null,array('id'=>$newsId),' limit 1');
     $newsInf=$newInf->fetch();
-    include 'view/new.html.php';
+    if($newsInf['source']=='local'){
+        include 'view/new.html.php';
+    }else{
+        include_once '../wechat/serveManager.php';
+        $data=getFromUrl($newsInf['url']);
+        mylog(preg_match_all('/(?<=data-src=").+(?=")/',$data,$list));
+        mylog(json_encode($list));
+//        echo $data;
+//        echo '<script>alert('ok');</script>';
+//        include 'view/wechatNew.html.php';
+        header('location:'.$newsInf['url']);
+    }
+
     exit;
 }
+//if(isset($_GET['getWechatNews'])){
+//    $newsId=$_GET['getNews'];
+//    $newInf=pdoQuery('news_tbl',null,array('id'=>$newsId),' limit 1');
+//    $newsInf=$newInf->fetch();
+//    include 'view/wechatNew.html.php';
+//}
 if(isset($_GET['getNotice'])){
     $open_id=$_GET['openid'];
     $group_id=$_GET['groupid'];

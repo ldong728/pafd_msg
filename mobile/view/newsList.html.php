@@ -14,12 +14,12 @@
 <body>
 <div class="wrap">
     <div class="swiper-container" id="main-swiper">
-        <div class="swiper-wrapper" style="width: 4368px; height: 60vw">
+        <div class="swiper-wrapper" style="width: 4368px; height: 50vw">
             <?php foreach ($title as $trow): ?>
                 <div class="swiper-slide">
                     <div style="position: relative;width: 100%;height: auto">
                     <a class="list_item"
-                       href="<?php echo 'local' == $trow['source'] ? 'controller.php?getNews=' . $trow['id'] : $trow['url'] ?>">
+                       href="<?php echo 'controller.php?getNews=' . $trow['id']?>"style="padding: 0">
                         <img class="swiper-img swiper-lazy" data-src="../<?php echo $trow['title_img'] ?>"/>
                     </a>
                     <span style="position: absolute;bottom:15%;left:5%;color:white;font-size: 14px;opacity: 0.8"><?php echo $trow['title']?></span>
@@ -65,7 +65,7 @@
             <div class="article_list">
                 <?php foreach ($newsList as $row): ?>
                     <a class="list_item"
-                       href="<?php echo 'local' == $row['source'] ? 'controller.php?getNews=' . $row['id'] : $row['url'] ?>">
+                       href="<?php echo 'controller.php?getNews=' . $row['id']?>">
                         <div class="cover">
                             <img class="img" src="../<?php echo $row['title_img'] ?>"/>
                         </div>
