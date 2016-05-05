@@ -47,12 +47,27 @@ if(isset($_GET['getNews'])){
     }else{
         include_once '../wechat/serveManager.php';
         $data=getFromUrl($newsInf['url']);
-        mylog(preg_match_all('/(?<=data-src=").+(?=")/',$data,$list));
-        mylog(json_encode($list));
+        mylog(preg_match_all('/(?<=data-src=")\S+(?=")/',$data,$list));
+//        mylog(json_encode($list));
+        foreach ($list[0] as $row) {
+            preg_match('/\w{3,4}$/',$row,$filex);
+//            mylog(json_encode($filex));
+//            mylog($row);
+            $img=getFromUrl($row);
+            $fileName='../img/'.md5($img).'.'.$filex[0];
+            if(!file_exists($fileName)){
+                file_put_contents($fileName,$img);
+            }
+            $data=str_replace($row,$fileName,$data);
+            $data=str_replace('data-src','src',$data);
+            echo $data;
+//            mylog($fileName);
+        }
+
 //        echo $data;
 //        echo '<script>alert('ok');</script>';
 //        include 'view/wechatNew.html.php';
-        header('location:'.$newsInf['url']);
+//        header('location:'.$newsInf['url']);
     }
 
     exit;
