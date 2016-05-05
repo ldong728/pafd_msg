@@ -40,7 +40,7 @@ $getStr=$GLOBALS['getStr']
                 <td><input type="checkbox"class="addToTitle"id="tit<?php echo $row['id']?>"<?php echo 'title'==$row['type']? 'checked="checked"':''?>value="<?php echo $row['id']?>"/></td>
                 <td>
                     <a class="inner_btn sendNotice"id="btn<?php echo $row['id']?>">作为通知发送</a>
-                    <?php if($row['source']=='wechat'):?><a class="inner_btn singleReflash" id="ref<?php echo $row['media_id']?>">更新</a><?php endif ?>
+                    <?php if($row['source']!='local'):?><a class="inner_btn singleReflash" id="ref<?php echo $row['media_id']?>">更新</a><?php endif ?>
                     <a class="inner_btn delete"id="<?php echo $row['media_id']?>"data-source="<?php echo $row['source']?>">删除</a>
 
                 </td>

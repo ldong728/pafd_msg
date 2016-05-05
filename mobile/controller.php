@@ -44,30 +44,25 @@ if(isset($_GET['getNews'])){
     $newsInf=$newInf->fetch();
     if($newsInf['source']=='local'){
         include 'view/new.html.php';
+    }elseif($newsInf['source']=='hybrid') {
+        echo $newsInf['content'];
     }else{
         include_once '../wechat/serveManager.php';
         $data=getFromUrl($newsInf['url']);
-        mylog(preg_match_all('/(?<=data-src=")\S+(?=")/',$data,$list));
-//        mylog(json_encode($list));
+        preg_match_all('/(?<=data-src=")\S+(?=")/',$data,$list);
         foreach ($list[0] as $row) {
             preg_match('/\w{3,4}$/',$row,$filex);
-//            mylog(json_encode($filex));
-//            mylog($row);
             $img=getFromUrl($row);
             $fileName='../img/'.md5($img).'.'.$filex[0];
             if(!file_exists($fileName)){
                 file_put_contents($fileName,$img);
             }
             $data=str_replace($row,$fileName,$data);
-            $data=str_replace('data-src','src',$data);
-            echo $data;
-//            mylog($fileName);
-        }
 
-//        echo $data;
-//        echo '<script>alert('ok');</script>';
-//        include 'view/wechatNew.html.php';
-//        header('location:'.$newsInf['url']);
+        }
+        $data=str_replace('data-src','src',$data);
+        echo $data;
+        pdoUpdate('news_tbl',array('source'=>'hybrid','content'=>addslashes($data)),array('id'=>$newsId));
     }
 
     exit;

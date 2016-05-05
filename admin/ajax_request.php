@@ -95,7 +95,7 @@ if(isset($_SESSION['login'])) {
         $img=getFromUrl($new['thumb_url']);
         file_put_contents('../'.$title_img,$img);
 
-        pdoUpdate('news_tbl',array('title'=>addslashes($new['title']),'digest'=>addslashes($new['digest']),'content'=>addslashes($new['content']),'url'=>$new['url']),array('media_id'=>$media_id));
+        pdoUpdate('news_tbl',array('title'=>addslashes($new['title']),'digest'=>addslashes($new['digest']),'content'=>addslashes($new['content']),'url'=>$new['url'],'source'=>'wechat'),array('media_id'=>$media_id));
         return 'ok';
 
     }

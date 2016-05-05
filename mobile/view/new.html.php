@@ -13,14 +13,6 @@
     <div class="content">
         <?php echo $newsInf['content']?>
     </div>
-<!--    <div class="review">-->
-<!--        --><?php //foreach($review as $row):?>
-<!--            --><?php //echo $row['main']['content'] ?>
-<!--            --><?php //foreach($row['subReview'] as $r):?>
-<!--                --><?php //echo $r['content']?>
-<!--            --><?php //endforeach ?>
-<!--        --><?php //endforeach;?>
-<!--    </div>-->
 </div>
 
 
