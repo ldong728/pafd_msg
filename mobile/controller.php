@@ -42,27 +42,30 @@ if(isset($_GET['getNews'])){
     $newsId=$_GET['getNews'];
     $newInf=pdoQuery('news_tbl',null,array('id'=>$newsId),' limit 1');
     $newsInf=$newInf->fetch();
+    $url=preg_replace('/#.+$/','',$newsInf['url']);
     if($newsInf['source']=='local'){
         include 'view/new.html.php';
     }elseif($newsInf['source']=='hybrid') {
-        echo $newsInf['content'];
+//        echo $newsInf['content'];
+        header('location:'.$url.'#wechat_redirect');
     }else{
-        include_once '../wechat/serveManager.php';
-        $data=getFromUrl($newsInf['url']);
-        preg_match_all('/(?<=data-src=")\S+(?=")/',$data,$list);
-        foreach ($list[0] as $row) {
-            preg_match('/\w{3,4}$/',$row,$filex);
-            $img=getFromUrl($row);
-            $fileName='../img/'.md5($img).'.'.$filex[0];
-            if(!file_exists($fileName)){
-                file_put_contents($fileName,$img);
-            }
-            $data=str_replace($row,$fileName,$data);
-
-        }
-        $data=str_replace('data-src','src',$data);
-        echo $data;
-        pdoUpdate('news_tbl',array('source'=>'hybrid','content'=>addslashes($data)),array('id'=>$newsId));
+//        include_once '../wechat/serveManager.php';
+//        $data=getFromUrl($newsInf['url']);
+//        preg_match_all('/(?<=data-src=")\S+(?=")/',$data,$list);
+//        foreach ($list[0] as $row) {
+//            preg_match('/\w{3,4}$/',$row,$filex);
+//            $img=getFromUrl($row);
+//            $fileName='../img/'.md5($img).'.'.$filex[0];
+//            if(!file_exists($fileName)){
+//                file_put_contents($fileName,$img);
+//            }
+//            $data=str_replace($row,$fileName,$data);
+//
+//        }
+//        $data=str_replace('data-src','src',$data);
+//        echo $data;
+//        pdoUpdate('news_tbl',array('source'=>'hybrid','content'=>addslashes($data)),array('id'=>$newsId));
+        header('location:'.$url.'#wechat_redirect');
     }
 
     exit;
