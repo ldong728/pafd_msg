@@ -8,7 +8,7 @@
      }elseif($msg['MsgType']=='img'){
 
      }else{
-         $match=array('专武干部','应急力量');
+         $match=array('专武干部','应急力量','基干民兵');
          $content=$msg['content'];
          if(in_array($content,$match)){
              if($content=='专武干部'){
@@ -16,6 +16,9 @@
              }
              if($content=='应急力量'){
                 $groupid=101;
+             }
+             if($content=='基干民兵'){
+                 $groupid=102;
              }
              $re=changeGroup($openid,$groupid);
              mylog($re);
