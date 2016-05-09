@@ -1,6 +1,8 @@
 <?php
 $notice=$GLOBALS['notice'];
 $glist=$GLOBALS['glist'];
+$getStr=$GLOBALS['getStr'];
+$page=$GLOBALS['page'];
 ?>
 
 <section>
@@ -13,6 +15,11 @@ $glist=$GLOBALS['glist'];
         <?php foreach($glist as $crow):?>
             <option value="<?php echo $crow['id']?>"<?php echo $_GET['groupid']==$crow['id']?'selected="selected"':''?>><?php echo $crow['name']?></option>
         <?php endforeach ?>
+    </select>
+    <select class="select"id="stuFilter">
+        <option value="-1">状态</option>
+        <option value="0" <?php echo $_GET['situation']=='0'?'selected="selected"':''?>>未发送</option>
+        <option value="1"<?php echo $_GET['situation']==1?'selected="selected"':''?>>已发送</option>
     </select>
 
     <table class="table">
@@ -30,19 +37,46 @@ $glist=$GLOBALS['glist'];
         <?php endforeach?>
 
     </table>
+    <aside class="paging"><?php if($page>0):?><a href="index.php?<?php echo $getStr?>&page=<?php echo $page-1?>">上一页</a><?php endif ?><a href="index.php?<?php echo $getStr?>&page=<?php echo $page+1?>">下一页</a></aside>
 
 
 
     <div class="space"></div>
 </section>
 <script>
+    var getStr='<?php echo json_encode($_GET)?>';
+    var getInf=eval('('+getStr+')');
+    delete getInf.page;
+</script>
+<script>
     $('#groupFilter').change(function(){
         var id=$(this).val();
         if(id<0){
-            window.location.href='index.php?notice=1&noticeList=0';
+            delete getInf.groupid
         }else{
-            window.location.href='index.php?notice=1&noticeList=0&groupid='+id;
+            getInf.groupid=id;
         }
-
+        var getStr= setGetStr(getInf);
+        window.location.href='index.php?'+getStr;
     });
+    $('#stuFilter').change(function(){
+        var id=$(this).val();
+        if(id<0){
+           delete getInf.situation;
+        }else{
+            getInf.situation =id;
+        }
+        getStr=setGetStr(getInf);
+        window.location.href='index.php?'+getStr;
+    });
+</script>
+<script>
+    function setGetStr(getInf){
+        var str='';
+        $.each(getInf,function(k,v){
+            str+= (k+'='+v+'&');
+        });
+        str=str.replace(/&$/,'');
+        return str;
+    }
 </script>

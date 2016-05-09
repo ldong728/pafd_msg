@@ -55,6 +55,9 @@
                 <dt>通知管理</dt>
                 <?php if (isset($_SESSION['pms']['notice'])): ?>
                 <dd style="display: <?php echo isset($_GET['notice']) ? 'block' : 'none' ?>"><a
+                            href="index.php?notice=1&newNotice=-1">新建通知</a></dd><?php endif ?>
+                <?php if (isset($_SESSION['pms']['notice'])): ?>
+                <dd style="display: <?php echo isset($_GET['notice']) ? 'block' : 'none' ?>"><a
                             href="index.php?notice=1&sendNotice=-1">发送通知</a></dd><?php endif ?>
                 <?php if (isset($_SESSION['pms']['notice'])): ?>
                 <dd style="display: <?php echo isset($_GET['notice']) ? 'block' : 'none' ?>"><a

@@ -15,6 +15,7 @@ if(isset($_SESSION['login'])) {
     }
 
     if(isset($_POST['altGroup'])){
+        mylog('altGroupname');
         $name=$_POST['name'];
         $id=$_POST['id'];
         include_once '../wechat/serveManager.php';

@@ -1,11 +1,12 @@
+<?php $mode=isset($GLOBALS['notice']) ? $GLOBALS['notice'] : 1?>
 <script src="js/ajaxfileupload.js"></script>
 <section>
     <h2>
-        新建图文信息
+        <strong>新建<?php echo $mode==1? '图文':'通知'?></strong>
     </h2>
 
 
-    <form action="consle.php?createNews=1" method="post">
+    <form action="consle.php?createNews=<?php echo $mode?>" method="post">
         <section>
             <h2><strong style="color: gray">显示在微信界面的信息</strong></h2>
             <ul>
@@ -67,10 +68,23 @@
             <script type="text/javascript">
                 var ue = UE.getEditor('container');
             </script>
-        <input type="button" class="link_btn" value="创建新图文信息"onclick="submit()"/>
+        <?php if ($mode==1):?>
+        <input type="button" class="link_btn" value="保存图文"onclick="submit()"/>
+        <?php endif ?>
+        <?php if($mode==2):?>
+            <input type="hidden" id="sendNow" name="sendNow" value="0"/>
+            <input type="button" class="link_btn" value="保存通知" onclick="submit()"/>
+            <input type="button" class="link_btn send" value="直接发送"/>
+        <?php endif ?>
 
     </form>
 
 
 </section>
 <div class="space"></div>
+<script>
+    $('.send').click(function(){
+       $('#sendNow').val(1);
+        $('form').submit();
+    });
+</script>

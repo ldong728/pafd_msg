@@ -34,9 +34,15 @@ if (isset($_SESSION['login'])) {
             $where = null;
             $num = 15;
             $page = isset($_GET['page']) ? $_GET['page'] : 0;
-            if (isset($_GET['situation'])) $where['situation'] = $_GET['source'];
+            if (isset($_GET['situation'])) $where['situation'] = $_GET['situation'];
             if (isset($_GET['groupid'])) $where['groupid'] = $_GET['groupid'];
             if (isset($_GET['category'])) $where['category'] = $_GET['category'];
+            $getStr='';
+            foreach ($_GET as $k => $v) {
+                if($k=='page')continue;
+                $getStr.=$k.'='.$v.'&';
+            }
+            $getStr=rtrim($getStr,'&');
             $notice = pdoQuery('notice_view', null, $where, ' order by create_time desc limit ' . $page * $num . ', ' . $num);
             printView('admin/view/notice.html.php', '通知列表');
             exit;
@@ -75,6 +81,16 @@ if (isset($_SESSION['login'])) {
 
             exit;
         } else {
+            echo '权限不足';
+            exit;
+        }
+    }
+    if (isset($_GET['newNotice'])){
+        if (isset($_SESSION['pms']['notice'])) {
+            $notice=2;
+            printView('admin/view/createNews.html.php', '新建通知');
+            exit;
+        }else{
             echo '权限不足';
             exit;
         }
