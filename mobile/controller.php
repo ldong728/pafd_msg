@@ -49,33 +49,11 @@ if(isset($_GET['getNews'])){
 //        echo $newsInf['content'];
         header('location:'.$url.'#wechat_redirect');
     }else{
-//        include_once '../wechat/serveManager.php';
-//        $data=getFromUrl($newsInf['url']);
-//        preg_match_all('/(?<=data-src=")\S+(?=")/',$data,$list);
-//        foreach ($list[0] as $row) {
-//            preg_match('/\w{3,4}$/',$row,$filex);
-//            $img=getFromUrl($row);
-//            $fileName='../img/'.md5($img).'.'.$filex[0];
-//            if(!file_exists($fileName)){
-//                file_put_contents($fileName,$img);
-//            }
-//            $data=str_replace($row,$fileName,$data);
-//
-//        }
-//        $data=str_replace('data-src','src',$data);
-//        echo $data;
-//        pdoUpdate('news_tbl',array('source'=>'hybrid','content'=>addslashes($data)),array('id'=>$newsId));
         header('location:'.$url.'#wechat_redirect');
     }
 
     exit;
 }
-//if(isset($_GET['getWechatNews'])){
-//    $newsId=$_GET['getNews'];
-//    $newInf=pdoQuery('news_tbl',null,array('id'=>$newsId),' limit 1');
-//    $newsInf=$newInf->fetch();
-//    include 'view/wechatNew.html.php';
-//}
 if(isset($_GET['getNotice'])){
     $open_id=$_GET['openid'];
     $group_id=$_GET['groupid'];
@@ -91,21 +69,37 @@ if(isset($_GET['getNotice'])){
             $review[$srow['f_id']]['subReview'][]=$srow;
         }
 
-
-//        foreach ($reviewQuery as $row) {
-//            if(-1==$row['f_id']){
-//                $review[$row['id']]['main']=$row;
-//            }else{
-//                $review[$row['f_id']]['subReview'][]=$row;
-//            }
-//        }
         if(!isset($review))$review=array();
         include 'view/notice.html.php';
     }else{
         echo '当前无通知';
     }
     exit;
+}
+if(isset($_GET['bbs'])){
 
+    $open_id=$_GET['openid'];
+    $userInf=getUserInf($open_id);
+    $num = 25;
+    $page = isset($_GET['page']) ? $_GET['page'] : 0;
+    $topicQuery=pdoQuery('bbs_topic_view',array('title','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url'),array('group'=>$userInf['groupid']),' or group=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
+    foreach ($topicQuery as $row) {
+        if(isset($topicList[$row['id']])){
+            $topicList[$row['id']]['img'][]=$row['url'];
+        }else{
+            $topicList[$row['id']]=array(
+                'title'=>$row['title'],
+                'issue_time'=>$row['issue_time'],
+                'reply_count'=>$row['reply_count'],
+                'nickname'=>$row['nickname'],
+                'real_name'=>$row['real_name'],
+                'headimgurl'=>$row['headimgurl'],
+            );
+        }
+    }
+
+    include 'view/bbs_list.html';
+//    $noticeQuery=pdo
 }
 
 if(isset($_GET['newsList'])){

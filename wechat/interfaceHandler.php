@@ -91,6 +91,8 @@ class interfaceHandler {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $remote_server);
         curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
@@ -103,6 +105,8 @@ class interfaceHandler {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $remote_server);
         curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
