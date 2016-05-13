@@ -82,7 +82,8 @@ if(isset($_GET['bbs'])){
     $userInf=getUserInf($open_id);
     $num = 25;
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
-    $topicQuery=pdoQuery('bbs_topic_view',array('title','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url'),array('group'=>$userInf['groupid']),' or group=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
+    mylog($userInf['groupid']);
+    $topicQuery=pdoQuery('bbs_topic_view',array('title','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url'),array('groupid'=>(string)$userInf['groupid']),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
     foreach ($topicQuery as $row) {
         if(isset($topicList[$row['id']])){
             $topicList[$row['id']]['img'][]=$row['url'];
@@ -98,8 +99,13 @@ if(isset($_GET['bbs'])){
         }
     }
 
-    include 'view/bbs_list.html';
+
+    include 'view/bbs_list.html.php';
+    exit;
 //    $noticeQuery=pdo
+}
+if(isset($bbs_content)){
+
 }
 
 if(isset($_GET['newsList'])){

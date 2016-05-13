@@ -40,7 +40,7 @@ function pdoQuery($tableName, $fields, $where, $append)
         $sql = $sql . ' WHERE ';
         $j = 0;
         foreach ($where as $k => $v) {
-            if($v==null){
+            if(!isset($v)){
                 $sql.=$k.' in("-1000000")';
                 $j++;
                 continue;
@@ -64,7 +64,7 @@ function pdoQuery($tableName, $fields, $where, $append)
         $sql=$sql.' '.$append;
     }
     try {
-//        mylog('query:'.$sql);
+        mylog('query:'.$sql);
         $query = $GLOBALS['pdo']->query($sql);
         return $query;
     }catch (PDOException $e) {

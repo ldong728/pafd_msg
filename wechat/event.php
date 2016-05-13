@@ -42,7 +42,7 @@ function CLICK($msg)
             break;
         }
         case 'bbs': {
-            $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?bbs=1&code=' . $openid;
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?bbs=1&openid=' . $openid;
             $newsArray = array('news_item' => [array('title' => '互动社区', 'digest' => '点击进入互动社区，查看最新通知，此图文包含您个人信息，请勿转发，以免个人信息泄露', 'cover_url' => 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/img/0.jpg', 'url' => $url)]);
             $json = json_encode($newsArray);
             $content = $GLOBALS['weixin']->prepareNewsMsg($msg['from'], $msg['me'], $json);
