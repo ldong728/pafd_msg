@@ -1,6 +1,7 @@
 <head>
     <?php include 'templates/header.php' ?>
     <link rel="stylesheet" href="stylesheet/bbs.css?v=<?php echo rand(1000, 9999) ?>"/>
+    <link rel="stylesheet" href="stylesheet/bbs_list.css?v=<?php echo rand(1000, 9999) ?>"/>
     <style type="text/css">
 
 
@@ -46,6 +47,12 @@
             </li>
         </ul>
     </div>
-    <a class="light_post_entrance"></a>
+    <a class="light_post_entrance" id="issue_content"></a>
 </div>
+
 </body>
+<script>
+    $('#issue_content').click(function(){
+        window.location.href='controller.php?create_topic=11';
+    });
+</script>

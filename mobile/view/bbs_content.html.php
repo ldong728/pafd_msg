@@ -6,6 +6,7 @@
 
     </style>
 </head>
+
 <body>
 <div class="glob" id="glob">
     <div id="main" class="main">

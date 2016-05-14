@@ -77,12 +77,15 @@ if(isset($_GET['getNotice'])){
     exit;
 }
 if(isset($_GET['bbs'])){
-
-    $open_id=$_GET['openid'];
+    if(!isset($_SESSION['openid'])){
+        $open_id=$_GET['openid'];
+        $_SESSION['openid']=$open_id;
+    }else{
+        $open_id=$_SESSION['openid'];
+    }
     $userInf=getUserInf($open_id);
     $num = 25;
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
-    mylog($userInf['groupid']);
     $topicQuery=pdoQuery('bbs_topic_view',array('title','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url'),array('groupid'=>(string)$userInf['groupid']),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
     foreach ($topicQuery as $row) {
         if(isset($topicList[$row['id']])){
@@ -99,14 +102,25 @@ if(isset($_GET['bbs'])){
         }
     }
 
-
     include 'view/bbs_list.html.php';
     exit;
 //    $noticeQuery=pdo
 }
-if(isset($bbs_content)){
+if(isset($_GET['bbs_content'])){
 
 }
+if(isset($_GET['create_topic'])){
+    $type=isset($_GET['type'])?$_GET['type']:'issue';
+    $t_id=isset($_GET['t_id'])?$_GET['t_id']:'-1';
+    $f_id=isset($_GET['f_id'])?$_GET['f_id']:'-1';
+    if('reply'==$type){
+
+    }
+//    echo 'ok';
+    include 'view/bbs_input.html.php';
+    exit;
+}
+
 
 if(isset($_GET['newsList'])){
 

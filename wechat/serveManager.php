@@ -144,8 +144,8 @@ function downloadImgToHost($media_id,$filePath)
 {
     $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=';
     $imgData = $GLOBALS['mInterface']->getByCurl($url . $media_id);
-    file_put_contents($filePath, $imgData);
-    return 'ok';
+    $data=file_put_contents($filePath, $imgData);
+    return $data;
 }
 function getUnionId($openId)
 {
