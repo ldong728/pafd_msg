@@ -9,7 +9,7 @@ include_once '../includePackage.php';;
 session_start();
 
 if(isset($_SESSION['openid'])){
-    if(isset($_POST['issue_topic'])){
+    if(isset($_POST['issue_topic'])){//发帖
         $query=pdoQuery('bbs_topic_tbl',array('issue_time'),array('open_id'=>$_SESSION['openid']),' order by issue_time desc limit 1');
         $query=$query->fetch();
         mylog(json_encode($query));
@@ -50,7 +50,7 @@ if(isset($_SESSION['openid'])){
         }
 
 
-    }if(isset($_POST['issue_reply'])){
+    }if(isset($_POST['issue_reply'])){//回复输入
         $query=pdoQuery('bbs_reply_tbl',array('issue_time'),array('openid'=>$_SESSION['openid']),' order by issue_time desc limit 1');
         $query=$query->fetch();
         mylog(json_encode($query));
@@ -63,7 +63,7 @@ if(isset($_SESSION['openid'])){
         $userInf=getUserInf($_SESSION['openid']);
         $content=addslashes(trim($_POST['content']));
         $t_id=$_POST['t_id'];
-        $f_id=$_POST['f_id'];
+        $f_id=isset($_POST['f_id'])? $_POST['f_id']: -1;
         pdoTransReady();
         try{
             $id=pdoInsert('bbs_reply_tbl',array('t_id'=>$t_id,'f_id'=>$f_id,'content'=>$content,'openid'=>$_SESSION['openid'],'issue_time'=>time()));
@@ -77,7 +77,7 @@ if(isset($_SESSION['openid'])){
                     $imgList[]=array('r_id'=>$id,'url'=>$imgPath,'openid'=>$_SESSION['openid'],'create_time'=>time());
                 }
                 if(isset($imgList)){
-                    pdoBatchInsert('bbs_topic_img_tbl',$imgList);
+                    pdoBatchInsert('bbs_reply_img_tbl',$imgList);
                 }
             }
             pdoCommit();

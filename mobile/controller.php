@@ -7,7 +7,7 @@
  */
 include_once '../includePackage.php';
 session_start();
-
+mylog('controller');
 if(isset($_GET['showShareSite'])){
  include 'view/share.html.php';
     exit;
@@ -77,6 +77,7 @@ if(isset($_GET['getNotice'])){
     exit;
 }
 if(isset($_GET['bbs'])){
+    mylog();
     if(!isset($_SESSION['openid'])){
         $open_id=$_GET['openid'];
         $_SESSION['openid']=$open_id;
@@ -86,26 +87,35 @@ if(isset($_GET['bbs'])){
     $userInf=getUserInf($open_id);
     $num = 25;
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
-    $topicQuery=pdoQuery('bbs_topic_view',array('title','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url'),array('groupid'=>(string)$userInf['groupid']),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
-    foreach ($topicQuery as $row) {
+
+    $topicQuery=pdoQuery('bbs_topic_view',array('id','title','content','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url'),array('groupid'=>(string)$userInf['groupid']),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
+    foreach ($topicQuery as $k=>$row)
+    {
+//        mylog(getArrayInf($row));
+//        $topicList[$k]=$row;
         if(isset($topicList[$row['id']])){
             $topicList[$row['id']]['img'][]=$row['url'];
         }else{
             $topicList[$row['id']]=array(
                 'title'=>$row['title'],
+                'content'=>substr($row['content'],0,20),
                 'issue_time'=>$row['issue_time'],
                 'reply_count'=>$row['reply_count'],
                 'nickname'=>$row['nickname'],
                 'real_name'=>$row['real_name'],
                 'headimgurl'=>$row['headimgurl'],
+
             );
+            if($row['url'])$topicList[$row['id']]['img'][]=$row['url'];
         }
     }
-
-    include 'view/bbs_list.html.php';
+//    if(!isset($topicList))$topicList=array();
+//    include_once 'view/bbs_list.html.php';
+    include 'view/blank.html.php';
     exit;
-//    $noticeQuery=pdo
 }
+
+
 if(isset($_GET['bbs_content'])){
 
 }
