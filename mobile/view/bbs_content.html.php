@@ -2,11 +2,9 @@
     <?php include 'templates/header.php' ?>
     <link rel="stylesheet" href="stylesheet/bbs-content.css?v=<?php echo rand(1000, 9999) ?>"/>
     <style type="text/css">
-        .pb_icon {
-            background-image: url(stylesheet/images/spb_icon_revision_bcf291c.png);
-            background-repeat: no-repeat;
-            background-size: 43px auto;
-        }
+
+
+
 
     </style>
 </head>
@@ -38,9 +36,14 @@
                                         </span>
                                     </div>
                                     <div class="list_item_more_operation">
-                                        <a class="pb_icon"></a>
+                                        <a class="list_item_more_operation_btn  pb_icon"></a>
                                     </div>
-                                    <div class="content"></div>
+                                    <div class="content">
+                                        <?php echo $row['content']?>
+                                        <?php foreach($row['img'] as $irow):?>
+                                        <span class="wrap pbimgwapper"><img src="<?php echo '../'.$irow?>"</span>
+                                        <?php endforeach ?>
+                                    </div>
                                 </div>
 
                         </div>
