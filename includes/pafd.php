@@ -17,6 +17,8 @@ function printView($addr, $title = 'abc')
 
 function putUserInfToDb(array $inf)
 {
+
+
     foreach ($inf as $k => $v) {
         if ('subscribe_time' == $k) {
             $v = date('Y-m-d H:i:s', $v);
@@ -31,19 +33,31 @@ function putUserInfToDb(array $inf)
 function getUserInf($open_id)
 {
     $now = time();
+    $lastUpdate=0;
     $query = pdoQuery('user_tbl', null, array('openid' => $open_id), ' limit 1');
     if ($inf = $query->fetch()) {
-        if ($now - $inf['update_time'] < 86400) {
+        $lastUpdate=$inf['update_time'];
+        if ($now - $lastUpdate < 86400) {
             return $inf;
         }
     }
     include_once '../wechat/serveManager.php';
     $inf = getUnionId($open_id);
+    mylog();
     if (isset($inf['nickname'])) {
+//        if($now-$lastUpdate>604800){
+//            $inf=replaceHeadImg($inf);
+//        }
         putUserInfToDb($inf);
     }
     return $inf;
-
+}
+function replaceHeadImg($inf){
+    if(!file_exists($GLOBALS['mypath'].'/img/headimg'))mkdir($GLOBALS['mypath'].'/img/headimg');  //首次部署使用后可删除
+    $fileName='img/headimg/'.md5($inf['openid']).'.jpg';
+    $img=file_get_contents($inf['headimgurl']);
+    if(file_put_contents($GLOBALS['mypath'].'/'.$fileName,$img))$inf['headimgurl']='http://'.$_SERVER['HTTP_HOST'].DOMAIN.'/'.$fileName;
+    return $inf();
 }
 
 function getGroupList()

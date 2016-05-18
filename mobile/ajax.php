@@ -12,7 +12,7 @@ if(isset($_SESSION['openid'])){
     if(isset($_POST['issue_topic'])){//发帖
         $query=pdoQuery('bbs_topic_tbl',array('issue_time'),array('open_id'=>$_SESSION['openid']),' order by issue_time desc limit 1');
         $query=$query->fetch();
-        mylog(json_encode($query));
+//        mylog(json_encode($query));
         if($query&&(time()-$query['issue_time']<120)){
             $time=120-(time()-$query['issue_time']);
             mylog($time);
@@ -43,9 +43,12 @@ if(isset($_SESSION['openid'])){
             pdoCommit();
             echo 'ok';
         }catch(PDOException $e){
+            $err='error';
+            $code=$e->getCode();
             mylog($e->getMessage());
             pdoRollBack();
-            echo 'error';
+            if($code=='23000')$err='已发表过相同文章';
+            echo $err;
             exit;
         }
 
@@ -67,7 +70,10 @@ if(isset($_SESSION['openid'])){
         pdoTransReady();
         try{
             $id=pdoInsert('bbs_reply_tbl',array('t_id'=>$t_id,'f_id'=>$f_id,'content'=>$content,'openid'=>$_SESSION['openid'],'issue_time'=>time()));
-            pdoUpdate('bbs_topic_tbl',array('reply_time'=>time(),'reply_count'=>'reply_count+1'),array('id'=>$t_id));
+            $sql='update bbs_topic_tbl set reply_time='.time().',reply_count=reply_count+1 where id='.$t_id;
+            mylog($sql);
+            exeNew($sql);
+//            pdoUpdate('bbs_topic_tbl',array('reply_time'=>time(),'reply_count'=>'reply_count+1'),array('id'=>$t_id));
             if($f_id>0){
                 foreach ($_POST['image'] as $row) {
                     include_once $GLOBALS['mypath'] . '/wechat/serveManager.php';

@@ -9,43 +9,44 @@
 </head>
 
 <body>
-<div class="container">
+<div class="container" style="-webkit-tap-highlight-color:transparent;
+">
     <div id="tlist" class="post_list">
         <ul class="threads_list">
             <?php foreach ($topicList as $row): ?>
-                <li class="tl_shadow">
-                    <a href="">
-                        <div class="ti_title"><span><?php htmlout($row['title']) ?></span></div>
-                        <p class="ti_abs"><?php htmlout($row['content']) ?></p>
+            <li class="tl_shadow">
+                <a href="controller.php?bbs_content=1&t_id=<?php echo $row['id'] ?>">
+                    <div class="ti_title"><span><?php htmlout($row['title']) ?></span></div>
+                    <p class="ti_abs"><?php htmlout($row['content']) ?></p>
+                    <div class="medias_wrap clearfix">
+                        <?php foreach ($row['img'] as $iRow): ?>
+                            <div class="medias_item ">
+                                <img class="medias_img_r" src="<?php echo '../' . $iRow ?>" style="opacity: 1;">
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+                </a>
 
-                        <div class="medias_wrap clearfix">
-                            <?php foreach ($row['img'] as $iRow): ?>
-                                <div class="medias_item ">
-                                    <img class="medias_img_r" src="<?php echo '../' . $iRow ?>" style="opacity: 1;">
-                                </div>
-                            <?php endforeach ?>
-                            <div class="medias_modal">共<?php echo count($row['img']) ?>张</div>
-                        </div>
-                        <div class="ti_infos clearfix">
-                            <div class="ti_author_time">
+                <div class="ti_infos clearfix">
+                    <div class="ti_author_time">
                             <span class="ti_author ti_vip"
                                   style="background-image:url('<?php echo $row['headimgurl'] ?>')">
                                 <?php echo $row['nickname'] ?>
                             </span>
                             <span class="ti_time">
-                                <?php echo $row['issue_time'] ?>
+                                <?php echo date('Y-m-d H:i:s', $row['issue_time']) ?>
                             </span>
-                            </div>
-                            <div class="ti_zan_reply">
-                                <div class="ti_func_btn btn_reply">
+                    </div>
+                    <div class="ti_zan_reply reply_btn" style="cursor: pointer" data-tid="<?php echo $row['id'] ?>">
+                        <div class="ti_func_btn btn_reply">
                                 <span class="btn_icon">
                                     <?php echo $row['reply_count'] ?>
                                 </span>
-                                </div>
-                            </div>
                         </div>
-                    </a>
-                </li>
+                    </div>
+                </div>
+
+            </li>
             <?php endforeach ?>
         </ul>
     </div>
@@ -53,8 +54,12 @@
 </div>
 
 </body>
-<!--<script>-->
-<!--    $('#issue_content').click(function () {-->
-<!--        window.location.href = 'controller.php?create_topic=11';-->
-<!--    });-->
-<!--</script>-->
+<script>
+    $('#issue_content').click(function () {
+        window.location.href = 'controller.php?create_topic=11';
+    });
+    $('.reply_btn').click(function () {
+        var t_id = $(this).data('tid');
+        window.location.href = 'controller.php?create_topic=1&type=reply&t_id=' + t_id;
+    });
+</script>

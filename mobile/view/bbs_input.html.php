@@ -393,15 +393,15 @@
 
         <div clas="blue_kit_right">
             <?php if($type=='issue'):?><a class="blue_kit_btn">发帖</a><?php endif?>
-            <?php if($type=='reply'):?><a class="blue_kit_btn">回帖</a><?php endif?>
+            <?php if($type=='reply'):?><a class="blue_kit_btn">回复</a><?php endif?>
         </div>
     </div>
     <div class="edit_panel">
-
+        <?php if('issue'==$type):?>
         <div class="editor_title_panel">
             <input type="text" class="editor_input editor_title" id="title" placeholder="请输入标题（必填）"/>
         </div>
-
+        <?php endif ?>
         <div class="editor_content_panel">
             <textarea style="height: 98px; margin: 0px -8px 0px 0px;"
                       class=" editor_input editor_content" id="content" placeholder="请输入内容"></textarea>
@@ -462,17 +462,31 @@
 </div>
 <script>
     var type='<?php echo $type ?>';
-    var f_id='<?php echo $f_id ?>';
-    var t_id=<?php echo $t_id ?>';
+    var f_id=<?php echo $f_id ?>;
+    var t_id=<?php echo $t_id ?>;
 </script>
 <script>
     $('.issue_topic').click(function(){
         var title=$('#title').val();
         var content=$('#content').val();
-        $.post('ajax.php',{issue_topic:1,title:title,content:content,image:images},function(data){
-            alert(data);
-        });
-    })
+        if('issue'==type){
+            $.post('ajax.php',{issue_topic:1,title:title,content:content,image:images},function(data){
+                alert(data);
+            });
+        }
+        if('reply'==type){
+            if(f_id=="-1"){
+                $.post('ajax.php',{issue_reply:1,content:content,image:images,t_id:t_id,f_id:f_id},function(data){
+                    alert(data);
+                });
+            }else{
+                $.post('ajax.php',{issue_reply:1,content:content,t_id:t_id,f_id:f_id},function(data){
+                    alert(data);
+                });
+            }
+        }
+
+    });
     $('.imgItem').click(function(){
         $('#uploadImg').click();
 

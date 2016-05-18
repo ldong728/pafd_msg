@@ -28,8 +28,7 @@
                         </div>
                         <div class="ti_infos clearfix">
                             <div class="ti_author_time">
-<!--                            <span class="ti_author"style="background-image:url('--><?php //echo $row['headimgurl']?>/*')">*/
-                                <img src="<?php echo $row['headimgurl']?>"></div>
+                            <span class="ti_author"style="background-image:url('<?php echo $row['headimgurl']?>')">
                                 <?php echo $row['nickname']?>
 <!--                            </span>-->
                             <span class="ti_time">

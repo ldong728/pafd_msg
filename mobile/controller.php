@@ -7,7 +7,6 @@
  */
 include_once '../includePackage.php';
 session_start();
-mylog('controller');
 if(isset($_GET['showShareSite'])){
  include 'view/share.html.php';
     exit;
@@ -88,7 +87,7 @@ if(isset($_GET['bbs'])){
     $num = 25;
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
 
-    $topicQuery=pdoQuery('bbs_topic_view',array('id','title','content','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url'),array('groupid'=>(string)$userInf['groupid']),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
+    $topicQuery=pdoQuery('bbs_topic_view',array('id','title','content','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url','like_count'),array('groupid'=>(string)$userInf['groupid']),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
     foreach ($topicQuery as $k=>$row)
     {
 //        mylog(getArrayInf($row));
@@ -97,6 +96,7 @@ if(isset($_GET['bbs'])){
             $topicList[$row['id']]['img'][]=$row['url'];
         }else{
             $topicList[$row['id']]=array(
+                'id'=>$row['id'],
                 'title'=>$row['title'],
                 'content'=>substr($row['content'],0,20),
                 'issue_time'=>$row['issue_time'],
@@ -104,15 +104,55 @@ if(isset($_GET['bbs'])){
                 'nickname'=>$row['nickname'],
                 'real_name'=>$row['real_name'],
                 'headimgurl'=>$row['headimgurl'],
-
+                'like_count'=>$row['like_count']
             );
             if($row['url'])$topicList[$row['id']]['img'][]=$row['url'];
         }
     }
-//    if(!isset($topicList))$topicList=array();
-//    include_once 'view/bbs_list.html.php';
-    include 'view/blank.html.php';
+    if(!isset($topicList))$topicList=array();
+    include_once 'view/bbs_list.html.php';
+//    include 'view/blank.html.php';
+
     exit;
+}
+if(isset($_GET['bbs_content'])){
+    mylog('content');
+    $limit=40;
+    $page=isset($_GET['page'])?$_GET['page']:0;
+
+    $t_id=$_GET['t_id'];
+    $topicQuery=pdoQuery('bbs_topic_view',null,array('id'=>$t_id), ' limit 4');
+    foreach ($topicQuery as $row) {
+        if(!isset($topicInf)){
+            $topicInf=$row;
+        }
+        $topicInf['img'][]=$row['url'];
+    }
+    $floor=1;
+    $topicList['floor']='楼主';
+    $replyCount=$topicInf['reply_count'];
+    $replyQuery=pdoQuery('bbs_reply_view',null,array('t_id'=>$t_id),'order by issue_time asc limit '.$page*$limit.','.$limit);
+    foreach ($replyQuery as $row) {
+        if(-1==$row['f_id']){
+            if(!isset($replyList[$row['id']])){
+
+                $replyList[$row['id']]=$row;
+                if($row['url'])$replyList[$row['id']]['img']=$row['url'];
+                $replyList[$row['id']]['floor']=$floor;
+                $floor++;
+            }else{
+                $replyList[$row['id']]['img']=$row['url'];
+            }
+        }else{
+            $replyList[$row['f_id']]['subReply'][]=$row;
+        }
+    }
+    include 'view/bbs_content.html.php';
+    exit;
+
+
+//    $bbsDetail=$bbsDetail->fetch();
+
 }
 
 
