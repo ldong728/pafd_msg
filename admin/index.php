@@ -223,6 +223,48 @@ if (isset($_SESSION['login'])) {
             exit;
         }
     }
+    if(isset($_GET['bbs'])){
+        if(isset($_SESSION['pms']['bbs'])){
+            if(isset($_GET['bbslist'])){
+                $group=getGroupList();
+                foreach ($group as $row) {
+                    if($row['id']>0&&$row['id']<100)continue;
+                    $groupList[]=$row;
+                }
+
+                $where=null;
+                if(isset($_GET['groupid']))$where['groupid']=$_GET['groupid'];
+
+                $order= isset($_GET['order']) ? $_GET['order'] : 'issue_time';
+                $order_rule=isset($_GET['rule']) ? $_GET['rule'] : 'desc';
+
+                $num = 15;
+                $page = isset($_GET['page']) ? $_GET['page'] : 0;
+                $index = $page * $num;
+                $bbsQuery=pdoQuery('bbs_admin_list_view',null,$where,"order by $order $order_rule limit $index,$num");
+                foreach ($bbsQuery as $row) {
+                    $bbsList[]=$row;
+                }
+                if(!isset($bbsList))$bbsList=array();
+                $getStr='';
+                foreach ($_GET as $k => $v) {
+                    if($k=='page')continue;
+                    $getStr.=$k.'='.$v.'&';
+                }
+                $getStr=rtrim($getStr,'&');
+                printView('admin/view/bbs_list.html.php','社区帖子');
+                exit;
+            }
+            if(isset($_GET['topic_detail'])){
+                $t_id=$_GET['t_id'];
+                $infQuery=pdoQuery('bbs_topic_tbl',null,array('id'=>$t_id),' limit 1');
+                $inf=$infQuery->fetch();
+
+            }
+            if(isset($_GET['createTopic'])){
+            }
+        }
+    }
     if (isset($_GET['operator'])) {
         if (isset($_SESSION['pms']['operator'])) {
             $query = pdoQuery('pms_tbl', null, null, null);

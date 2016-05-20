@@ -16,7 +16,12 @@
             <?php foreach ($topicList as $row): ?>
             <li class="tl_shadow">
                 <a href="controller.php?bbs_content=1&t_id=<?php echo $row['id'] ?>">
-                    <div class="ti_title"><span><?php htmlout($row['title']) ?></span></div>
+                    <div class="ti_title">
+                        <?php if($row['priority']=='11'):?>
+                            <span class="ti_title_icon ti_icon_zhiding">置顶</span>
+                                <?php endif ?>
+                        <span><?php htmlout($row['title']) ?></span>
+                    </div>
                     <p class="ti_abs"><?php htmlout($row['content']) ?></p>
                     <div class="medias_wrap clearfix">
                         <?php foreach ($row['img'] as $iRow): ?>

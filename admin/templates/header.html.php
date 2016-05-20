@@ -7,6 +7,11 @@
     <link rel="stylesheet" type="text/css" href="stylesheet/style.css?v=<?php echo rand(1000, 9999) ?>">
     <link rel="stylesheet" type="text/css" href="stylesheet/style2.css?v=<?php echo rand(1000, 9999) ?>">
     <script src="js/html5.js"></script>
+    <style>
+        dt {
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 
@@ -77,6 +82,17 @@
                             href="index.php?news=1&createNews=2">新建图文信息</a></dd>
                     <!--                    <dd><a href="index.php?sdp=1&usersdp=1">微商管理</a></dd>-->
                     <!--                    <dd><a href="index.php?sdp=1&sdpInf=1">数据分析</a></dd>-->
+                </dl>
+            </li>
+        <?php endif ?>
+        <?php if(isset($_SESSION['pms']['bbs'])):?>
+            <li>
+                <dl class="main-menu">
+                    <dt>互动社区管理</dt>
+                    <dd style="display: <?php echo isset($_GET['bbs']) ? 'block' : 'none' ?>"><a
+                            href="index.php?bbs=1&bbslist=1">帖子列表</a></dd>
+                    <dd style="display: <?php echo isset($_GET['bbs']) ? 'block' : 'none' ?>"><a
+                            href="index.php?bbs=1&createTopic=2">发帖</a></dd>
                 </dl>
             </li>
         <?php endif ?>

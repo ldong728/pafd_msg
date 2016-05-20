@@ -91,7 +91,7 @@ if (isset($_SESSION['login'])) {
                     $button1sub2 = array('name' => '志在军营', 'type' => 'view', 'url' => $url . '&cate=2');
                     $button1sub3 = array('name' => '每月一课', 'type' => 'view', 'url' => $url . '&cate=4');
                     $button1sub4 = array('name' => '军民融合', 'type' => 'click', 'key' => 'blank');
-                    $button1sub5 = array('name' => '军人荣誉榜', 'type' => 'click', 'key' => 'blank');
+                    $button1sub5=array('name'=>'军人荣誉榜','type'=>'view_limited','media_id'=>'mpDQKIcMlKu6mqA_Pa4i18ID0dTlEGSifZhS1Y9XWXk');
                     $button1 = array('name' => '兴武征程', 'sub_button' => array($button1sub3, $button1sub1, $button1sub4, $button1sub2, $button1sub5));
                     $button2 = array('name' => '学习平台', 'type' => 'click', 'key' => 'study');
                     $button3sub1 = array('type' => 'click', 'name' => $row['name'], 'key' => 'moldule2');
@@ -109,7 +109,7 @@ if (isset($_SESSION['login'])) {
             $button1sub2 = array('name' => '志在军营', 'type' => 'view', 'url' => $url . '&cate=2');
             $button1sub3 = array('name' => '每月一课', 'type' => 'view', 'url' => $url . '&cate=4');
             $button1sub4 = array('name' => '军民融合', 'type' => 'click', 'key' => 'blank');
-            $button1sub5 = array('name' => '军人荣誉榜', 'type' => 'click', 'key' => 'blank');
+            $button1sub5=array('name'=>'军人荣誉榜','type'=>'view_limited','media_id'=>'mpDQKIcMlKu6mqA_Pa4i18ID0dTlEGSifZhS1Y9XWXk');
             $button1 = array('name' => '兴武征程', 'sub_button' => array($button1sub3, $button1sub1, $button1sub4, $button1sub2, $button1sub5));
             $button2 = array('name' => '学习平台', 'type' => 'click', 'key' => 'study');
             $button3sub1 = array('type' => 'click', 'name' => '互动', 'key' => 'moldule2');

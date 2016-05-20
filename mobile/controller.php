@@ -87,7 +87,7 @@ if(isset($_GET['bbs'])){
     $num = 25;
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
 
-    $topicQuery=pdoQuery('bbs_topic_view',array('id','title','content','issue_time','reply_time','reply_count','nickname','real_name','headimgurl','img_id','url','like_count'),array('groupid'=>(string)$userInf['groupid']),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
+    $topicQuery=pdoQuery('bbs_topic_view',array('id','title','content','issue_time','reply_time','reply_count','priority','nickname','real_name','headimgurl','img_id','url','like_count'),array('groupid'=>(string)$userInf['groupid'],'public'=>1),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
     foreach ($topicQuery as $k=>$row)
     {
 //        mylog(getArrayInf($row));
@@ -101,6 +101,7 @@ if(isset($_GET['bbs'])){
                 'content'=>substr($row['content'],0,20),
                 'issue_time'=>$row['issue_time'],
                 'reply_count'=>$row['reply_count'],
+                'priority'=>$row['priority'],
                 'nickname'=>$row['nickname'],
                 'real_name'=>$row['real_name'],
                 'headimgurl'=>$row['headimgurl'],
@@ -121,13 +122,14 @@ if(isset($_GET['bbs_content'])){
     $page=isset($_GET['page'])?$_GET['page']:0;
 
     $t_id=$_GET['t_id'];
-    $topicQuery=pdoQuery('bbs_topic_view',null,array('id'=>$t_id), ' limit 4');
+    $topicQuery=pdoQuery('bbs_topic_view',null,array('id'=>$t_id,), ' limit 4');
     foreach ($topicQuery as $row) {
         if(!isset($topicInf)){
             $topicInf=$row;
         }
         $topicInf['img'][]=$row['url'];
     }
+//    mylog(json_encode($topicInf,JSON_UNESCAPED_UNICODE));
     $floor=1;
     $topicList['floor']='楼主';
     $replyCount=$topicInf['reply_count'];
@@ -135,18 +137,19 @@ if(isset($_GET['bbs_content'])){
     foreach ($replyQuery as $row) {
         if(-1==$row['f_id']){
             if(!isset($replyList[$row['id']])){
-
-                $replyList[$row['id']]=$row;
-                if($row['url'])$replyList[$row['id']]['img']=$row['url'];
-                $replyList[$row['id']]['floor']=$floor;
                 $floor++;
+                $replyList[$row['id']]=$row;
+                if($row['url'])$replyList[$row['id']]['img'][]=$row['url'];
+                $replyList[$row['id']]['floor']=$floor;
+
             }else{
-                $replyList[$row['id']]['img']=$row['url'];
+                $replyList[$row['id']]['img'][]=$row['url'];
             }
         }else{
             $replyList[$row['f_id']]['subReply'][]=$row;
         }
     }
+//    mylog(json_encode($replyList));
     include 'view/bbs_content.html.php';
     exit;
 
@@ -156,15 +159,15 @@ if(isset($_GET['bbs_content'])){
 }
 
 
-if(isset($_GET['bbs_content'])){
 
-}
 if(isset($_GET['create_topic'])){
     $type=isset($_GET['type'])?$_GET['type']:'issue';
     $t_id=isset($_GET['t_id'])?$_GET['t_id']:'-1';
     $f_id=isset($_GET['f_id'])?$_GET['f_id']:'-1';
     if('reply'==$type){
-
+        $topicQuery=pdoQuery('bbs_topic_tbl',array('title'),array('id'=>$t_id),' limit 1');
+        $topic=$topicQuery->fetch();
+        $title=$topic['title'];
     }
 //    echo 'ok';
     include 'view/bbs_input.html.php';

@@ -156,6 +156,35 @@ if(isset($_SESSION['login'])) {
         exit;
 
     }
+    if(isset($_POST['bbs'])){
+        if(isset($_POST['deleteTopic'])){
+            $t_id=$_POST['deleteTopic'];
+            pdoTransReady();
+            try{
+                pdoDelete('bbs_topic_tbl',array('id'=>$t_id));
+                pdoDelete('bbs_reply_tbl',array('t_id'=>$t_id));
+                pdoDelete('bbs_topic_img_tbl',array('t_id'=>$t_id));
+                pdoDelete('bbs_reply_img_tbl',array('t_id'=>$t_id));
+                pdoCommit();
+            }catch(PDOException $e){
+                pdoRollBack();
+            }
+            echo 'ok';
+            exit;
+        }
+        if(isset($_POST['altPriority'])){
+            $t_id=$_POST['t_id'];
+            pdoUpdate('bbs_topic_tbl',array('priority'=>$_POST['altPriority']),array('id'=>$t_id));
+            echo 'ok';
+            exit;
+        }
+        if(isset($_POST['altPublic'])){
+            $t_id=$_POST['t_id'];
+            pdoUpdate('bbs_topic_tbl',array('public'=>$_POST['altPublic']),array('id'=>$t_id));
+            echo 'ok';
+            exit;
+        }
+    }
     if(isset($_POST['operator'])){//操作员权限
         if($_POST['altPms']){
             if($_POST['stu']=='true'){

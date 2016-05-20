@@ -28,7 +28,8 @@ if(isset($_SESSION['openid'])){
         $content=addslashes(trim($_POST['content']));
         pdoTransReady();
         try{
-            $id=pdoInsert('bbs_topic_tbl',array('title'=>$title,'content'=>$content,'open_id'=>$_SESSION['openid'],'issue_time'=>time(),'reply_time'=>time(),'reply_count'=>0,'groupid'=>$userInf['groupid']));
+            $img_num=count($_POST['image']);
+            $id=pdoInsert('bbs_topic_tbl',array('title'=>$title,'content'=>$content,'open_id'=>$_SESSION['openid'],'issue_time'=>time(),'reply_time'=>time(),'reply_count'=>0,'groupid'=>$userInf['groupid'],'img_count'=>$img_num));
             if(!file_exists($GLOBALS['mypath'].'/img/bbs'))mkdir($GLOBALS['mypath'].'/img/bbs');  //首次部署使用后可删除
             foreach ($_POST['image'] as $row) {
                 include_once $GLOBALS['mypath'] . '/wechat/serveManager.php';
@@ -74,13 +75,13 @@ if(isset($_SESSION['openid'])){
             mylog($sql);
             exeNew($sql);
 //            pdoUpdate('bbs_topic_tbl',array('reply_time'=>time(),'reply_count'=>'reply_count+1'),array('id'=>$t_id));
-            if($f_id>0){
+            if($f_id<0){
                 foreach ($_POST['image'] as $row) {
                     include_once $GLOBALS['mypath'] . '/wechat/serveManager.php';
                     $imgPath='img/bbs/'.$row.'.jpg';
                     $bytes=downloadImgToHost($row,$mypath.'/'.$imgPath);
                     mylog($bytes);
-                    $imgList[]=array('r_id'=>$id,'url'=>$imgPath,'openid'=>$_SESSION['openid'],'create_time'=>time());
+                    $imgList[]=array('t_id'=>$t_id,'r_id'=>$id,'url'=>$imgPath,'openid'=>$_SESSION['openid'],'create_time'=>time());
                 }
                 if(isset($imgList)){
                     pdoBatchInsert('bbs_reply_img_tbl',$imgList);
