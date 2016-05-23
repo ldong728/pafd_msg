@@ -19,21 +19,21 @@ body {
     /*max-width: 640px;*/
 }
 a {
-    color: #313131;
+    /*color: #313131;*/
     cursor: pointer;
     text-decoration: none;
 }
 
-a:link {
-    color: #313131;
-}
+/*a:link {*/
+    /*color: #313131;*/
+/*}*/
 
 div {
     /*cursor: pointer;*/
     box-sizing: border-box;
 }
 
-div .toast {
+div.toast {
     z-index: 999;
     padding: 20px 30px;
     border: 1px solid #333;

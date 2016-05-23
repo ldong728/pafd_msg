@@ -95,7 +95,28 @@ if(isset($_SESSION['openid'])){
             echo 'error';
             exit;
         }
-
+    }
+    if(isset($_POST['topic_like'])){
+        $str='ok';
+        $t_id=$_POST['t_id'];
+        $r_id=isset($_POST['r_id'])? $_POST['r_id']:-1;
+        $query=pdoQuery('bbs_like_tbl',array('id'),array('openid'=>$_SESSION['openid'],'t_id'=>$t_id,'r_id'=>$r_id),' limit 1');
+        if(!$row=$query->fetch()){
+            pdoTransReady();
+            try{
+                pdoInsert('bbs_like_tbl',array('openid'=>$_SESSION['openid'],'t_id'=>$t_id,'r_id'=>$r_id,'like_time'=>time()));
+                $sql='update bbs_topic_tbl set like_count=like_count+1 where id="'.$t_id.'"';
+                exeNew($sql);
+                pdoCommit();
+            }catch (PDOException $e){
+                pdoRollBack();
+                $str='datebase error';
+            }
+        }else{
+            $str="duplicate";
+        }
+        echo $str;
+        exit;
 
     }
 

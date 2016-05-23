@@ -194,6 +194,12 @@ if (isset($_SESSION['login'])) {
     }
     if (isset($_GET['wechatConfig'])) {
         if (isset($_SESSION['pms']['wechat'])) {
+            $button=getConfig('../config/buttonInf.json');
+//            foreach ($button['button'] as $row) {
+//                if($row['sub_button'])
+//            }
+
+
             printView('admin/view/wechatConfig.html.php', '微信公众平台');
             exit;
         } else {
@@ -259,6 +265,10 @@ if (isset($_SESSION['login'])) {
                 $t_id=$_GET['t_id'];
                 $infQuery=pdoQuery('bbs_topic_tbl',null,array('id'=>$t_id),' limit 1');
                 $inf=$infQuery->fetch();
+
+
+            }
+            if(isset($_GET['topic_img'])){
 
             }
             if(isset($_GET['createTopic'])){

@@ -1,110 +1,34 @@
-[
-    {
-        "name": "default",
-        "id": "0",
-        "inf": {
-            "button": [
+{
+    "button": [
+        {
+            "name": "兴武征程",
+            "sub_button": [
                 {
-                    "name": "文章列表",
-                    "sub_button": [
-                        {
-                            "name": "政策法规",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=1"
-                        },
-                        {
-                            "name": "征兵工作",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=2"
-                        },
-                        {
-                            "name": "政治教育",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=4"
-                        }
-                    ]
-                },
-                {
-                    "name": "军民融合",
+                    "name": "每月一课",
                     "type": "view",
-                    "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=3"
+                    "url": "http:\/\/shop.gooduo.net\/rmwzb\/mobile\/controller.php?mainSite=1&cate=4"
                 },
-                {"type": "click", "name": "互动", "key": "moldule2"}
+                {
+                    "name": "国防法规",
+                    "type": "view",
+                    "url": "http:\/\/shop.gooduo.net\/rmwzb\/mobile\/controller.php?mainSite=1&cate=1"
+                },
+                {"name": "军民融合", "type": "click", "key": "blank"},
+                {
+                    "name": "志在军营",
+                    "type": "view",
+                    "url": "http:\/\/shop.gooduo.net\/rmwzb\/mobile\/controller.php?mainSite=1&cate=2"
+                },
+                {"name": "军人荣誉榜", "type": "view_limited", "media_id": "mpDQKIcMlKu6mqA_Pa4i18ID0dTlEGSifZhS1Y9XWXk"}
+            ]
+        },
+        {"name": "学习平台", "type": "click", "key": "study"},
+        {
+            "name": "互动社区",
+            "sub_button": [
+                {"type": "click", "name": "通知通告", "key": "moldule2"},
+                {"type": "click", "name": "互动社区", "key": "bbs"}
             ]
         }
-    },
-    {
-        "name": "专武干部",
-        "id": "100",
-        "inf": {
-            "button": [
-                {
-                    "name": "文章列表",
-                    "sub_button": [
-                        {
-                            "name": "政策法规",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=1"
-                        },
-                        {
-                            "name": "征兵工作",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=2"
-                        },
-                        {
-                            "name": "政治教育",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=4"
-                        }
-                    ]
-                },
-                {
-                    "name": "军民融合",
-                    "type": "view",
-                    "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=3"
-                },
-                {"type": "click", "name": "专武干部", "key": "moldule2"}
-            ],
-            "matchrule":{
-                "group_id":"100"
-            }
-        }
-    },
-    {
-        "name": "应急力量",
-        "id": "101",
-        "inf": {
-            "button": [
-                {
-                    "name": "文章列表",
-                    "sub_button": [
-                        {
-                            "name": "政策法规",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=1"
-                        },
-                        {
-                            "name": "征兵工作",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=2"
-                        },
-                        {
-                            "name": "政治教育",
-                            "type": "view",
-                            "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=4"
-                        }
-                    ]
-                },
-                {
-                    "name": "军民融合",
-                    "type": "view",
-                    "url": "http:\/\/www.anmiee.com\/pafd_msg\/mobile\/controller.php?mainSite=1&cate=3"
-                },
-                {"type": "click", "name": "应急力量", "key": "moldule2"}
-            ],
-            "matchrule":{
-                "group_id":"101"
-            }
-        }
-    }
-]
+    ]
+}

@@ -43,7 +43,10 @@
                             </span>
                     </div>
                     <div class="ti_zan_reply reply_btn" style="cursor: pointer" data-tid="<?php echo $row['id'] ?>">
+
                         <div class="ti_func_btn btn_reply">
+                            <span class="btn_zan_icon"></span>
+                            <span class="btn_zan_text"><?php echo $row['like_count']?></span>
                                 <span class="btn_icon">
                                     <?php echo $row['reply_count'] ?>
                                 </span>
