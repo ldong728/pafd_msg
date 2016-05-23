@@ -275,6 +275,21 @@ if (isset($_SESSION['login'])) {
             }
         }
     }
+    if(isset($_GET['std'])){
+        if(isset($_SESSION['pms']['std'])){
+            if(isset($_GET['createQuestion'])){
+                if(isset($_GET['q_id'])){
+                    $q_id=$_GET['q_id'];
+                    $inf=pdoQuery('std_question_view',null,array('id'=>$q_id),' limit 1');
+                    $inf=$inf->fetch();
+                }else{
+
+
+                }
+                printView('admin/view')
+            }
+        }
+    }
     if (isset($_GET['operator'])) {
         if (isset($_SESSION['pms']['operator'])) {
             $query = pdoQuery('pms_tbl', null, null, null);

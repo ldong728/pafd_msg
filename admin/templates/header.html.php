@@ -85,6 +85,20 @@
                 </dl>
             </li>
         <?php endif ?>
+        <?php if(isset($_SESSION['pms']['std'])):?>
+            <li>
+                <dl class="main-menu">
+                    <dt>学习平台管理</dt>
+                    <dd style="display: <?php echo isset($_GET['std']) ? 'block' : 'none' ?>"><a
+                            href="index.php?std=1&questionList=1">题库管理</a></dd>
+                    <dd style="display: <?php echo isset($_GET['std']) ? 'block' : 'none' ?>"><a
+                            href="index.php?std=1&createQuestion=1">新题录入</a></dd>
+                    <dd style="display: <?php echo isset($_GET['std']) ? 'block' : 'none' ?>"><a
+                            href="index.php?std=1&userScore=2">用户成绩</a></dd>
+                </dl>
+            </li>
+        <?php endif ?>
+
         <?php if(isset($_SESSION['pms']['bbs'])):?>
             <li>
                 <dl class="main-menu">
