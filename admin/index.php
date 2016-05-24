@@ -277,16 +277,35 @@ if (isset($_SESSION['login'])) {
     }
     if(isset($_GET['std'])){
         if(isset($_SESSION['pms']['std'])){
+            $nearly=pdoQuery('std_question_tbl',null,null, 'order by create_time desc limit 10');
+            foreach ($nearly as $row) {
+                $nearList[]=array(
+                    'id'=>$row['id'],
+                    'content'=>mb_substr($row['content'],0,20,'utf-8'),
+                    'create_time'=>date("Y-m-d H:i:sa",$row['create_time'])
+                );
+            }
+            if(!isset($nearList))$nearList=array();
             if(isset($_GET['createQuestion'])){
-                if(isset($_GET['q_id'])){
-                    $q_id=$_GET['q_id'];
-                    $inf=pdoQuery('std_question_view',null,array('id'=>$q_id),' limit 1');
-                    $inf=$inf->fetch();
-                }else{
-
-
+                $type=pdoQuery('std_type_tbl',null,null,null);
+                $type=$type->fetchAll();
+                printView('admin/view/std_createQuestion.html.php','创建新题');
+            }
+            if(isset($_GET['editQuestion'])){
+                $query=pdoQuery('std_question_view',null,array('id'=>$_GET['q_id']), ' limit 4');
+                foreach ($query as $row) {
+                    if(!isset($inf)){
+                        $inf=$row;
+                    }
+                    $inf['options'][]=array('id'=>$row['o_id'],'content'=>$row['o_content'],'correct'=>$row['correct']);
                 }
-                printView('admin/view')
+                printView('admin/view/std_editQuestion.html.php','编辑试题');
+                exit;
+            }
+            if(isset($_GET['questionList'])){
+                $num = 15;
+                $page = isset($_GET['page']) ? $_GET['page'] : 0;
+                $index = $page * $num;
             }
         }
     }

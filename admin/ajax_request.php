@@ -185,6 +185,68 @@ if(isset($_SESSION['login'])) {
             exit;
         }
     }
+    if(isset($_POST['std'])){
+        if(isset($_POST['createQuestion'])){
+            $content=$_POST['content'];
+            $type=$_POST['type'];
+            $option=$_POST['option'];
+            pdoTransReady();
+            try{
+                $id=pdoInsert('std_question_tbl',array('type'=>$type,'content'=>addslashes($content),'create_time'=>time()));
+                foreach ($option as $row) {
+                    $optionList[]=array(
+                      'q_id'=>$id,
+                        'content'=>$row['content'],
+                        'correct'=>$row['correct'],
+                        'q_type'=>$type
+                    );
+                }
+                pdoBatchInsert('std_option_tbl',$optionList);
+                pdoCommit();
+            }catch(PDOException $e){
+                mylog($e->getMessage());
+                pdoRollBack();
+                echo 'error';
+                exit;
+            }
+            echo 'ok';
+            exit;
+        }
+        if(isset($_POST['editQuestion'])){
+            $content=$_POST['content'];
+            $q_id=$_POST['q_id'];
+            $option=$_POST['option'];
+            pdoTransReady();
+            try{
+                $id=pdoUpdate('std_question_tbl',array('content'=>addslashes($content),'create_time'=>time()),array('id'=>$q_id));
+                foreach ($option as $row) {
+                    pdoUpdate('std_option_tbl',array('content'=>$row['content'],'correct'=>$row['correct']),array('id'=>$row['id']));
+                }
+                pdoCommit();
+            }catch(PDOException $e){
+                mylog($e->getMessage());
+                pdoRollBack();
+                echo 'error';
+                exit;
+            }
+            echo 'ok';
+            exit;
+        }
+        if(isset($_POST['deleteQuestion'])){
+            $q_id=$_POST['q_id'];
+            pdoTransReady();
+            try{
+                pdoDelete('std_question_tbl',array('id'=>$q_id));
+                pdoDelete('std_option_tbl',array('q_id'=>$q_id));
+                pdoCommit();
+            }catch(PDOException $e){
+                mylog($e);
+                pdoRollBack();
+            }
+            echo 'ok';
+            exit;
+        }
+    }
     if(isset($_POST['operator'])){//操作员权限
         if($_POST['altPms']){
             if($_POST['stu']=='true'){

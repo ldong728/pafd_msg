@@ -90,9 +90,9 @@
                 <dl class="main-menu">
                     <dt>学习平台管理</dt>
                     <dd style="display: <?php echo isset($_GET['std']) ? 'block' : 'none' ?>"><a
-                            href="index.php?std=1&questionList=1">题库管理</a></dd>
+                            href="index.php?std=1&questionList=1">题目列表</a></dd>
                     <dd style="display: <?php echo isset($_GET['std']) ? 'block' : 'none' ?>"><a
-                            href="index.php?std=1&createQuestion=1">新题录入</a></dd>
+                            href="index.php?std=1&createQuestion=1">新建</a></dd>
                     <dd style="display: <?php echo isset($_GET['std']) ? 'block' : 'none' ?>"><a
                             href="index.php?std=1&userScore=2">用户成绩</a></dd>
                 </dl>
