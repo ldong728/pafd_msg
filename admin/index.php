@@ -277,8 +277,21 @@ if (isset($_SESSION['login'])) {
     }
     if(isset($_GET['std'])){
         if(isset($_SESSION['pms']['std'])){
-            $nearly=pdoQuery('std_question_tbl',null,null, 'order by create_time desc limit 10');
-            foreach ($nearly as $row) {
+            $order=isset($_GET['order'])?$_GET['order'] : 'create_time';
+            $rule=isset($_GET['rule'])?$_GET['rule'] : 'desc';
+            $num = 15;
+            $page = isset($_GET['page']) ? $_GET['page'] : 0;
+            $index = $page * $num;
+            $where=array();
+            if(isset($_GET['type']))$where['type']=$_GET['type'];
+            $query=pdoQuery('std_question_tbl',null,$where," order by $order $rule limit $index,$num");
+            $getStr='';
+            foreach ($_GET as $k => $v) {
+                if($k=='page')continue;
+                $getStr.=$k.'='.$v.'&';
+            }
+            $getStr=rtrim($getStr,'&');
+            foreach ($query as $row) {
                 $nearList[]=array(
                     'id'=>$row['id'],
                     'content'=>mb_substr($row['content'],0,20,'utf-8'),
@@ -286,9 +299,9 @@ if (isset($_SESSION['login'])) {
                 );
             }
             if(!isset($nearList))$nearList=array();
+            $type=pdoQuery('std_type_tbl',null,null,null);
+            $type=$type->fetchAll();
             if(isset($_GET['createQuestion'])){
-                $type=pdoQuery('std_type_tbl',null,null,null);
-                $type=$type->fetchAll();
                 printView('admin/view/std_createQuestion.html.php','创建新题');
             }
             if(isset($_GET['editQuestion'])){
@@ -303,9 +316,12 @@ if (isset($_SESSION['login'])) {
                 exit;
             }
             if(isset($_GET['questionList'])){
-                $num = 15;
-                $page = isset($_GET['page']) ? $_GET['page'] : 0;
-                $index = $page * $num;
+
+
+
+                printView('admin/view/std_questionList.html.php','试题列表');
+                exit;
+
             }
         }
     }

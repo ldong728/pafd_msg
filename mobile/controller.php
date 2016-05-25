@@ -50,7 +50,6 @@ if(isset($_GET['getNews'])){
     }else{
         header('location:'.$url.'#wechat_redirect');
     }
-
     exit;
 }
 if(isset($_GET['getNotice'])){
@@ -157,9 +156,28 @@ if(isset($_GET['bbs_content'])){
 //    $bbsDetail=$bbsDetail->fetch();
 
 }
+if(isset($_GET['study'])){
+    if(isset($_GET['practice'])){
+        $query=pdoQuery('std_question_tbl',array('id'),null,null);
+        foreach ($query as $row) {
+            $list[$row['id']]=$row['id'];
+        }
+        $id=array_rand($list,1);
+        mylog($id);
+        $inf=getQuestionDetail($id);
+//        mylog(getArrayInf($inf));
+        include 'view/study_practice.html.php';
+        exit;
+    }
+    if(isset($_GET['test'])){
+
+        exit;
+    }
 
 
-
+    include 'view/study.html.php';
+    exit;
+}
 if(isset($_GET['create_topic'])){
     $type=isset($_GET['type'])?$_GET['type']:'issue';
     $t_id=isset($_GET['t_id'])?$_GET['t_id']:'-1';
@@ -169,16 +187,10 @@ if(isset($_GET['create_topic'])){
         $topic=$topicQuery->fetch();
         $title=$topic['title'];
     }
-//    echo 'ok';
     include 'view/bbs_input.html.php';
     exit;
 }
-
-
 if(isset($_GET['newsList'])){
-
-
 }
-
 echo 'web ok';
 echo getArrayInf($_COOKIE);

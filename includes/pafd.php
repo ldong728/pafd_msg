@@ -91,6 +91,20 @@ function getReview($g_id, $index = 0, $limit = 3)
     return $back;
 
 }
+function getQuestionDetail($id){
+    $inf=pdoQuery('std_question_view',null,array('id'=>$id),' limit 4');
+    foreach ($inf as $row) {
+        if(!isset($questionDetail))$questionDetail=$row;
+        $questionDetail['options'][]=array(
+          'id'=>$row['o_id'],
+            'content'=>$row['o_content'],
+            'correct'=>$row['correct']
+        );
+
+    }
+    return $questionDetail;
+
+}
 
 function getConfig($path)
 {
