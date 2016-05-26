@@ -91,8 +91,17 @@ function getReview($g_id, $index = 0, $limit = 3)
     return $back;
 
 }
-function getQuestionDetail($id){
-    $inf=pdoQuery('std_question_view',null,array('id'=>$id),' limit 4');
+function getQuestionDetail($id=-1){
+    if($id==-1){
+        $query=pdoQuery('std_question_tbl',array('id'),null,null);
+        foreach ($query as $row) {
+            $list[$row['id']]=$row['id'];
+        }
+        $index=array_rand($list,1);
+    }else{
+        $index=$id;
+    }
+    $inf=pdoQuery('std_question_view',null,array('id'=>$index),' limit 4');
     foreach ($inf as $row) {
         if(!isset($questionDetail))$questionDetail=$row;
         $questionDetail['options'][]=array(

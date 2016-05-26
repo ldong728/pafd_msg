@@ -7,7 +7,7 @@
 <div class="content">
     <h1>练习</h1>
     <div id="ExamArea">
-        <p><span class="index">1</span>.<span class="content"><?php echo $inf['content'] ?></span></p>
+        <p><span class="index">1</span>.<span class="q-content"><?php echo $inf['content'] ?></span></p>
         <ul id="ExamOpt"style="-webkit-tap-highlight-color: transparent;">
             <?php $index='A'?>
             <?php foreach($inf['options'] as $row):?>
@@ -16,6 +16,7 @@
             <?php  endforeach ?>
         </ul>
     </div>
+    <div> <input class="dxqd" type="button" value="确定，我选好了！"  style="display: <?php echo $inf['type']==3?'block':'none'?>; cursor: pointer"> </div>
     <pre id="result" style="display: none">
         您的答案： <font color="#ff0000"><b id="yours">C</b></font>正确答案是： <font color="#229922"><b id="right">B</b></font>
 			</pre>
@@ -31,9 +32,12 @@
 
 </body>
 <script>
+    var current=<?php echo $inf['id'];?>;
     var type=<?php echo $inf['type']?>;
     var enable=true;
-    $('.option').click(function(){
+    var list=new Array();
+    list.push(current);
+    $(document).on('click','.option',function(){
         if(enable){
             if(type<3){
                 $(this).removeClass('kh');
@@ -49,29 +53,73 @@
                 }
                 $('#yours').text(y);
                 $('#right').text(r);
+                $('#result').css('display','block');
+                enable=false;
             }else{
-
+                $(this).toggleClass('kh');
+                $(this).toggleClass('kkm');
             }
-            $('#result').css('display','block');
-            enable=false;
         }
     });
-    $('.forward').click(function(){
-        var num=parseInt($('.index').text());
-        num++;
-        alert(num);
-        $.post('ajax.php',{std:1,getRandom:1},function(data){
-            var inf=eval('('+data+')');
-            type=inf.type;
-            $('.index').text(num);
-            $('.content').text(inf.content);
-            $('#ExamOpt').empty();
-            $.each(inf.options,function(k,v){
-                var optype= type==3? 'khm':'kh';
-                var crt = v.correct>0? 'crt':'';
-//                var content='<li id="oid'+ v.id+'" class="option '+optype+' '+crt+'" data-v="></li>';
+    $('.dxqd').click(function(){
+        $('.option').each(function(k,v){
 
-            });
-        })
+        });
     });
+    $('.forward').click(function(){
+        list.push(current);
+        getNewQuestion(-1,true,function(id,t){
+            type=t;
+            current=id
+        });
+
+    });
+    $('.prev').click(function(){
+        var id=list.pop();
+        getNewQuestion(id,false,function(id,t){
+            type=t;
+            current=id;
+
+        })
+
+    })
+</script>
+<script>
+    function getNewQuestion(id,forward,recall){
+        enable=true;
+        var num=parseInt($('.index').text());
+        var type=2;
+        var sId=-1;
+        if(forward)num++;
+        else num--;
+        if(num<1){
+            return;
+        }
+        $.post('ajax.php',{std:1,getQuestion:1,id:id},function(data){
+            var optype= 'kh';
+            var cindex=65;
+            var inf=eval('('+data+')');
+            $('#ExamOpt').empty();
+            $('.dxqd').css('display','none');
+            $('.index').text(num);
+            $('.q-content').text(inf.content);
+            type=inf.type;
+            sId=inf.id;
+            if(type==3) {
+                $('.dxqd').css('display', 'block');
+                optype = 'khm';
+            }
+
+            $.each(inf.options,function(k,v){
+
+                var crt = v.correct>0? 'crt':'';
+                var content='<li id="oid'+ v.id+'" class="option '+optype+' '+crt+'" data-v="'+String.fromCharCode(cindex)+'" style="cursor: pointer">'+String.fromCharCode(cindex)+'.'+ v.content+'</li>';
+                cindex++;
+                $('#ExamOpt').append(content);
+            });
+            $('#result').css('display','none');
+            recall(sId,type);
+        });
+
+    }
 </script>

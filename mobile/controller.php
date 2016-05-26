@@ -157,15 +157,11 @@ if(isset($_GET['bbs_content'])){
 
 }
 if(isset($_GET['study'])){
+    if(!isset($_SESSION['openid'])){
+        $_SESSION['openid']=$_GET['openid'];
+    }
     if(isset($_GET['practice'])){
-        $query=pdoQuery('std_question_tbl',array('id'),null,null);
-        foreach ($query as $row) {
-            $list[$row['id']]=$row['id'];
-        }
-        $id=array_rand($list,1);
-        mylog($id);
-        $inf=getQuestionDetail($id);
-//        mylog(getArrayInf($inf));
+        $inf=getQuestionDetail();
         include 'view/study_practice.html.php';
         exit;
     }

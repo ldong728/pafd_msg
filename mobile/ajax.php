@@ -119,6 +119,15 @@ if(isset($_SESSION['openid'])){
         exit;
 
     }
+    if(isset($_POST['std'])){
+        if(isset($_POST['getQuestion'])){
+            $id=isset($_POST['id'])?$_POST['id'] : -1;
+            $inf=getQuestionDetail($id);
+            $inf=json_encode($inf);
+            echo $inf;
+            exit;
+        }
+    }
 
 }else{
     echo 'time_out';
