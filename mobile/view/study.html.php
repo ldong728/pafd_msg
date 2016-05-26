@@ -21,12 +21,14 @@
         </li>
         <li>
             <div>
-                <img src="stylesheet/images/i_31.png">
-                <br>
+                <a href="controller.php?study=1&test=1">
+                    <img src="stylesheet/images/i_31.png">
+                    <br>
 
-                <p style="font-size: 12px;">
-                    每月一考
-                </p>
+                    <p style="font-size: 12px;">
+                        每月一考
+                    </p>
+                </a>
             </div>
         </li>
         <li>

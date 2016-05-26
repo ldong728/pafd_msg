@@ -166,6 +166,29 @@ if(isset($_GET['study'])){
         exit;
     }
     if(isset($_GET['test'])){
+        $allList=pdoQuery('std_question_tbl',array('id','type'),null,null);
+        foreach ($allList as $row) {
+            $idPool[$row['type']][$row['id']]=$row['id'];
+        }
+        if(!isset($idPool))$idPool=array();
+//        $d=array_rand($idPool[1],10);
+//        $s=array_rand($idPool[2],20);
+//        $m=array_rand($idPool[3],20);
+
+        //以下为测试代码
+        $d=array(array_rand($idPool[1],1));
+        $s=array_rand($idPool[2],2);
+        $m=array(array_rand($idPool[3],1));
+        //以上为测试代码
+        $total=array_merge($d,$s,$m);
+        $inf=getQuestionDetail($total[0]);
+        $total=json_encode($total);
+//        mylog($total);
+
+
+        include 'view/study_test.html.php';
+    }
+    if(isset($_GET['test'])){
 
         exit;
     }

@@ -51,7 +51,7 @@
                     var y=$(this).data('v');
                     var r=$('.crt').data('v');
                 }
-                $('#yours').text(y);
+                $('#yours').text(y+',');
                 $('#right').text(r);
                 $('#result').css('display','block');
                 enable=false;
@@ -62,9 +62,25 @@
         }
     });
     $('.dxqd').click(function(){
+        var y='';
+        var r='';
         $('.option').each(function(k,v){
-
+            if($(v).hasClass('kkm')){
+                y+=$(v).data('v')+',';
+                if(!$(v).hasClass('crt')){
+                    $(v).removeClass('kkm');
+                    $(v).addClass('kem');
+                }
+            }
+            if($(v).hasClass('crt')){
+                r+=$(v).data('v')+',';
+                $(v).addClass('kkm');
+            }
         });
+        $('#yours').text(y);
+        $('#right').text(r);
+        $('#result').css('display','block');
+        enable=false;
     });
     $('.forward').click(function(){
         list.push(current);
