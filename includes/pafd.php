@@ -43,7 +43,6 @@ function getUserInf($open_id)
     }
     include_once '../wechat/serveManager.php';
     $inf = getUnionId($open_id);
-    mylog();
     if (isset($inf['nickname'])) {
 //        if($now-$lastUpdate>604800){
 //            $inf=replaceHeadImg($inf);

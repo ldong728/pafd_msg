@@ -127,6 +127,16 @@ if(isset($_SESSION['openid'])){
             echo $inf;
             exit;
         }
+        if(isset($_POST['uploadScore'])){
+            $openid=$_SESSION['openid'];
+            $count=$_POST['q_count'];
+            $score=$_POST['score'];
+            if($score>2){
+                pdoInsert('std_user_score_tbl',array('openid'=>$openid,'q_count'=>$count,'score'=>$score,'create_time'=>time()));
+            }
+            echo 'ok';
+        }
+
     }
 
 }else{

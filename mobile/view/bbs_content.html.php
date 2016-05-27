@@ -168,7 +168,7 @@
                 <span class="btn_zan_icon"></span>
                 <span class="btn_zan_text">赞</span>
             </div>
-            <a class="bottom-bar-button btn_reply j_btn_reply">
+            <a class="bottom-bar-button btn_reply j_btn_reply" href="controller.php?create_topic=1&type=reply&t_id=<?php echo $_GET['t_id']?>">
                 <div class="btn_reply_text pb_icon">回复</div>
             </a>
         </div>

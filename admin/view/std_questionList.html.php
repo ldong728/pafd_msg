@@ -2,6 +2,7 @@
 $type = $GLOBALS['type'];
 $nearList = $GLOBALS['nearList'];
 $page=$_GET['page'];
+$getStr=$GLOBALS['getStr'];
 ?>
 
 <section>

@@ -277,30 +277,32 @@ if (isset($_SESSION['login'])) {
     }
     if(isset($_GET['std'])){
         if(isset($_SESSION['pms']['std'])){
-            $order=isset($_GET['order'])?$_GET['order'] : 'create_time';
-            $rule=isset($_GET['rule'])?$_GET['rule'] : 'desc';
-            $num = 15;
-            $page = isset($_GET['page']) ? $_GET['page'] : 0;
-            $index = $page * $num;
-            $where=array();
-            if(isset($_GET['type']))$where['type']=$_GET['type'];
-            $query=pdoQuery('std_question_tbl',null,$where," order by $order $rule limit $index,$num");
-            $getStr='';
-            foreach ($_GET as $k => $v) {
-                if($k=='page')continue;
-                $getStr.=$k.'='.$v.'&';
+            if(isset($_GET['createQuestion'])||isset($_GET['editQuestion'])||isset($_GET['questionList'])) {
+                $order = isset($_GET['order']) ? $_GET['order'] : 'create_time';
+                $rule = isset($_GET['rule']) ? $_GET['rule'] : 'desc';
+                $num = 15;
+                $page = isset($_GET['page']) ? $_GET['page'] : 0;
+                $index = $page * $num;
+                $where = array();
+                if (isset($_GET['type'])) $where['type'] = $_GET['type'];
+                $query = pdoQuery('std_question_tbl', null, $where, " order by $order $rule limit $index,$num");
+                $getStr = '';
+                foreach ($_GET as $k => $v) {
+                    if ($k == 'page') continue;
+                    $getStr .= $k . '=' . $v . '&';
+                }
+                $getStr = rtrim($getStr, '&');
+                foreach ($query as $row) {
+                    $nearList[] = array(
+                        'id' => $row['id'],
+                        'content' => mb_substr($row['content'], 0, 20, 'utf-8'),
+                        'create_time' => date("Y-m-d H:i:sa", $row['create_time'])
+                    );
+                }
+                if (!isset($nearList)) $nearList = array();
+                $type = pdoQuery('std_type_tbl', null, null, null);
+                $type = $type->fetchAll();
             }
-            $getStr=rtrim($getStr,'&');
-            foreach ($query as $row) {
-                $nearList[]=array(
-                    'id'=>$row['id'],
-                    'content'=>mb_substr($row['content'],0,20,'utf-8'),
-                    'create_time'=>date("Y-m-d H:i:sa",$row['create_time'])
-                );
-            }
-            if(!isset($nearList))$nearList=array();
-            $type=pdoQuery('std_type_tbl',null,null,null);
-            $type=$type->fetchAll();
             if(isset($_GET['createQuestion'])){
                 printView('admin/view/std_createQuestion.html.php','创建新题');
             }
@@ -316,11 +318,37 @@ if (isset($_SESSION['login'])) {
                 exit;
             }
             if(isset($_GET['questionList'])){
-
-
-
                 printView('admin/view/std_questionList.html.php','试题列表');
                 exit;
+
+            }
+            if(isset($_GET['userScore'])){
+                $order=isset($_GET['order'])?$_GET['order'] : 'create_time';
+                $order_rule=isset($_GET['order_rule'])?$_GET['order_rule'] : 'desc';
+                $num = 30;
+                $page = isset($_GET['page']) ? $_GET['page'] : 0;
+                $index = $page * $num;
+                $where=array();
+                if(isset($_GET['groupid']))$where['groupid']=$_GET['groupid'];
+                $query=pdoQuery('std_score_view',null,$where," order by $order $order_rule limit $index,$num");
+                foreach($query as $row){
+                    $scoreList[]=$row;
+                }
+                if(!isset($scoreList))$scoreList=array();
+                $getStr='';
+                foreach ($_GET as $k => $v) {
+                    if($k=='page')continue;
+                    $getStr.=$k.'='.$v.'&';
+                }
+                $getStr=rtrim($getStr,'&');
+                $group=getGroupList();
+                foreach ($group as $row) {
+                    if($row['id']>0&&$row['id']<100)continue;
+                    $groupList[]=$row;
+                }
+                printView('admin/view/std_scoreList.html.php','成绩查询');
+                exit;
+
 
             }
         }

@@ -2,6 +2,7 @@
     <?php include 'templates/header.php' ?>
     <link rel="stylesheet" href="stylesheet/study.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/test.css?v=<?php echo rand(1000, 9999) ?>"/>
+    <link rel="stylesheet" href="stylesheet/alert.css?v=<?php echo rand(1000, 9999) ?>"/>
 </head>
 <body>
 <div class="content">
@@ -28,9 +29,30 @@
     <a class="prev foot_low forward"><b>下一题</b>
         <img class="a-img" height="20px" src="stylesheet/images/i-12.png">
     </a>
-    <a class="prev foot_low pre-submit" onclick="javascript:simula_exam.stop();">
+    <a class="prev foot_low pre-submit">
         <img class="a-img" height="20px" src="stylesheet/images/i-07.png"><b>交 卷</b>
     </a>
+</div>
+<div id="dvMsgBox" style="width: 200px; display: block; top: 280px; left: 89px;display: none">
+    <div class="top">
+        <div class="rightAlert">
+            <div class="title" id="dvMsgTitle"></div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="rightAlert">
+            <div class="ct" id="dvMsgCT">
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom" id="dvMsgBottom" style="height: 38px;">
+        <div class="right">
+            <div class="btn" id="dvMsgBtns">
+                <div class="height"></div>
+                <input type="button" class="btn sub-confirm" value="确   认"></div>
+        </div>
+    </div>
 </div>
 
 </body>
@@ -44,29 +66,39 @@
     var enable = true;
     $(document).on('click', '.option', function () {
         var c = true;
+        var o_id = $(this).attr('id').slice(3);
+        if (!reply[itrt])reply[itrt] = {};
         if (enable) {
             if (type < 3) {
                 $('.option').removeClass('kk');
                 $(this).addClass('kk');
+                reply[itrt].choice = o_id;
                 $('.option').each(function (k, v) {
-                    var ba=($(v).hasClass('crt'));
-                    var bb=($(v).hasClass('kk'));
-                    if (ba^bb){
+                    var ba = ($(v).hasClass('crt'));
+                    var bb = ($(v).hasClass('kk'));
+                    if (ba ^ bb) {
                         c = false;
                     }
+
                 })
             } else {
                 $(this).toggleClass('kh');
                 $(this).toggleClass('kkm');
+                if ($(this).hasClass('kkm')) {
+                    reply[itrt][o_id] = true;
+                }
+                else {
+                    reply[itrt][o_id] = false;
+                }
                 $('.option').each(function (k, v) {
-                    var ba=($(v).hasClass('crt'));
-                    var bb=($(v).hasClass('kkm'));
-                    if (ba^bb){
+                    var ba = ($(v).hasClass('crt'));
+                    var bb = ($(v).hasClass('kkm'));
+                    if (ba ^ bb) {
                         c = false;
                     }
                 })
             }
-            reply[itrt]['crt'] = c;
+            reply[itrt].crt = c;
         }
 
     });
@@ -76,6 +108,8 @@
             getTestQuestion(list[itrt], true, function (id, t) {
                 type = t;
                 current = id
+                restorSituation(reply[itrt]);
+
             });
         } else {
 
@@ -89,6 +123,7 @@
             getTestQuestion(list[itrt], false, function (id, t) {
                 type = t;
                 current = id;
+                restorSituation(reply[itrt]);
 
             })
         } else {
@@ -96,12 +131,26 @@
         }
 
     })
-    $('.pre-submit').click(function(){
-        var count=0;
-        var tottalScore=0;
-        $.each(reply,function(k,v){
-            alert(v.crt);
+    $('.pre-submit').click(function () {
+        var count = 0;
+        var totalScore = 0;
+        $.each(reply, function (k, v) {
+            count++;
+            if(v.crt)totalScore+=2;
         })
+        var content='您一共做了'+count+'题，得了'+totalScore+'分，点击确定重新考试。'
+        $.post('ajax.php',{std:1,uploadScore:1,q_count:count,score:totalScore},function(data){
+            if(data=='time_out'){
+                alert('超时，请关闭页面重新从公众号进入');
+            }else{
+                $('#dvMsgCT').text(content);
+                $('#dvMsgBox').fadeIn();
+            }
+        });
+
+    })
+    $('.sub-confirm').click(function(){
+        window.location.href='controller.php?study=1&test=1';
     })
 </script>
 <script>
@@ -128,9 +177,7 @@
             if (type == 3) {
                 optype = 'khm';
             }
-
             $.each(inf.options, function (k, v) {
-
                 var crt = v.correct > 0 ? 'crt' : '';
                 var content = '<li id="oid' + v.id + '" class="option ' + optype + ' ' + crt + '" data-v="' + String.fromCharCode(cindex) + '" style="cursor: pointer">' + String.fromCharCode(cindex) + '.' + v.content + '</li>';
                 cindex++;
@@ -139,6 +186,17 @@
             $('#result').css('display', 'none');
             recall(sId, type);
         });
+    }
+    function restorSituation(sReply) {
+        if (sReply) {
+            if (type == 3) {
+                $.each(sReply, function (k, v) {
+                    if (v)$('#oid' + k).addClass('kkm');
+                })
+            } else {
+                if ('choice' in sReply)$('#oid' + sReply.choice).addClass('kk');
+            }
+        }
 
     }
 </script>

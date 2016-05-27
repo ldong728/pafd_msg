@@ -9,12 +9,24 @@
     <h1>学习平台</h1>
     <ul class="inforSerch">
         <li>
+            <div>
+                <a href="controller.php?mainSite=1&cate=4">
+                    <img src="stylesheet/images/i_11.png">
+                    <br>
+
+                    <p style="font-size: 12px;">
+                        每月一课
+                    </p>
+                </a>
+            </div>
+        </li>
+        <li>
             <div><a href="controller.php?study=1&practice=1">
                     <img src="stylesheet/images/i_11.png">
                     <br>
 
                     <p style="font-size: 12px;">
-                        练习
+                        理论学习
                     </p>
                 </a>
             </div>
@@ -31,16 +43,7 @@
                 </a>
             </div>
         </li>
-        <li>
-            <div>
-                <img src="stylesheet/images/i_11.png">
-                <br>
 
-                <p style="font-size: 12px;">
-                    每月一课
-                </p>
-            </div>
-        </li>
 
     </ul>
 </div>

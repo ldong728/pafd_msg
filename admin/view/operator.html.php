@@ -5,56 +5,51 @@ $pmsList = $GLOBALS['pmsList'];
 $pmsCount = count($pmsList);
 ?>
 
-<div class="op-container">
-    <div class="op-block">
-        <div class="op-name">
-            操作员
-        </div>
-        <div class="op-name op-psw">
-            密码
-        </div>
-        <div class="op-pms">
-            <?php foreach ($pmsList as $row): ?>
-                <div class="op-pms-block" style="width: <?php echo(100 / $pmsCount) ?>%">
-                    <?php echo $row['name'] ?>
-                </div>
-            <?php endforeach ?>
-        </div>
+<section>
+    <div class="page_title">
+        <h2>操作员管理</h2>
     </div>
-    <?php foreach ($opList as $row): ?>
-        <div class="op-block">
-            <div class="op-name">
-                <input class="alt-name" id="name<?php echo $row['id'] ?>" value="<?php echo $row['name'] ?>">
-            </div>
-            <div class="op-name op-psw">
-                <input class="alt-pwd" id="pwd<?php echo $row['id'] ?>" value="<?php echo $row['pwd'] ?>">
-            </div>
-            <div class="op-pms">
+    <table class="table">
+        <tr>
+            <th>操作员</th>
+            <th>密码</th>
+            <?php foreach ($pmsList as $row): ?>
+                <th>
+                    <?php echo $row['name'] ?>
+                </th>
+            <?php endforeach ?>
+        </tr>
+        <?php foreach ($opList as $row): ?>
+            <tr>
+                <td><input type="text" class="alt-name textbox" id="name<?php echo $row['id'] ?>" value="<?php echo $row['name'] ?>" style="width: 70px"></td>
+                <td><input type="text" class="alt-pwd textbox" id="pwd<?php echo $row['id'] ?>" value="<?php echo $row['pwd'] ?>" style="width: 70px"></td>
                 <?php foreach ($row['pms'] as $r): ?>
-                    <div class="op-pms-block" style="width: <?php echo(100 / $pmsCount) ?>%">
+                    <td>
                         <input type="checkbox" class="pms-alt" id="<?php echo $row['id'] ?>"
                                value="<?php echo $r['value'] ?>"<?php echo isset($r['checked']) ? 'checked="checked"' : '' ?>>
-                    </div>
+                    </td>
                 <?php endforeach ?>
-            </div>
-        </div>
-    <?php endforeach ?>
-    <div class="op-block">
-        <div class="op-name">
-            <input type="input" class="new-name"/>
-        </div>
-        <div class="op-name op-psw">
-            <input type="input" class="new-pwd"/>
-        </div>
-        <div class="op-add">
-            <button class="op-add-btn">
-                添加操作员
-            </button>
-        </div>
+            </tr>
+        <?php endforeach ?>
+        <tr>
+            <td>
+                <input type="input" class="new-name"/>
+            </td>
+            <td>
+                <input type="input" class="new-pwd"/>
+            </td>
+            <td>
+                <a class="inner-button op-add-btn">
+                    添加操作员
+                </a>
+            </td>
+        </tr>
 
-    </div>
 
-</div>
+    </table>
+</section>
+
+
 <script>
     $('.pms-alt').change(function () {
         var stu = $(this).prop('checked');

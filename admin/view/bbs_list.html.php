@@ -64,6 +64,8 @@ $groupList=$GLOBALS['groupList'];
             </tr>
         <?php endforeach ?>
     </table>
+    <aside class="paging"><?php if($page>0):?><a href="index.php?<?php echo $getStr?>&page=<?php echo $page-1?>">上一页</a><?php endif ?><a href="index.php?<?php echo $getStr?>&page=<?php echo $page+1?>">下一页</a></aside>
+
 
 
 
