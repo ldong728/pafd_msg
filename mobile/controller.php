@@ -75,13 +75,24 @@ if(isset($_GET['getNotice'])){
     exit;
 }
 if(isset($_GET['bbs'])){
-    mylog();
-    if(!isset($_SESSION['openid'])){
-        $open_id=$_GET['openid'];
-        $_SESSION['openid']=$open_id;
+    if(isset($_GET['openid'])){
+        mylog();
+        $query=pdoQuery('user_reg_tbl',null,array('openid'=>$_GET['openid']),'limit 1');
+        mylog();
+        if(!$loginf=$query->fetch()){
+            mylog();
+            signin();
+            exit;
+        }
     }else{
-        $open_id=$_SESSION['openid'];
+        if(!isset($_SESSION['openid'])){
+            login();
+            exit;
+        }else{
+            $open_id=$_SESSION['openid'];
+        }
     }
+
     $userInf=getUserInf($open_id);
     $num = 25;
     $page = isset($_GET['page']) ? $_GET['page'] : 0;
@@ -89,8 +100,7 @@ if(isset($_GET['bbs'])){
     $topicQuery=pdoQuery('bbs_topic_view',array('id','title','content','issue_time','reply_time','reply_count','priority','nickname','real_name','headimgurl','img_id','url','like_count'),array('groupid'=>(string)$userInf['groupid'],'public'=>1),' or groupid=-1 order by priority desc,reply_time desc limit '.$page*$num.' ,'.$num);
     foreach ($topicQuery as $k=>$row)
     {
-//        mylog(getArrayInf($row));
-//        $topicList[$k]=$row;
+
         if(isset($topicList[$row['id']])){
             $topicList[$row['id']]['img'][]=$row['url'];
         }else{
@@ -156,6 +166,18 @@ if(isset($_GET['bbs_content'])){
 //    $bbsDetail=$bbsDetail->fetch();
 
 }
+if(isset($_GET['create_topic'])){
+    $type=isset($_GET['type'])?$_GET['type']:'issue';
+    $t_id=isset($_GET['t_id'])?$_GET['t_id']:'-1';
+    $f_id=isset($_GET['f_id'])?$_GET['f_id']:'-1';
+    if('reply'==$type){
+        $topicQuery=pdoQuery('bbs_topic_tbl',array('title'),array('id'=>$t_id),' limit 1');
+        $topic=$topicQuery->fetch();
+        $title=$topic['title'];
+    }
+    include 'view/bbs_input.html.php';
+    exit;
+}
 if(isset($_GET['study'])){
     if(!isset($_SESSION['openid'])){
         $_SESSION['openid']=$_GET['openid'];
@@ -171,14 +193,14 @@ if(isset($_GET['study'])){
             $idPool[$row['type']][$row['id']]=$row['id'];
         }
         if(!isset($idPool))$idPool=array();
-//        $d=array_rand($idPool[1],10);
-//        $s=array_rand($idPool[2],20);
-//        $m=array_rand($idPool[3],20);
+        $d=array_rand($idPool[1],10);
+        $s=array_rand($idPool[2],20);
+        $m=array_rand($idPool[3],20);
 
         //以下为测试代码
-        $d=array(array_rand($idPool[1],1));
-        $s=array_rand($idPool[2],2);
-        $m=array(array_rand($idPool[3],1));
+//        $d=array(array_rand($idPool[1],1));
+//        $s=array_rand($idPool[2],2);
+//        $m=array(array_rand($idPool[3],1));
         //以上为测试代码
         $total=array_merge($d,$s,$m);
         $inf=getQuestionDetail($total[0]);
@@ -187,8 +209,24 @@ if(isset($_GET['study'])){
 
 
         include 'view/study_test.html.php';
+        exit;
     }
-    if(isset($_GET['test'])){
+    if(isset($_GET['questionList'])){
+        $order=isset($_GET['order'])?$_GET['order'] : 'create_time';
+        $order_rule=isset($_GET['order_rule'])?$_GET['order_rule'] : 'desc';
+        $num = 20;
+        $page = isset($_GET['page']) ? $_GET['page'] : 0;
+        $index = $page * $num;
+        $where=null;
+        if(isset($_GET['type']))$where['type']=$_GET['type'];
+        $query=pdoQuery('std_question_view',null,$where," order by $order $order_rule limit $index,$num");
+
+        $getStr='';
+        foreach ($_GET as $k => $v) {
+            if($k=='page')continue;
+            $getStr.=$k.'='.$v.'&';
+        }
+        $getStr=rtrim($getStr,'&');
 
         exit;
     }
@@ -197,19 +235,25 @@ if(isset($_GET['study'])){
     include 'view/study.html.php';
     exit;
 }
-if(isset($_GET['create_topic'])){
-    $type=isset($_GET['type'])?$_GET['type']:'issue';
-    $t_id=isset($_GET['t_id'])?$_GET['t_id']:'-1';
-    $f_id=isset($_GET['f_id'])?$_GET['f_id']:'-1';
-    if('reply'==$type){
-        $topicQuery=pdoQuery('bbs_topic_tbl',array('title'),array('id'=>$t_id),' limit 1');
-        $topic=$topicQuery->fetch();
-        $title=$topic['title'];
+
+
+
+
+function signin(){
+    $getStr='';
+    foreach ($_GET as $k => $v) {
+        if($k=='page')continue;
+        $getStr.=$k.'='.$v.'&';
     }
-    include 'view/bbs_input.html.php';
-    exit;
+    $getStr=rtrim($getStr,'&');
+    include 'view/signin.html.php';
 }
-if(isset($_GET['newsList'])){
+function login(){
+    $getStr='';
+    foreach ($_GET as $k => $v) {
+        if($k=='page')continue;
+        $getStr.=$k.'='.$v.'&';
+    }
+    $getStr=rtrim($getStr,'&');
+    include 'view/signin.html.php';
 }
-echo 'web ok';
-echo getArrayInf($_COOKIE);

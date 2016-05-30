@@ -21,7 +21,7 @@
             </div>
         </li>
         <li>
-            <div><a href="controller.php?study=1&practice=1">
+            <div><a href="controller.php?study=1&questionList=1">
                     <img src="stylesheet/images/i_11.png">
                     <br>
 
@@ -32,8 +32,20 @@
             </div>
         </li>
         <li>
+            <div><a href="controller.php?study=1&practice=1">
+                    <img src="stylesheet/images/i_11.png">
+                    <br>
+
+                    <p style="font-size: 12px;">
+                        自我练习
+                    </p>
+                </a>
+            </div>
+        </li>
+        <li>
             <div>
-                <a href="controller.php?study=1&test=1">
+<!--                <a href="controller.php?study=1&test=1">-->
+                    <div><a href="controller.php?study=1&practice=1">
                     <img src="stylesheet/images/i_31.png">
                     <br>
 
