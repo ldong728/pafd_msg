@@ -8,32 +8,29 @@
      }elseif($msg['MsgType']=='img'){
 
      }else{
-         $match=array('专武干部','应急力量','基干民兵');
-         $content=$msg['content'];
-         if(in_array($content,$match)){
-             if($content=='专武干部'){
-                 $groupid=100;
-             }
-             if($content=='应急力量'){
-                $groupid=101;
-             }
-             if($content=='基干民兵'){
-                 $groupid=102;
-             }
-             $re=changeGroup($openid,$groupid);
-             mylog($re);
-             $re=json_decode($re,true);
-             if($re['errcode']=='0'){
-                 pdoUpdate('user_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
-                 $weixin->replytext('已加入“'.$content.'”分组');
-             }else{
-                 $weixin->replytext('服务器错误，请稍后再试');
-             }
-
-//             $userInf=pdoQuery('user_tbl',null,array('openid'=>$openid),' limit 1');
-//             $userInf=$userInf->fetch();
-//             if(content=='');
-         }
+//         $match=array('专武干部','应急力量','基干民兵');
+//         $content=$msg['content'];
+//         if(in_array($content,$match)){
+//             if($content=='专武干部'){
+//                 $groupid=100;
+//             }
+//             if($content=='应急力量'){
+//                $groupid=101;
+//             }
+//             if($content=='基干民兵'){
+//                 $groupid=102;
+//             }
+//             $re=changeGroup($openid,$groupid);
+//             mylog($re);
+//             $re=json_decode($re,true);
+//             if($re['errcode']=='0'){
+//                 pdoUpdate('user_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
+//                 $weixin->replytext('已加入“'.$content.'”分组');
+//             }else{
+//                 $weixin->replytext('服务器错误，请稍后再试');
+//             }
+//
+//         }
      }
 
  }

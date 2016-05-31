@@ -131,13 +131,21 @@ if(isset($_SESSION['login'])) {
 //        $inf=getUnionId($openid);
 //        echo json_encode($inf,JSON_UNESCAPED_UNICODE);
         $groupid=$_POST['groupid'];
-        $data=changeGroup($openid,$groupid);
-        $inf=json_decode($data,true);
-        if($inf['errcode']==0){
-            pdoUpdate('user_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
+        $userReg=pdoQuery('user_reg_tbl',null,array('openid'=>$openid),' limit 1');
+        if($reg=$userReg->fetch()){
+            $data=changeGroup($openid,$groupid);
+            $inf=json_decode($data,true);
+            if($inf['errcode']==0){
+                pdoUpdate('user_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
+                pdoUpdate('user_reg_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
+            }
+            echo $data;
+            exit;
+        }else{
+            echo '{errcode:1}';
+            exit;
         }
-        echo $data;
-        exit;
+
     }
     if(isset($_POST['ConfirmSendNotice'])){
         $groupid=$_POST['groupId'];

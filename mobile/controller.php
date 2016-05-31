@@ -22,20 +22,20 @@ if(isset($_GET['mainSite'])){
     include 'view/newsList.html.php';
     exit;
 }
-if(isset($_GET['signIn'])){
-    $open_id=$_GET['code'];
-    $group_id=isset($_COOKIE['group_id'])?$_COOKIE['group_id']:'0';
-    if($group_id!=0){
-        include_once '../wechat/serveManager.php';
-        $json=changeGroup($open_id,$group_id);
-        $data=json_decode($json,true);
-        if(0==$data['errcode']){
-            pdoUpdate('user_tbl',array('groupid'=>$group_id),array('openid'=>$open_id));
-        }
-    }
-    header('location:controller.php?mainSite=1');
-    exit;
-}
+//if(isset($_GET['signIn'])){
+//    $open_id=$_GET['code'];
+//    $group_id=isset($_COOKIE['group_id'])?$_COOKIE['group_id']:'0';
+//    if($group_id!=0){
+//        include_once '../wechat/serveManager.php';
+//        $json=changeGroup($open_id,$group_id);
+//        $data=json_decode($json,true);
+//        if(0==$data['errcode']){
+//            pdoUpdate('user_tbl',array('groupid'=>$group_id),array('openid'=>$open_id));
+//        }
+//    }
+//    header('location:controller.php?mainSite=1');
+//    exit;
+//}
 
 if(isset($_GET['getNews'])){
     $newsId=$_GET['getNews'];
@@ -76,11 +76,8 @@ if(isset($_GET['getNotice'])){
 }
 if(isset($_GET['bbs'])){
     if(isset($_GET['openid'])){
-        mylog();
         $query=pdoQuery('user_reg_tbl',null,array('openid'=>$_GET['openid']),'limit 1');
-        mylog();
         if(!$loginf=$query->fetch()){
-            mylog();
             signin();
             exit;
         }
@@ -240,6 +237,11 @@ if(isset($_GET['study'])){
 
 
 function signin(){
+    $groupList=getGroupList();
+    foreach ($groupList as $row) {
+        if ($row['id'] < 100) continue;//屏蔽星标组和黑名单
+        $glist[] = $row;
+    }
     $getStr='';
     foreach ($_GET as $k => $v) {
         if($k=='page')continue;
