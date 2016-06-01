@@ -75,13 +75,15 @@ function subscribe($msg)
     if (isset($userinf)) {
         putUserInfToDb($userinf);
     }
-    $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?signIn=1&code=' . $openid;
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?study=1&openid='.$openid;
     $newsArray = array('news_item' => [array('title' => '欢迎关注三北武装', 'digest' => '请勿转发此条消息，以免个人信息泄露', 'cover_url' => 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/img/0.jpg', 'url' => $url)]);
     $json = json_encode($newsArray);
     $content = $GLOBALS['weixin']->prepareNewsMsg($msg['from'], $msg['me'], $json);
 //    mylog($content);
     echo $content;
-
-
     return;
+}
+function unsubscribe($msg){
+    $openid = $msg['FromUserName'];
+    pdoDelete('user_reg_tbl',array('openid'=>$openid));
 }

@@ -137,20 +137,31 @@ if (isset($_SESSION['openid'])) {
             }
             echo 'ok';
         }
+        exit;
 
     }
 
-} else {
+}
     if (isset($_POST['signIn'])) {
-        mylog();
         $group_id = $_POST['groupid'];
         $openid = $_POST['openid'];
         $id = $_POST['id'];
         $name = $_POST['real_name'];
         $phone = $_POST['phone'];
         $psw = $_POST['psw'];
+        $verify=array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10 ,5 ,8 ,4 ,2);
+        $final=array(1, 0, 'x', 9, 8, 7, 6, 5, 4, 3, 2,);
+        $value=0;
+        for($i=0;$i<17;$i++){
+           $value+= $id[$i]*$verify[$i];
+        }
+        $value=$value%11;
+        if($final[$value]!=$id[17]){
+            echo '身份证号校验失败';
+            exit;
+        }
+
         include_once '../wechat/serveManager.php';
-        mylog();
         $re = changeGroup($openid, $group_id);
         $re = json_decode($re, true);
         if ($re['errcode'] == '0') {
@@ -175,8 +186,22 @@ if (isset($_SESSION['openid'])) {
             exit;
         }
     }
+    if(isset($_POST['logIn'])){
+        $value=$_POST['value'];
+        $psw=md5($_POST['psw']);
+        $inf=pdoQuery('user_reg_tbl',null,array('password'=>$psw)," and (name =\"$value\" or id=\"$value\" or phone=\"$value\") limit 1");
+        if($inf=$inf->fetch()){
+            $_SESSION['openid']=$inf['openid'];
+            mylog('login success');
+            echo '1';
+            exit;
+        }else{
+            echo '用户名或密码错误';
+            exit;
+        }
+    }
     echo 'time_out';
     exit;
-}
+
 
 

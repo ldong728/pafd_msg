@@ -80,6 +80,9 @@ if(isset($_GET['bbs'])){
         if(!$loginf=$query->fetch()){
             signin();
             exit;
+        }else{
+            $open_id=$_GET['openid'];
+            $_SESSION['openid']=$_GET['openid'];
         }
     }else{
         if(!isset($_SESSION['openid'])){
@@ -122,62 +125,84 @@ if(isset($_GET['bbs'])){
 
     exit;
 }
-if(isset($_GET['bbs_content'])){
-    mylog('content');
-    $limit=40;
-    $page=isset($_GET['page'])?$_GET['page']:0;
+if(isset($_SESSION['openid'])){
+    if(isset($_GET['bbs_content'])){
+        mylog('content');
+        $limit=40;
+        $page=isset($_GET['page'])?$_GET['page']:0;
 
-    $t_id=$_GET['t_id'];
-    $topicQuery=pdoQuery('bbs_topic_view',null,array('id'=>$t_id,), ' limit 4');
-    foreach ($topicQuery as $row) {
-        if(!isset($topicInf)){
-            $topicInf=$row;
-        }
-        $topicInf['img'][]=$row['url'];
-    }
-//    mylog(json_encode($topicInf,JSON_UNESCAPED_UNICODE));
-    $floor=1;
-    $topicList['floor']='楼主';
-    $replyCount=$topicInf['reply_count'];
-    $replyQuery=pdoQuery('bbs_reply_view',null,array('t_id'=>$t_id),'order by issue_time asc limit '.$page*$limit.','.$limit);
-    foreach ($replyQuery as $row) {
-        if(-1==$row['f_id']){
-            if(!isset($replyList[$row['id']])){
-                $floor++;
-                $replyList[$row['id']]=$row;
-                if($row['url'])$replyList[$row['id']]['img'][]=$row['url'];
-                $replyList[$row['id']]['floor']=$floor;
-
-            }else{
-                $replyList[$row['id']]['img'][]=$row['url'];
+        $t_id=$_GET['t_id'];
+        $topicQuery=pdoQuery('bbs_topic_view',null,array('id'=>$t_id,), ' limit 4');
+        foreach ($topicQuery as $row) {
+            if(!isset($topicInf)){
+                $topicInf=$row;
             }
-        }else{
-            $replyList[$row['f_id']]['subReply'][]=$row;
+            $topicInf['img'][]=$row['url'];
         }
-    }
+//    mylog(json_encode($topicInf,JSON_UNESCAPED_UNICODE));
+        $floor=1;
+        $topicList['floor']='楼主';
+        $replyCount=$topicInf['reply_count'];
+        $replyQuery=pdoQuery('bbs_reply_view',null,array('t_id'=>$t_id),'order by issue_time asc limit '.$page*$limit.','.$limit);
+        foreach ($replyQuery as $row) {
+            if(-1==$row['f_id']){
+                if(!isset($replyList[$row['id']])){
+                    $floor++;
+                    $replyList[$row['id']]=$row;
+                    if($row['url'])$replyList[$row['id']]['img'][]=$row['url'];
+                    $replyList[$row['id']]['floor']=$floor;
+
+                }else{
+                    $replyList[$row['id']]['img'][]=$row['url'];
+                }
+            }else{
+                $replyList[$row['f_id']]['subReply'][]=$row;
+            }
+        }
 //    mylog(json_encode($replyList));
-    include 'view/bbs_content.html.php';
-    exit;
+        include 'view/bbs_content.html.php';
+        exit;
 
 
 //    $bbsDetail=$bbsDetail->fetch();
 
-}
-if(isset($_GET['create_topic'])){
-    $type=isset($_GET['type'])?$_GET['type']:'issue';
-    $t_id=isset($_GET['t_id'])?$_GET['t_id']:'-1';
-    $f_id=isset($_GET['f_id'])?$_GET['f_id']:'-1';
-    if('reply'==$type){
-        $topicQuery=pdoQuery('bbs_topic_tbl',array('title'),array('id'=>$t_id),' limit 1');
-        $topic=$topicQuery->fetch();
-        $title=$topic['title'];
     }
-    include 'view/bbs_input.html.php';
-    exit;
+    if(isset($_GET['create_topic'])){
+        $type=isset($_GET['type'])?$_GET['type']:'issue';
+        $t_id=isset($_GET['t_id'])?$_GET['t_id']:'-1';
+        $f_id=isset($_GET['f_id'])?$_GET['f_id']:'-1';
+        if('reply'==$type){
+            $topicQuery=pdoQuery('bbs_topic_tbl',array('title'),array('id'=>$t_id),' limit 1');
+            $topic=$topicQuery->fetch();
+            $title=$topic['title'];
+        }
+        include 'view/bbs_input.html.php';
+        exit;
+    }
+
+
 }
+
 if(isset($_GET['study'])){
-    if(!isset($_SESSION['openid'])){
-        $_SESSION['openid']=$_GET['openid'];
+//    unset($_SESSION['openid']);  //测试代码
+    if(isset($_GET['openid'])){
+        $query=pdoQuery('user_reg_tbl',null,array('openid'=>$_GET['openid']),'limit 1');
+        if(!$loginf=$query->fetch()){
+            signin();
+            exit;
+        }else{
+            $open_id=$_GET['openid'];
+            $_SESSION['openid']=$_GET['openid'];
+        }
+    }else{
+        if(!isset($_SESSION['openid'])){
+            mylog('notlog');
+            login();
+            exit;
+        }else{
+            mylog('log');
+            $open_id=$_SESSION['openid'];
+        }
     }
     if(isset($_GET['practice'])){
         $inf=getQuestionDetail();
@@ -216,20 +241,39 @@ if(isset($_GET['study'])){
         $index = $page * $num;
         $where=null;
         if(isset($_GET['type']))$where['type']=$_GET['type'];
-        $query=pdoQuery('std_question_view',null,$where," order by $order $order_rule limit $index,$num");
-
+        $query=pdoQuery('std_question_tbl',array('id'),$where," order by $order $order_rule limit $index,$num");
+        foreach ($query as $row) {
+            $idList[]=$row['id'];
+        }
+        $query=pdoQuery('std_question_view',null,array('id'=>$idList)," order by $order $order_rule");
+        foreach ($query as $row) {
+            if(!isset($qList[$row['id']]))$qList[$row['id']]=$row;
+            $qList[$row['id']]['options'][]=array(
+                'content'=>$row['o_content'],
+                'correct'=>$row['correct'],
+            );
+        }
+        $type = pdoQuery('std_type_tbl', null, null, null);
+        $type = $type->fetchAll();
         $getStr='';
         foreach ($_GET as $k => $v) {
             if($k=='page')continue;
             $getStr.=$k.'='.$v.'&';
         }
         $getStr=rtrim($getStr,'&');
+        include 'view/study_list.html.php';
 
         exit;
     }
 
 
     include 'view/study.html.php';
+    exit;
+}
+
+if(isset($_GET['logout'])){
+    unset($_SESSION['openid']);
+
     exit;
 }
 
@@ -244,6 +288,7 @@ function signin(){
     }
     $getStr='';
     foreach ($_GET as $k => $v) {
+        if($k=='openid')continue;
         if($k=='page')continue;
         $getStr.=$k.'='.$v.'&';
     }
@@ -253,9 +298,10 @@ function signin(){
 function login(){
     $getStr='';
     foreach ($_GET as $k => $v) {
+        if($k=='openid')continue;
         if($k=='page')continue;
         $getStr.=$k.'='.$v.'&';
     }
     $getStr=rtrim($getStr,'&');
-    include 'view/signin.html.php';
+    include 'view/login.html.php';
 }

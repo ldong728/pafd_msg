@@ -23,7 +23,7 @@
                 请输入身份证号：<span style="color: red">(必填)</span>
             </div>
             <div class="input-container">
-                <input type="text" class="input id" placeholder="请输入身份证号">
+                <input type="text" class="input id" placeholder="请输入身份证号(字母x请用小写)">
             </div>
 
         </div>
@@ -32,7 +32,7 @@
                 请输入手机号码：<span style="color: orange">(选填)</span>
             </div>
             <div class="input-container">
-                <input type="text" class="input phone" placeholder="请输入手机号码">
+                <input type="tel" class="input phone" placeholder="请输入手机号码">
             </div>
 
         </div>
@@ -96,7 +96,6 @@
         var check=inputCheck();
         if('ok'==check){
             $.post('ajax.php',{signIn:1,openid:openid,real_name:real_name,id:id,phone:phone,groupid:groupid,psw:p1},function(data){
-                alert(data);
                 if(data==1){
                     window.location.href='controller.php?'+getStr;
                 }else{

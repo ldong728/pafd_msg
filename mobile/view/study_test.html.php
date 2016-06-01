@@ -9,7 +9,7 @@
     <h1>每月一考</h1>
 
     <div id="ExamArea">
-        <p><span class="index">1</span>.<span class="q-content"><?php echo $inf['content'] ?></span></p>
+        <p><span class="index">1</span>.<span class="q-content"><?php echo $inf['content'] ?><span style="color: red"><?php echo $inf['type']==3?'（多选）':''?></span></span></p>
         <ul id="ExamOpt" style="-webkit-tap-highlight-color: transparent;">
             <?php $index = 'A' ?>
             <?php foreach ($inf['options'] as $row): ?>
@@ -138,7 +138,7 @@
             count++;
             if(v.crt)totalScore+=2;
         })
-        var content='您一共做了'+count+'题，得了'+totalScore+'分，点击确定重新考试。'
+        var content='您一共做了'+count+'题，得了'+totalScore+'分，点击确定重新考试。';
         $.post('ajax.php',{std:1,uploadScore:1,q_count:count,score:totalScore},function(data){
             if(data=='time_out'){
                 alert('超时，请关闭页面重新从公众号进入');
