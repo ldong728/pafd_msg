@@ -1,5 +1,6 @@
 <head>
     <?php include 'templates/header.php' ?>
+    <link rel="stylesheet" href="stylesheet/pafd.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/study.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/test.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/alert.css?v=<?php echo rand(1000, 9999) ?>"/>
@@ -54,6 +55,7 @@
         </div>
     </div>
 </div>
+<div class="loading"></div>
 
 </body>
 <script>
@@ -104,11 +106,13 @@
     });
     $('.forward').click(function () {
         if (itrt < list.length - 1) {
+            loading();
             itrt++;
             getTestQuestion(list[itrt], true, function (id, t) {
                 type = t;
                 current = id
                 restorSituation(reply[itrt]);
+                stopLoading();
 
             });
         } else {
@@ -119,12 +123,13 @@
     });
     $('.j-prev').click(function () {
         if (itrt > 0) {
+            loading();
             itrt--;
             getTestQuestion(list[itrt], false, function (id, t) {
                 type = t;
                 current = id;
                 restorSituation(reply[itrt]);
-
+                stopLoading();
             })
         } else {
 

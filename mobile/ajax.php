@@ -29,7 +29,7 @@ if (isset($_SESSION['openid'])) {
         pdoTransReady();
         try {
             $img_num = count($_POST['image']);
-            $id = pdoInsert('bbs_topic_tbl', array('title' => $title, 'content' => $content, 'open_id' => $_SESSION['openid'], 'issue_time' => time(), 'reply_time' => time(), 'reply_count' => 0, 'groupid' => $userInf['groupid'], 'img_count' => $img_num));
+            $id = pdoInsert('bbs_topic_tbl', array('title' => $title, 'content' => $content, 'open_id' => $_SESSION['openid'], 'issue_time' => time(), 'reply_time' => time(), 'reply_count' => 0, 'groupid' => $userInf['groupid'], 'img_num' => $img_num));
             if (!file_exists($GLOBALS['mypath'] . '/img/bbs')) mkdir($GLOBALS['mypath'] . '/img/bbs');  //首次部署使用后可删除
             foreach ($_POST['image'] as $row) {
                 include_once $GLOBALS['mypath'] . '/wechat/serveManager.php';
@@ -43,6 +43,7 @@ if (isset($_SESSION['openid'])) {
             }
             pdoCommit();
             echo 'ok';
+            exit;
         } catch (PDOException $e) {
             $err = 'error';
             $code = $e->getCode();

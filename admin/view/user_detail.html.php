@@ -1,6 +1,9 @@
 <?php $userinf=$GLOBALS['userinf'];
 $markList=$GLOBALS['markList'];
 $unmarkList=$GLOBALS['unmarkList'];
+$bbsTopic=$GLOBALS['bbsTopic'];
+$bbsReply=$GLOBALS['bbsReply'];
+$stdTest=$GLOBALS['stdTest'];
 ?>
 
 <section>
@@ -39,3 +42,7 @@ $unmarkList=$GLOBALS['unmarkList'];
         <?php endforeach ?>
     </table>
 </section>
+
+
+
+<div class="space"></div>

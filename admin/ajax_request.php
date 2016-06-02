@@ -132,7 +132,7 @@ if(isset($_SESSION['login'])) {
 //        echo json_encode($inf,JSON_UNESCAPED_UNICODE);
         $groupid=$_POST['groupid'];
         $userReg=pdoQuery('user_reg_tbl',null,array('openid'=>$openid),' limit 1');
-        if($reg=$userReg->fetch()){
+        if($reg=$userReg->fetch()||$groupid=='0'){
             $data=changeGroup($openid,$groupid);
             $inf=json_decode($data,true);
             if($inf['errcode']==0){

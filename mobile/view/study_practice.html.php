@@ -1,5 +1,6 @@
 <head>
     <?php include 'templates/header.php' ?>
+    <link rel="stylesheet" href="stylesheet/pafd.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/study.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/test.css?v=<?php echo rand(1000, 9999) ?>"/>
 </head>
@@ -29,6 +30,7 @@
         <img class="a-img" height="20px" src="stylesheet/images/i-12.png">
     </a>
 </div>
+<div class="loading"></div>
 
 </body>
 <script>
@@ -84,17 +86,21 @@
     });
     $('.forward').click(function(){
         list.push(current);
+        loading();
         getNewQuestion(-1,true,function(id,t){
             type=t;
             current=id
+            stopLoading();
         });
 
     });
     $('.prev').click(function(){
         var id=list.pop();
+        loading();
         getNewQuestion(id,false,function(id,t){
             type=t;
             current=id;
+            stopLoading();
 
         })
 

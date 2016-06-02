@@ -36,17 +36,22 @@
     </div>
 </div>
 <div class="toast"></div>
+<div class="loading"></div>
 </body>
 <script>
     var getStr='<?php echo $getStr?>';
     $('.confirm').click(function(){
         var value = $('.value').val();
-        var psw=$('.psw').val()
+        var psw=$('.psw').val();
         if(psw!=''&& value!=''){
+            loading();
             $.post('ajax.php',{logIn:1,value:value,psw:psw},function(data){
+                stopLoading();
                 if(data==1){
-                    alert(getStr);
-                    window.location.href='controller.php?'+getStr;
+//                    alert(getStr);
+//                    window.location.href="http://www.sohu.com";
+                    window.location.href='controller.php?temp=1&'+getStr;
+//                    alert('jump');
                 }else{
                     showToast(data);
                 }

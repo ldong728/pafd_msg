@@ -81,6 +81,7 @@
     </div>
 </div>
 <div class="toast"></div>
+<div class="loading"></div>
 </body>
 <script>
     var getStr='<?php echo $getStr?>';
@@ -95,7 +96,9 @@
         var p1=$('#psw1').val();
         var check=inputCheck();
         if('ok'==check){
+            loading();
             $.post('ajax.php',{signIn:1,openid:openid,real_name:real_name,id:id,phone:phone,groupid:groupid,psw:p1},function(data){
+                stopLoading();
                 if(data==1){
                     window.location.href='controller.php?'+getStr;
                 }else{

@@ -85,5 +85,14 @@ function subscribe($msg)
 }
 function unsubscribe($msg){
     $openid = $msg['FromUserName'];
-    pdoDelete('user_reg_tbl',array('openid'=>$openid));
+    pdoTransReady();
+    try{
+        pdoDelete('user_reg_tbl',array('openid'=>$openid));
+        pdoUpdate('user_tbl',array('subscribe'=>0,'groupid'=>'0'),array('openid'=>$openid));
+        pdoCommit();
+    }catch(PDOException $e){
+        mylog($e->getMessage());
+        pdoRollBack();
+    }
+
 }

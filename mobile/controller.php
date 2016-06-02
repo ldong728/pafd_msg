@@ -7,6 +7,7 @@
  */
 include_once '../includePackage.php';
 session_start();
+//mylog(getArrayInf($_GET));
 if(isset($_GET['showShareSite'])){
  include 'view/share.html.php';
     exit;
@@ -184,6 +185,7 @@ if(isset($_SESSION['openid'])){
 }
 
 if(isset($_GET['study'])){
+//    mylog('study');
 //    unset($_SESSION['openid']);  //测试代码
     if(isset($_GET['openid'])){
         $query=pdoQuery('user_reg_tbl',null,array('openid'=>$_GET['openid']),'limit 1');
@@ -276,6 +278,12 @@ if(isset($_GET['logout'])){
 
     exit;
 }
+if(isset($_GET['temp'])){
+    mylog('temp');
+    echo 'hh';
+    exit;
+}
+
 
 
 

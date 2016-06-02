@@ -64,10 +64,17 @@ if (isset($_SESSION['login'])) {
             $markStr .= ($row['notice_id'] . ',');
             $markList[] = $row;
         }
+        if(isset($markList))$markList=array();
         $markStr = rtrim($markStr, ',');
         $str = $markStr != '' ? ' and id not in(' . $markStr . ')' : '';
         $unmarkQuery = pdoQuery('notice_tbl', array('title', 'create_time'), array('situation' => 1, 'groupid' => $groupid), $str);
         $unmarkList = $unmarkQuery->fetchAll();
+        $bbsTopic=pdoQuery('bbs_topic_tbl',array('count(*) as count'),array('open_id'=>$openid),' limit 1');
+        $bbsTopic=$bbsTopic->fetch();
+        $bbsReply=pdoQuery('bbs_reply_tbl',array('count(*) as count'),array('openid'=>$openid),'limit 1');
+        $bbsReply=$bbsReply->fetch();
+        $stdTest=pdoQuery('std_user_score_tbl',null,array('openid'=>$openid),' limit 5');
+        $stdTest=$stdTest->fetchAll();
         printView('admin/view/user_detail.html.php', '详细信息');
 
     }

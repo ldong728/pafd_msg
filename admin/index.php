@@ -120,7 +120,7 @@ if (isset($_SESSION['login'])) {
     if (isset($_GET['newslist'])) {
         $cateQuery = pdoQuery('category_tbl', null, null, null);
         $cateList = $cateQuery->fetchAll();
-        $where = null;
+        $where = array('subscribe'=>1);
         $num = 15;
         $page = isset($_GET['page']) ? $_GET['page'] : 0;
         if (isset($_GET['source'])) $where['source'] = $_GET['source'];
@@ -150,12 +150,14 @@ if (isset($_SESSION['login'])) {
     }
     if (isset($_GET['userList'])) {
         if (isset($_SESSION['pms']['news'])) {
+            $order= isset($_GET['order']) ? $_GET['order'] : 'subscribe_time';
+            $order_rule=isset($_GET['rule']) ? $_GET['rule'] : 'desc';
             $where=null;
             $num = 15;
             $page = isset($_GET['page']) ? $_GET['page'] : 0;
             $index = $page * $num;
             if(isset($_GET['groupid']))$where['groupid']=$_GET['groupid'];
-            $userquery = pdoQuery('user_tbl', null, $where, ' order by subscribe_time desc limit ' . $page * $num . ', ' . $num);
+            $userquery = pdoQuery('user_view', null, $where, "order by $order $order_rule limit $index,$num");
             $userlist = $userquery->fetchAll();
             $groupList = getGroupList();
             foreach ($groupList as $row) {
@@ -237,10 +239,9 @@ if (isset($_SESSION['login'])) {
                     if($row['id']>0&&$row['id']<100)continue;
                     $groupList[]=$row;
                 }
-
                 $where=null;
                 if(isset($_GET['groupid']))$where['groupid']=$_GET['groupid'];
-
+                if(isset($_GET['openid']))$where['open_id']=$_GET['openid'];
                 $order= isset($_GET['order']) ? $_GET['order'] : 'issue_time';
                 $order_rule=isset($_GET['rule']) ? $_GET['rule'] : 'desc';
 

@@ -22,6 +22,8 @@ function showToast(str){
     var t = setTimeout('$(".toast").fadeOut("slow")', 800);
 }
 function loading(){
-    $('.toast').empty();
-
+    $('.loading').show();
+}
+function stopLoading(){
+    $('.loading').hide();
 }

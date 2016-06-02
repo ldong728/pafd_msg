@@ -29,6 +29,7 @@ $page=$GLOBALS['page'];
         <tr>
             <th>头像</th>
             <th>昵称</th>
+            <th>姓名</th>
             <th>省</th>
             <th>市</th>
             <th>关注时间</th>
@@ -39,6 +40,7 @@ $page=$GLOBALS['page'];
             <tr class="dyn-tr">
                 <td><img src="<?php echo $row['headimgurl']?>"style="width: 60px"/></td>
                 <td><a href="consle.php?userdetail=<?php echo $row['openid']?>"><?php echo $row['nickname']?></a></td>
+                <td><?php echo $row['real_name']?></td>
                 <td><?php echo $row['province']?></td>
                 <td><?php echo $row['city']?></td>
                 <td><?php echo $row['subscribe_time']?></td>
