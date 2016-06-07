@@ -75,3 +75,30 @@
     background-position: 12px 50%;
     color: #E4484A;
 }
+.prev {
+    float: left;
+    color: #666;
+    text-decoration: none;
+    margin: 0;
+    padding: 0
+}
+
+.foot_prev {
+    width: 50%;
+}
+.forward {
+    width:50%
+}
+
+.foot_low {
+    width: 33%;
+}
+
+.foot_three{
+    width: 25%;
+}
+.a-img {
+    top: 6px;
+    position: relative;
+    height: 20px;
+}

@@ -198,11 +198,11 @@ if(isset($_GET['study'])){
         }
     }else{
         if(!isset($_SESSION['openid'])){
-            mylog('notlog');
+//            mylog('notlog');
             login();
             exit;
         }else{
-            mylog('log');
+//            mylog('log');
             $open_id=$_SESSION['openid'];
         }
     }
@@ -236,8 +236,8 @@ if(isset($_GET['study'])){
         exit;
     }
     if(isset($_GET['questionList'])){
-        $order=isset($_GET['order'])?$_GET['order'] : 'create_time';
-        $order_rule=isset($_GET['order_rule'])?$_GET['order_rule'] : 'desc';
+        $order=isset($_GET['order'])?$_GET['order'] : 'type';
+        $order_rule=isset($_GET['order_rule'])?$_GET['order_rule'] : 'asc';
         $num = 20;
         $page = isset($_GET['page']) ? $_GET['page'] : 0;
         $index = $page * $num;
@@ -247,6 +247,8 @@ if(isset($_GET['study'])){
         foreach ($query as $row) {
             $idList[]=$row['id'];
         }
+        $count=count($idList);
+        mylog($count);
         $query=pdoQuery('std_question_view',null,array('id'=>$idList)," order by $order $order_rule");
         foreach ($query as $row) {
             if(!isset($qList[$row['id']]))$qList[$row['id']]=$row;
@@ -263,6 +265,7 @@ if(isset($_GET['study'])){
             $getStr.=$k.'='.$v.'&';
         }
         $getStr=rtrim($getStr,'&');
+//        mylog($getStr);
         include 'view/study_list.html.php';
 
         exit;

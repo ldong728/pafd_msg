@@ -1,5 +1,6 @@
 <head>
     <?php include 'templates/header.php' ?>
+    <link rel="stylesheet" href="stylesheet/pafd.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/study.css?v=<?php echo rand(1000, 9999) ?>"/>
     <link rel="stylesheet" href="stylesheet/list.css?v=<?php echo rand(1000, 9999) ?>"/>
 </head>
@@ -24,6 +25,18 @@
                 </ul>
             </div>
         <?php endforeach ?>
+        <div class="floot">
+            <?php if($page>0):?>
+                <a class="prev foot_prev" href="controller.php?<?php echo $getStr.'&page='.($page-1)?>">
+                <img class="a-img" height="20px" src="stylesheet/images/i-11.png"><b>上一页</b>
+            </a>
+            <?php endif ?>
+            <?php if($count==$num):?>
+            <a class="forward" href="controller.php?<?php echo $getStr.'&page='.($page+1)?>"><b>下一页</b>
+                <img class="a-img" height="20px" src="stylesheet/images/i-12.png">
+            </a>
+            <?php endif ?>
+        </div>
     </div>
 
 </body>

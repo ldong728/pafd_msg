@@ -173,12 +173,20 @@
             var optype = 'kh';
             var cindex = 65;
             var inf = eval('(' + data + ')');
+            var typeMark='';
             $('#ExamOpt').empty();
             $('.dxqd').css('display', 'none');
             $('.index').text(num);
-            $('.q-content').text(inf.content);
+
             type = inf.type;
             sId = inf.id;
+
+            $('.q-content').text(inf.content);
+            if(type==3){
+                typeMark='<span style="color: red">（多选题）</span>';
+                $('.q-content').append(typeMark);
+            }
+
             if (type == 3) {
                 optype = 'khm';
             }

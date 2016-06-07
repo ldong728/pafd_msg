@@ -33,7 +33,7 @@
         </li>
         <li>
             <div><a href="controller.php?study=1&practice=1">
-                    <img src="stylesheet/images/i_11.png">
+                    <img src="stylesheet/images/i_31.png">
                     <br>
 
                     <p style="font-size: 12px;">
@@ -55,18 +55,18 @@
                 </a>
             </div>
         </li>
-        <li>
-            <div>
-                <div><a href="controller.php?logout=1">
-                        <img src="stylesheet/images/i_31.png">
-                        <br>
-
-                        <p style="font-size: 12px;">
-                            退出
-                        </p>
-                    </a>
-                </div>
-        </li>
+<!--        <li>-->
+<!--            <div>-->
+<!--                <div><a href="controller.php?logout=1">-->
+<!--                        <img src="stylesheet/images/i_31.png">-->
+<!--                        <br>-->
+<!---->
+<!--                        <p style="font-size: 12px;">-->
+<!--                            退出-->
+<!--                        </p>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--        </li>-->
 
 
     </ul>

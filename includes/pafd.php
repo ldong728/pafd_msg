@@ -23,6 +23,7 @@ function putUserInfToDb(array $inf)
         if ('subscribe_time' == $k) {
             $v = date('Y-m-d H:i:s', $v);
         }
+        if(is_array($v))$v=json_encode($v);
         $data[$k] = addslashes($v);
     }
     $data['update_time'] = time();
@@ -38,6 +39,7 @@ function getUserInf($open_id)
     if ($inf = $query->fetch()) {
         $lastUpdate=$inf['update_time'];
         if ($now - $lastUpdate < 86400) {
+//        if ($now - $lastUpdate < 30) {
             return $inf;
         }
     }

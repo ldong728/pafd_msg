@@ -120,7 +120,7 @@ if (isset($_SESSION['login'])) {
     if (isset($_GET['newslist'])) {
         $cateQuery = pdoQuery('category_tbl', null, null, null);
         $cateList = $cateQuery->fetchAll();
-        $where = array('subscribe'=>1);
+        $where = null;
         $num = 15;
         $page = isset($_GET['page']) ? $_GET['page'] : 0;
         if (isset($_GET['source'])) $where['source'] = $_GET['source'];
@@ -152,7 +152,7 @@ if (isset($_SESSION['login'])) {
         if (isset($_SESSION['pms']['news'])) {
             $order= isset($_GET['order']) ? $_GET['order'] : 'subscribe_time';
             $order_rule=isset($_GET['rule']) ? $_GET['rule'] : 'desc';
-            $where=null;
+            $where=array('subscribe'=>1);
             $num = 15;
             $page = isset($_GET['page']) ? $_GET['page'] : 0;
             $index = $page * $num;
@@ -324,6 +324,7 @@ if (isset($_SESSION['login'])) {
 
             }
             if(isset($_GET['userScore'])){
+                $search='';
                 $order=isset($_GET['order'])?$_GET['order'] : 'create_time';
                 $order_rule=isset($_GET['order_rule'])?$_GET['order_rule'] : 'desc';
                 $num = 30;
@@ -331,7 +332,8 @@ if (isset($_SESSION['login'])) {
                 $index = $page * $num;
                 $where=array();
                 if(isset($_GET['groupid']))$where['groupid']=$_GET['groupid'];
-                $query=pdoQuery('std_score_view',null,$where," order by $order $order_rule limit $index,$num");
+                if(isset($_GET['openid']))$where['openid']=$_GET['openid'];
+                $query=pdoQuery('std_score_view',null,$where,"$search order by $order $order_rule limit $index,$num");
                 foreach($query as $row){
                     $scoreList[]=$row;
                 }

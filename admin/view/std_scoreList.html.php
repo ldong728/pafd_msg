@@ -39,7 +39,7 @@ $getStr=$GLOBALS['getStr'];
         <?php foreach ($scoreList as $row): ?>
             <tr>
                 <td><?php htmlout($row['nickname']) ?></td>
-                <td><?php htmlout($row['real_name']) ?></td>
+                <td><a href="index.php?<?php echo $getStr?>&openid=<?php echo $row['openid']?>"><?php htmlout($row['real_name']) ?></a></td>
                 <td><?php echo date('Y-m-d H:i:s', $row['create_time']) ?></td>
                 <td><?php echo $row['q_count'] ?></td>
                 <td><?php echo $row['score'] ?></td>
