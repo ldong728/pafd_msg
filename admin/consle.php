@@ -31,6 +31,12 @@ if (isset($_SESSION['login'])) {
                 }
                 exit;
             }
+            if('3'==$_GET['createNews']) {
+                $cate=$_POST['jm_cate']?$_POST['jm_cate']:-1;
+                pdoInsert('jm_news_tbl',array('category'=>$cate,'title' => $title, 'title_img' => $title_img, 'content' => $content,'create_time' => time()));
+                header('location:index.php?jm=1&jm_create=1');
+
+            }
         } else {
             header('location:index.php?newslist=1');
             exit;

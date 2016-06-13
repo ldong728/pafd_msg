@@ -15,8 +15,8 @@ function CLICK($msg)
     switch ($msg['EventKey']) {
         case 'moldule2': {//通知查看按钮
             $groupid = $inf['groupid'];
-            $notice=pdoQuery('notice_tbl',null,array('groupid'=>$groupid,'situation'=>'1'),' order by create_time desc limit 1');
-            if($notice=$notice->fetch()) {
+            $notice = pdoQuery('notice_tbl', null, array('groupid' => $groupid, 'situation' => '1'), ' order by create_time desc limit 1');
+            if ($notice = $notice->fetch()) {
                 $title = $notice['title'];
                 $intro = $notice['intro'];
                 $img = $notice['title_img'];
@@ -26,10 +26,9 @@ function CLICK($msg)
                 $content = $GLOBALS['weixin']->prepareNewsMsg($msg['from'], $msg['me'], $json);
 //                mylog($content);
                 echo $content;
-            }else{
-                $GLOBALS['weixin']-> replytext('当前无通知');
+            } else {
+                $GLOBALS['weixin']->replytext('当前无通知');
             }
-
 
 
             break;
@@ -43,20 +42,28 @@ function CLICK($msg)
         }
         case 'bbs': {
             $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?bbs=1&openid=' . $openid;
-            $newsArray = array('news_item' => [array('title' => '互动社区','digest' => '点击进入互动社区，查看最新通知，此消息包含您个人信息，请勿转发，以免个人信息泄露', 'url' => $url)]);
+            $newsArray = array('news_item' => [array('title' => '互动社区', 'digest' => '点击进入互动社区，查看最新通知，此消息包含您个人信息，请勿转发，以免个人信息泄露', 'url' => $url)]);
             $json = json_encode($newsArray);
             $content = $GLOBALS['weixin']->prepareNewsMsg($msg['from'], $msg['me'], $json);
             echo $content;
-                        break;
+            break;
         }
-            case 'study':{
-                $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?study=1&openid=' . $openid;
-                $newsArray = array('news_item' => [array('title' => '学习平台','digest' => '点击进入学习平台，此消息包含您个人信息，请勿转发，以免个人信息泄露', 'url' => $url)]);
+        case 'study': {
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?study=1&openid=' . $openid;
+            $newsArray = array('news_item' => [array('title' => '学习平台', 'digest' => '点击进入学习平台，此消息包含您个人信息，请勿转发，以免个人信息泄露', 'url' => $url)]);
+            $json = json_encode($newsArray);
+            $content = $GLOBALS['weixin']->prepareNewsMsg($msg['from'], $msg['me'], $json);
+            echo $content;
+            break;
+
+        }
+            case 'blank':{
+                $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?jmrh=1&openid=' . $openid;
+                $newsArray = array('news_item' => [array('title' => '军民融合', 'digest' => '点击进入军民融合专栏，此消息包含您个人信息，请勿转发，以免个人信息泄露', 'url' => $url)]);
                 $json = json_encode($newsArray);
                 $content = $GLOBALS['weixin']->prepareNewsMsg($msg['from'], $msg['me'], $json);
                 echo $content;
                 break;
-
             }
     }
     if ($msg['EventKey'] == 'kf') {
@@ -75,7 +82,7 @@ function subscribe($msg)
     if (isset($userinf)) {
         putUserInfToDb($userinf);
     }
-    $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?study=1&openid='.$openid;
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?study=1&openid=' . $openid;
     $newsArray = array('news_item' => [array('title' => '欢迎关注三北武装', 'digest' => '请勿转发此条消息，以免个人信息泄露', 'cover_url' => 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/img/0.jpg', 'url' => $url)]);
     $json = json_encode($newsArray);
     $content = $GLOBALS['weixin']->prepareNewsMsg($msg['from'], $msg['me'], $json);
@@ -83,14 +90,16 @@ function subscribe($msg)
     echo $content;
     return;
 }
-function unsubscribe($msg){
+
+function unsubscribe($msg)
+{
     $openid = $msg['FromUserName'];
     pdoTransReady();
-    try{
-        pdoDelete('user_reg_tbl',array('openid'=>$openid));
-        pdoUpdate('user_tbl',array('subscribe'=>0,'groupid'=>'0'),array('openid'=>$openid));
+    try {
+        pdoDelete('user_reg_tbl', array('openid' => $openid));
+        pdoUpdate('user_tbl', array('subscribe' => 0, 'groupid' => '0'), array('openid' => $openid));
         pdoCommit();
-    }catch(PDOException $e){
+    } catch (PDOException $e) {
         mylog($e->getMessage());
         pdoRollBack();
     }

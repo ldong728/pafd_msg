@@ -1,4 +1,29 @@
-
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>-->
+<!--    <title>登入</title>-->
+<!--    <script type="text/javascript" src="../js/jquery.js"></script>-->
+<!--    <link rel="stylesheet" type="text/css" href="stylesheet/style.css">-->
+<!--</head>-->
+<!---->
+<!--<body>-->
+<!--<form action="index.php?login=1"method="post">-->
+<!--    <div>-->
+<!--        <label>用户名:</label>-->
+<!--        <input type="text" name="adminName"placeholder="输入用户名">-->
+<!--        </div>-->
+<!--    <div>-->
+<!--        <label>密码：</label>-->
+<!--        <input type="password"name="password"placeholder="输入密码">-->
+<!---->
+<!--    </div>-->
+<!--    <input type="submit"value="确定">-->
+<!---->
+<!---->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
 
 <!DOCTYPE html>
 <html>
@@ -10,7 +35,7 @@
     <style>
         body {
             height: 100%;
-            background: #16a085;
+            background: #2673BF;
             overflow: hidden;
         }
 
@@ -26,22 +51,21 @@
         $(document).ready(function () {
             //粒子背景特效
             $('body').particleground({
-                dotColor: '#5cbdaa',
-                lineColor: '#5cbdaa'
+                dotColor: '#2b82d9',
+                lineColor: '#2b82d9'
             });
             //验证码
             createCode();
-//            测试提交，对接程序删除即可
-//            $(".submit_btn").click(function(){
-//                location.href="index.html";
-//            });
+
         });
     </script>
 </head>
 <body>
+
+<a href="http://www.gooduo.net"><div class="logo"></div></a>
 <dl class="admin_login">
     <dt>
-        <strong>三北武装公众号后台管理系统</strong>
+        <strong>后台管理系统</strong>
         <em>Management System</em>
     </dt>
     <form action="index.php?login=1" method="post">

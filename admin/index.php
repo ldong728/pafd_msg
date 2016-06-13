@@ -231,6 +231,81 @@ if (isset($_SESSION['login'])) {
             exit;
         }
     }
+    if(isset($_GET['jm'])){
+        if(isset($_SESSION['pms']['jm'])){
+            if(isset($_GET['jm_create'])){
+                $mode=3;
+                $jmMain=pdoQuery('jm_cate_tbl',null,array('f_id'=>'-1'),null);
+                $jmCate=$jmMain->fetchAll();
+                $jmAll=pdoQuery('jm_cate_tbl',null,null,' order by f_id asc, id asc');
+                foreach ($jmAll as $row) {
+                    if(-1==$row['f_id']){
+                        $jmSCate[$row['id']]=$row;
+                    }else{
+                        $jmSCate[$row['f_id']]['option'][]=$row;
+                    }
+                }
+                printView('admin/view/createNews.html.php','新建文章');
+                exit;
+            }
+            if(isset($_GET['jm_cate'])){
+                $fcq=pdoQuery('jm_cate_tbl',null,array('f_id'=>-1),null);
+                foreach ($fcq as $row) {
+                    $fc[$row['id']]=$row;
+                }
+                if(!$fc)$fc=array();
+                $scQuery=pdoQuery('jm_cate_tbl',null,array('sub_num'=>'0'),' and f_id>-1');
+                foreach ($scQuery as $row) {
+                    if(!isset($sc[$row['f_id']]))$sc[$row['f_id']]['name']=$fc[$row['f_id']]['name'];
+                    if($row['id']){
+                        $sc[$row['f_id']]['sc'][]=array(
+                            'id'=>$row['id'],
+                            'name'=>$row['name']
+                        );
+                    }
+                }
+                printView('admin/view/jm_category.html.php','军民融合分类');
+                exit;
+            }
+            if(isset($_GET['jm_list'])){
+
+                $jmMain=pdoQuery('jm_cate_tbl',null,array('f_id'=>'-1'),null);
+                $jmCate=$jmMain->fetchAll();
+                $jmAll=pdoQuery('jm_cate_tbl',null,null,' order by f_id asc, id asc');
+                foreach ($jmAll as $row) {
+                    if(-1==$row['f_id']){
+                        $jmSCate[$row['id']]=$row;
+                    }else{
+                        $jmSCate[$row['f_id']]['option'][]=$row;
+                    }
+                }
+                $order= isset($_GET['order']) ? $_GET['order'] : 'create_time';
+                $order_rule=isset($_GET['rule']) ? $_GET['rule'] : 'desc';
+                $num = 15;
+                $page = isset($_GET['page']) ? $_GET['page'] : 0;
+                $index = $page * $num;
+                $where=null;
+                if(isset($_GET['cate'])&&$_GET['cate']>-1)$where['category']=$_GET['cate'];
+                $getStr='';
+                foreach ($_GET as $k => $v) {
+                    if($k=='page')continue;
+                    $getStr.=$k.'='.$v.'&';
+                }
+                $getStr=rtrim($getStr,'&');
+                $query=pdoQuery('jm_news_tbl',array('id','category','title','title_img','type'),$where," order by $order $order_rule limit $index,$num");
+                foreach ($query as $row) {
+                    $newsList[]=$row;
+                }
+                if(!$newsList)$nearList=array();
+                printView('admin/view/jm_list.html.php','文章列表');
+                exit;
+
+            }
+        }else{
+            echo '权限不足';
+            exit;
+        }
+    }
     if(isset($_GET['bbs'])){
         if(isset($_SESSION['pms']['bbs'])){
             if(isset($_GET['bbslist'])){

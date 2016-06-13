@@ -183,7 +183,6 @@ if(isset($_SESSION['openid'])){
 
 
 }
-
 if(isset($_GET['study'])){
 //    mylog('study');
 //    unset($_SESSION['openid']);  //测试代码
@@ -275,7 +274,6 @@ if(isset($_GET['study'])){
     include 'view/study.html.php';
     exit;
 }
-
 if(isset($_GET['logout'])){
     unset($_SESSION['openid']);
 
@@ -284,6 +282,11 @@ if(isset($_GET['logout'])){
 if(isset($_GET['temp'])){
     mylog('temp');
     echo 'hh';
+    exit;
+}
+if(isset($_GET['jmrh'])){
+
+    include 'view/jmrh_list.html.php';
     exit;
 }
 

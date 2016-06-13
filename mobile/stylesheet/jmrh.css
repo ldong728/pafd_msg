@@ -1,0 +1,127 @@
+/*列表页*/
+.banner {
+    width: 100%;
+    height: 100px;
+}
+
+
+.nav {
+    background-color: #336cb5;
+    width: 100%;
+
+
+}
+.nav ul {
+    display: block;
+    width: 100%;
+    height: 85px;
+    overflow: hidden;
+    zoom: 1;
+}
+.slash {
+
+
+}
+.nav li {
+    background: url(images/navline.gif) right no-repeat;
+    background-size: auto;
+    background-origin: padding-box;
+    display: block;
+    box-sizing: border-box;
+    float: left;
+    list-style: none;
+    font-size: 15px;
+    text-align: center;
+    width: 33.33%;
+    height: 42px;
+    line-height: 42px;
+    margin-top: 1px;
+    border-bottom: solid 1px gray;
+    box-shadow: 0 -1px;
+}
+.nav li a {
+    color: #fff;
+    font-family: "微软雅黑";
+}
+.module-container {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+
+}
+.module-container .module-block {
+    border: 1px solid #E4E4E4;
+    border-top: none;
+    width: 96%;
+    min-height: 300px;
+    /*float: left;*/
+    margin:10px auto 10px auto;
+    overflow: hidden;
+    zoom:1;
+}
+.module-block .module-title {
+    box-sizing: border-box;
+    width: 45%;
+    color: #666;
+    height: 38px;
+    line-height: 38px;
+    font-family: "微软雅黑";
+    border-top: 3px solid #346FBB;
+    float: left;
+    font-size: 15px;
+    background: #FFF;
+    font-weight: 800;
+    text-align: center;
+}
+.module-block .module-more {
+    padding-right:4px;
+    width: 55%;
+    height: 38px;
+    line-height: 38px;
+    font-size: 14px;
+    border: 1px solid #e4e4e4;
+    background: #f8f8f8;
+    float: left;
+    border-right: none;
+    text-align: right;
+}
+.module-block .clear {
+    clear: both;
+}
+.module-block .pic {
+    float: left;
+    margin: 18px 20px 0 15px;
+    width: 28%;
+    overflow: hidden;
+}
+.pic li {
+    list-style: none;
+    width: 100%;
+    float: left;
+    margin-bottom: 15px;
+    background: #F6F6F6;
+    /*overflow: hidden;*/
+    position: relative;
+}
+.pic li img {
+    width: 100%;
+    height: auto;
+    max-height: 120px;
+}
+.module-block .link {
+    float: left;
+    width: 60%;
+    /*overflow: hidden;*/
+    margin-top: 18px;
+}
+.link li {
+    list-style: none;
+    background: url(images/point.gif) no-repeat left center;
+    padding-left: 15px;
+    width: 85%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 25px;
+    line-height: 25px;
+}
+

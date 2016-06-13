@@ -18,6 +18,13 @@ if(isset($_GET['mainSite'])){
 //    exit;
 }
 
+//$markList=pdoQuery('mark_view',null,null,null);
+//ob_start();
+//printView('admin/view/mark.html.php', '已读列表');
+//$content=ob_get_contents();
+//file_put_contents('temp.html',$content);
+//ob_clean();
+
 
 
 exit;

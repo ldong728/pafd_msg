@@ -25,6 +25,7 @@
 
 <body>
 <div class="toast"></div>
+<div class="loading"></div>
 <aside class="lt_aside_nav content mCustomScrollbar">
     <h2><a href="index.php">起始页</a></h2>
     <ul>
@@ -85,6 +86,18 @@
                 </dl>
             </li>
         <?php endif ?>
+        <?php if(isset($_SESSION['pms']['jm'])):?>
+        <li>
+            <dl class="main-menu">
+                <dt>军民融合</dt>
+                <dd style="display: <?php echo isset($_GET['jm']) ? 'block' : 'none' ?>"><a
+                        href="index.php?jm=1&jm_cate=1">管理分类</a></dd>
+                <dd style="display: <?php echo isset($_GET['jm']) ? 'block' : 'none' ?>"><a
+                        href="index.php?jm=1&jm_list=1">文章列表</a></dd>
+                <dd style="display: <?php echo isset($_GET['jm']) ? 'block' : 'none' ?>"><a
+                        href="index.php?jm=1&jm_create=1">新建文章</a></dd>
+            </dl>
+        <?php endif ?>
         <?php if(isset($_SESSION['pms']['std'])):?>
             <li>
                 <dl class="main-menu">
@@ -111,16 +124,16 @@
             </li>
         <?php endif ?>
 
-
+        <?php if (isset($_SESSION['pms']['operator'])): ?>
         <li>
             <dl class="main-menu">
                 <dt>管理员</dt>
-                <?php if (isset($_SESSION['pms']['operator'])): ?>
+
                     <dd><a href="index.php?wechatConfig=1">微信公众号</a></dd>
-                    <dd><a href="index.php?operator=1">管理员信息</a></dd><?php endif ?>
+                    <dd><a href="index.php?operator=1">管理员信息</a></dd>
             </dl>
         </li>
-
+        <?php endif ?>
         <li>
             <p class="btm_infor">© 谷多网络 版权所有</p>
         </li>

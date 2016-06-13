@@ -127,7 +127,7 @@ button, input, select, textarea {
 }
 
 a {
-    color: #06c1ae;
+    color: #2b82d9;
     text-decoration: none;
     outline: 0
 }
@@ -217,14 +217,33 @@ small, weak {
 .fr {
     float: right;
 }
+.head {
+    position: relative;
+    width: 100%;
+    height: 45px;
+}
+.logo {
+    z-index: 101;
+    width: 130px;
+    height: 128px;
+    /*height: auto;*/
+    overflow: hidden;
+    margin: 10% auto 0 auto;
+    background: url(images/logo_big_f.png) no-repeat;
+    background-size: 130px 128px;
+    /*padding: 40px;*/
+    /*box-shadow: 0 -15px 30px #2b82d9;*/
+    /*border-radius: 5px;*/
+}
 
 .admin_login {
+    z-index: 100;
     width: 300px;
     height: auto;
     overflow: hidden;
-    margin: 10% auto 0 auto;
+    margin: 10px auto 0 auto;
     padding: 40px;
-    box-shadow: 0 -15px 30px #0d957a;
+    box-shadow: 0 15px 30px #2b82d9;
     border-radius: 5px;
 }
 
@@ -232,8 +251,8 @@ small, weak {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    color: #45bda6;
-    text-shadow: 0 0 1px #0e947a;
+    color: #ffffff;
+    /*text-shadow: 0 0 1px #0e947a;*/
     margin-bottom: 15px;
 }
 
@@ -262,8 +281,8 @@ small, weak {
     width: 90%;
     text-indent: 2em;
     border: none;
-    background: #5cbdaa;
-    color: white;
+    /*background: #5cbdaa;*/
+    /*color: white;*/
 }
 
 .admin_login dd .login_txtbx::-webkit-input-placeholder {
@@ -282,7 +301,7 @@ small, weak {
 }
 
 .admin_login dd .login_txtbx:focus {
-    background: #55b7a4;
+    /*background: #2b82d9;*/
 }
 
 .admin_login dd:before {
@@ -293,7 +312,7 @@ small, weak {
     height: 42px;
     line-height: 42px;
     font-size: 20px;
-    color: #0c9076;
+    color: #2b82d9;
 }
 
 .admin_login dd.user_icon:before {
@@ -352,17 +371,17 @@ small, weak {
     height: 42px;
     border: none;
     font-size: 16px;
-    background: #048f74;
+    background: #2b82d9;
     color: #f8f8f8;
 }
 
 .admin_login dd .submit_btn:hover {
-    background: #0c9076;
+    /*background: #0c9076;*/
     color: #f4f4f4;
 }
 
 .admin_login dd p {
-    color: #53c6b0;
+    color: #ffffff;
     font-size: 12px;
     text-align: center;
     margin: 5px 0;
@@ -370,8 +389,9 @@ small, weak {
 
 /*header*/
 header {
-    background: #19a97b;
+    background: #30719B;
     overflow: hidden;
+    height: 69px;
 }
 
 header h1 {
@@ -381,10 +401,9 @@ header h1 {
 }
 
 header h1 img {
-    width: auto;
     margin-top: 12px;
-    /*max-width: 300px;*/
-    /*height: 70px;*/
+    width: auto;
+    max-width: 300px;
 }
 
 header .rt_nav {
@@ -398,7 +417,7 @@ header .rt_nav li {
     float: left;
     padding: 0 25px;
     text-align: center;
-    border-right: 1px #139667 solid;
+    border-right: 1px #30719B solid;
 }
 
 header .rt_nav li:last-child {
@@ -490,7 +509,7 @@ header .rt_nav li .quit_icon:before {
     position: absolute;
     width: 5px;
     height: 25px;
-    background: #67c1a5;
+    background: #30719B;
     content: "";
     top: 10px;
     left: 0;
@@ -512,12 +531,12 @@ header .rt_nav li .quit_icon:before {
 .lt_aside_nav dl dd a:hover {
     background: #f8f8f8;
     text-shadow: 0 1px 5px #f4f4f4;
-    color: #19a97b;
+    color: #30719B;
 }
 
 .lt_aside_nav dl dd .active {
     background: #f8f8f8;
-    color: #19a97b;
+    color: #30719B;
 }
 
 .lt_aside_nav dl dd .active:after {
@@ -525,7 +544,7 @@ header .rt_nav li .quit_icon:before {
     font-family: 'adminthemesregular';
     position: absolute;
     right: 3%;
-    color: #19a97b;
+    color: #30719B;
 }
 
 .lt_aside_nav .btm_infor {
@@ -550,7 +569,8 @@ header .rt_nav li .quit_icon:before {
 .rt_content {
     margin-bottom: 80px;
     margin-right: 8px;
-    overflow: hidden;
+    overflow: scroll;
+
 }
 
 .textWhite {
@@ -558,9 +578,9 @@ header .rt_nav li .quit_icon:before {
 }
 
 .link_btn {
-    border: 1px #139667 solid;
+    border: 1px #30719B solid;
     border-radius: 2px;
-    background: #19a97b;
+    background: #30719B;
     color: white;
     padding: 8px 15px;
     display: inline-block;
@@ -568,17 +588,16 @@ header .rt_nav li .quit_icon:before {
 }
 
 .link_btn:hover {
-    background: #11a274;
-    border: 1px #0e8f61 solid;
+    background: #30719B;
+    /*border: 1px #0e8f61 solid;*/
 }
 
 .link_btn:active {
-    background: #0c9c6e;
-    border: 1px #0e8f61 solid;
+    background: #30719B;
 }
 
 .textbox {
-    border: 1px #139667 solid;
+    border: 1px #30719B solid;
     height: 26px;
     line-height: 26px;
     padding: 5px;
@@ -598,15 +617,15 @@ header .rt_nav li .quit_icon:before {
     padding: 0 5px;
     height: 38px;
     font-size: 12px;
-    border: 1px #139667 solid;
+    border: 1px #30719B solid;
     vertical-align: middle;
     appearance: button;
     -webkit-appearance: button;
 }
 
 .group_btn {
-    border: 1px #139667 solid;
-    background: #19a97b;
+    border: 1px #30719B solid;
+    background: #30719B;
     color: white;
     padding: 0 15px;
     height: 38px;
@@ -626,9 +645,10 @@ header .rt_nav li .quit_icon:before {
 }
 
 .page_title {
-    height: 40px;
-    line-height: 40px;
+    height: 25px;
+    line-height: 25px;
     border-bottom: 1px #b6b6b6 solid;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
@@ -642,10 +662,10 @@ header .rt_nav li .quit_icon:before {
     height: 30px;
     line-height: 30px;
     padding: 0 15px;
-    border: 1px #19a97b solid;
+    border: 1px #30719B solid;
     border-radius: 2px;
     background: #f8f8f8;
-    color: #19a97b;
+    color: #30719B;
     vertical-align: middle;
     cursor: pointer;
 }
@@ -674,7 +694,7 @@ header .rt_nav li .quit_icon:before {
 }
 
 .table td a {
-    color: #19a97b;
+    color: #30719B;
     margin: 0 5px;
     cursor: pointer;
 }
@@ -702,8 +722,8 @@ header .rt_nav li .quit_icon:before {
 }
 
 .paging a {
-    background: #19a97b;
-    border: 1px #139667 solid;
+    background: #30719B;
+    border: 1px #30719B solid;
     color: white;
     padding: 5px 8px;
     display: inline-block;
@@ -711,12 +731,12 @@ header .rt_nav li .quit_icon:before {
 }
 
 .paging a:hover {
-    background: #11a274;
+    background: #30719B;
     border: 1px #0e8f61 solid;
 }
 
 .paging a:active {
-    background: #17a578;
+    background: #30719B;
     border: 1px #0e8f61 solid;
 }
 
@@ -749,7 +769,7 @@ header .rt_nav li .quit_icon:before {
     margin-top: 5px;
     outline: none;
     resize: none;
-    border: 1px #139667 solid;
+    border: 1px #30719B solid;
     padding: 8px;
 }
 
@@ -758,13 +778,7 @@ header .rt_nav li .quit_icon:before {
     padding: 15px;
     background: #f8f8f8;
     position: relative;
-    border: 1px #139667 solid;
-}
-img.uploadedImg {
-    min-width: 60px;
-    max-width: 150px;
-    height: auto;
-    position: relative;
+    border: 1px #30719B solid;
 }
 
 .uploadImg input {
@@ -775,11 +789,11 @@ img.uploadedImg {
     display: block;
     font-size: 12px;
     text-align: center;
-    color: #139667;
+    color: #30719B;
 }
 
 .uploadImg span:hover {
-    color: #209f71;
+    color: #30719B;
 }
 
 .uploadImg span:before {
@@ -798,6 +812,7 @@ img.uploadedImg {
 }
 
 .ulColumn2 li .item_name {
+    vertical-align: top;
     text-align: right;
     display: inline-block;
 }
@@ -832,8 +847,8 @@ img.uploadedImg {
 .admin_tab li a.active {
     background: white;
     font-weight: bold;
-    border-top: 1px #19a97b solid;
-    color: #19a97b;
+    border-top: 1px #30719B solid;
+    color: #30719B;
 }
 
 .admin_tab_cont {
@@ -880,7 +895,7 @@ img.uploadedImg {
 .pop_cont h3 {
     height: 40px;
     line-height: 40px;
-    background: #19a97b;
+    background: #30719B;
     color: white;
     font-size: 14px;
     font-weight: bold;
@@ -945,16 +960,16 @@ img.uploadedImg {
 }
 
 .pop_cont .btm_btn .trueBtn {
-    background: #19a97b;
+    background: #30719B;
     color: white;
-    border: 1px #19a97b solid;
+    border: 1px #30719B solid;
     border-radius: 2px;
 }
 
 .pop_cont .btm_btn .trueBtn:hover {
-    background: #13a174;
+    background: #30719B;
     border-radius: 0;
-    border: 1px #13a174 solid;
+    border: 1px #30719B solid;
 }
 
 .pop_cont .btm_btn .falseBtn {
@@ -1030,7 +1045,7 @@ img.uploadedImg {
     width: 4px;
     height: 20px;
     border-radius: 2px;
-    background: #19a97b;
+    background: #30719B;
     margin: 0 2px
 }
 
@@ -1072,10 +1087,4 @@ img.uploadedImg {
 .space {
     width: 100%;
     height: 100px;
-}
-header h1 img {
-    width: auto;
-    margin-top: 12px;
-    /*max-width: 300px;*/
-    /*height: 70px;*/
 }

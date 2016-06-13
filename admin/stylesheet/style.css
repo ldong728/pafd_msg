@@ -1,6 +1,29 @@
 
 div.toast{z-index:1001;padding:20px 30px; border:1px solid #333; border-radius:5px; position:fixed; top:50%; left:50%; transform:translate(-50%,-45%); -webkit-transform:translate(-50%,-45%); background-color:#333; opacity:0.8; display:none; color:#fff; font-size:16px; font-weight:700; line-height:24px; text-align:center; min-width:126px; max-width:196px;}
 
+div.loading{
+    z-index: 1001;
+    padding: 20px 30px;
+    /*border: 1px solid #333;*/
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    -webkit-transform: translate(-50%, -45%);
+    /*background-color: #333;*/
+    opacity: 0.8;
+    display: none;
+    /*color: #fff;*/
+    /*font-size: 16px;*/
+    /*font-weight: 700;*/
+    /*line-height: 24px;*/
+    text-align: center;
+    width: 80px;
+    height:80px;
+    background: url(images/ajax-loader.gif) no-repeat;
+    background-size: 80px 80px;
+}
 
 h1 {
     font-size: 40px;
