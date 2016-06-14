@@ -11,37 +11,54 @@ session_start();
 
 if (isset($_SESSION['login'])) {
     if (isset($_GET['createNews'])) {
+        $id = $_POST['id'];
         $title = addslashes(trim($_POST['title']));
         $digest = addslashes(trim($_POST['digest']));
         $title_img = isset($_POST['title_img']) ? $_POST['title_img'] : 'img/0.jpg';
         $content = addslashes($_POST['content']);
         if ($title != '' && $content != '') {
-            if ('1' == $_GET['createNews']) {//创建图文
-                pdoInsert('news_tbl', array('title' => $title, 'digest' => $digest, 'title_img' => $title_img, 'content' => $content, 'source' => 'local', 'media_id' => 'local' . time() . rand(100, 999), 'create_time' => time()), 'ignore');
-                header('location:index.php?newslist=1');
-                exit;
-            }
-            if ('2' == $_GET['createNews']) {//创建通知
-                $sendNow=$_POST['sendNow'];
-                $notice_id=pdoInsert('notice_tbl',array('title'=>$title,'intro'=>$digest,'title_img'=>$title_img,'inf'=>$content,'create_time'=>time()));
-                if($sendNow=='0'){
+            switch ($_GET['createNews']) {
+                case '1': {//创建图文
+                    $value = array('title' => $title, 'digest' => $digest, 'title_img' => $title_img, 'content' => $content, 'source' => 'local', 'media_id' => 'local' . time() . rand(100, 999), 'create_time' => time());
+                    if ($id > 0) $value['id'] = $id;
+                    pdoInsert('news_tbl', $value, 'update');
                     header('location:index.php?newslist=1');
-                }else{
-                    header('location:index.php?sendNotice='.$notice_id.'&notice_id='.$notice_id);
+                    exit;
+                    break;
                 }
-                exit;
-            }
-            if('3'==$_GET['createNews']) {
-                $cate=$_POST['jm_cate']?$_POST['jm_cate']:-1;
-                pdoInsert('jm_news_tbl',array('category'=>$cate,'title' => $title, 'title_img' => $title_img, 'content' => $content,'create_time' => time()));
-                header('location:index.php?jm=1&jm_create=1');
+                case '2': {//创建通知
+                    $sendNow = $_POST['sendNow'];
+                    $value = array('title' => $title, 'intro' => $digest, 'title_img' => $title_img, 'inf' => $content, 'create_time' => time());
+                    if ($id > 0) $value['id'] = $id;
+                    $notice_id = pdoInsert('notice_tbl', $value, 'update');
+                    if ($sendNow == '0') {
+                        header('location:index.php?newslist=1');
+                    } else {
+                        header('location:index.php?sendNotice=' . $notice_id . '&notice_id=' . $notice_id);
+                    }
+                    exit;
+                    break;
+                }
+                case '3': {
+                    $cate = $_POST['jm_cate'] ? $_POST['jm_cate'] : -1;
+                    $value =array('category' => $cate, 'title' => $title, 'title_img' => $title_img, 'content' => $content, 'create_time' => time());
+                    if ($id > 0) $value['id'] = $id;
+//                              mylog(json_encode($value));
+//                              mylog($id);
+                    pdoInsert('jm_news_tbl',$value,'update');
+                    header('location:index.php?jm=1&jm_list=1');
+                    exit;
+                    break;
 
+                }
             }
+
+
         } else {
             header('location:index.php?newslist=1');
             exit;
         }
-
+        exit;
 
     }
     if (isset($_GET['getNotice'])) {//在预览框架中显示
@@ -70,17 +87,17 @@ if (isset($_SESSION['login'])) {
             $markStr .= ($row['notice_id'] . ',');
             $markList[] = $row;
         }
-        if(isset($markList))$markList=array();
+        if (isset($markList)) $markList = array();
         $markStr = rtrim($markStr, ',');
         $str = $markStr != '' ? ' and id not in(' . $markStr . ')' : '';
         $unmarkQuery = pdoQuery('notice_tbl', array('title', 'create_time'), array('situation' => 1, 'groupid' => $groupid), $str);
         $unmarkList = $unmarkQuery->fetchAll();
-        $bbsTopic=pdoQuery('bbs_topic_tbl',array('count(*) as count'),array('open_id'=>$openid),' limit 1');
-        $bbsTopic=$bbsTopic->fetch();
-        $bbsReply=pdoQuery('bbs_reply_tbl',array('count(*) as count'),array('openid'=>$openid),'limit 1');
-        $bbsReply=$bbsReply->fetch();
-        $stdTest=pdoQuery('std_user_score_tbl',null,array('openid'=>$openid),' limit 5');
-        $stdTest=$stdTest->fetchAll();
+        $bbsTopic = pdoQuery('bbs_topic_tbl', array('count(*) as count'), array('open_id' => $openid), ' limit 1');
+        $bbsTopic = $bbsTopic->fetch();
+        $bbsReply = pdoQuery('bbs_reply_tbl', array('count(*) as count'), array('openid' => $openid), 'limit 1');
+        $bbsReply = $bbsReply->fetch();
+        $stdTest = pdoQuery('std_user_score_tbl', null, array('openid' => $openid), ' limit 5');
+        $stdTest = $stdTest->fetchAll();
         printView('admin/view/user_detail.html.php', '详细信息');
 
     }
@@ -104,8 +121,8 @@ if (isset($_SESSION['login'])) {
                     $button1sub2 = array('name' => '征兵信息', 'type' => 'view', 'url' => $url . '&cate=2');
 //                    $button1sub3 = array('name' => '每月一课', 'type' => 'view', 'url' => $url . '&cate=4');
                     $button1sub4 = array('name' => '军民融合', 'type' => 'click', 'key' => 'blank');
-                    $button1sub5=array('name'=>'军人荣誉','type'=>'view_limited','media_id'=>'mpDQKIcMlKu6mqA_Pa4i18ID0dTlEGSifZhS1Y9XWXk');
-                    $button1 = array('name' => '兴武征程', 'sub_button' => array( $button1sub1, $button1sub4, $button1sub2, $button1sub5));
+                    $button1sub5 = array('name' => '军人荣誉', 'type' => 'view_limited', 'media_id' => 'mpDQKIcMlKu6mqA_Pa4i18ID0dTlEGSifZhS1Y9XWXk');
+                    $button1 = array('name' => '兴武征程', 'sub_button' => array($button1sub1, $button1sub4, $button1sub2, $button1sub5));
 //                    $button1 = array('name' => '兴武征程', 'sub_button' => array( $button1sub1, $button1sub4, $button1sub2));
                     $button2 = array('name' => '学习平台', 'type' => 'view', 'url' => 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?study=1');
                     $button3sub1 = array('type' => 'click', 'name' => $row['name'], 'key' => 'moldule2');
@@ -123,9 +140,9 @@ if (isset($_SESSION['login'])) {
             $button1sub2 = array('name' => '征兵信息', 'type' => 'view', 'url' => $url . '&cate=2');
 //            $button1sub3 = array('name' => '每月一课', 'type' => 'view', 'url' => $url . '&cate=4');
             $button1sub4 = array('name' => '军民融合', 'type' => 'click', 'key' => 'blank');
-            $button1sub5=array('name'=>'军人荣誉','type'=>'view_limited','media_id'=>'mpDQKIcMlKu6mqA_Pa4i18ID0dTlEGSifZhS1Y9XWXk');
+            $button1sub5 = array('name' => '军人荣誉', 'type' => 'view_limited', 'media_id' => 'mpDQKIcMlKu6mqA_Pa4i18ID0dTlEGSifZhS1Y9XWXk');
             $button1 = array('name' => '兴武征程', 'sub_button' => array($button1sub1, $button1sub4, $button1sub2, $button1sub5));
-            $button2 = array('name' => '学习平台', 'type' => 'view', 'url' =>  'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?mainSite=1');
+            $button2 = array('name' => '学习平台', 'type' => 'view', 'url' => 'http://' . $_SERVER['HTTP_HOST'] . DOMAIN . '/mobile/controller.php?mainSite=1');
             $button3sub1 = array('type' => 'click', 'name' => '互动', 'key' => 'moldule2');
             $button3sub2 = array('type' => 'click', 'name' => '互动社区', 'key' => 'bbs');
             $button3 = array('name' => '互动社区', 'sub_button' => array($button3sub1, $button3sub2));

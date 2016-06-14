@@ -234,6 +234,13 @@ if (isset($_SESSION['login'])) {
     if(isset($_GET['jm'])){
         if(isset($_SESSION['pms']['jm'])){
             if(isset($_GET['jm_create'])){
+                if(isset($_GET['edit'])){
+                    $inf=pdoQuery('jm_news_tbl',null,array('id'=>$_GET['edit']),' limit 1');
+                    $inf=$inf->fetch();
+                    $fQuery=pdoQuery('jm_cate_tbl',array('f_id'),array('id'=>$inf['category']),' limit 1');
+                    $fQuery=$fQuery->fetch();
+                    $f_id=$fQuery['f_id']>0?$fQuery['f_id']:$inf['category'];
+                }
                 $mode=3;
                 $jmMain=pdoQuery('jm_cate_tbl',null,array('f_id'=>'-1'),null);
                 $jmCate=$jmMain->fetchAll();
@@ -268,7 +275,6 @@ if (isset($_SESSION['login'])) {
                 exit;
             }
             if(isset($_GET['jm_list'])){
-
                 $jmMain=pdoQuery('jm_cate_tbl',null,array('f_id'=>'-1'),null);
                 $jmCate=$jmMain->fetchAll();
                 $jmAll=pdoQuery('jm_cate_tbl',null,null,' order by f_id asc, id asc');

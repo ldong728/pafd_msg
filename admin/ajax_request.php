@@ -348,5 +348,25 @@ if (isset($_SESSION['login'])) {
         echo 'ok';
         exit;
     }
+    if(isset($_POST['delJmNews'])){
+        $id=$_POST['id'];
+        pdoDelete('jm_news_tbl',array('id'=>$id));
+        echo 'ok';
+        exit;
+    }
+    if(isset($_POST['getNews'])){
+        $mode=$_POST['mode'];
+        $id=$_POST['id'];
+        if($mode==3){
+            $content=pdoQuery('jm_news_tbl',array('content'),array('id'=>$id),' limit 1');
+            $content=$content->fetch();
+        }
+        if($mode!=3){
+            $content=pdoQuery('news_tbl',array('content'),array('id'=>$id),' limit 1');
+            $content=$content->fetch();
+        }
+        echo $content['content'];
+        exit;
+    }
 }
 ?>

@@ -42,7 +42,7 @@ $getStr = $GLOBALS['getStr']
         </tr>
         <?php foreach ($newsList as $row): ?>
             <tr>
-                <td><?php echo $row['title'] ?></td>
+                <td><a href="index.php?jm=1&jm_create=1&edit=<?php echo $row['id']?>"><?php echo $row['title'] ?></a></td>
                 <td><select class="select changeCategory" id="sle<?php echo $row['id'] ?>">
                         <option value="0"<?php echo $row['category'] == 0 ? 'selected="selected"' : '' ?>>未分类</option>
                         <?php foreach ($cateList as $crow): ?>
@@ -55,8 +55,9 @@ $getStr = $GLOBALS['getStr']
                            <?php echo 'title' == $row['type'] ? 'checked="checked"' : '' ?>value="<?php echo $row['id'] ?>"/>
                 </td>
                 <td>
-                    <a class="inner_btn delete" id="new<?php echo $row['id']?>"
-                       data-source="<?php echo $row['source'] ?>">删除</a>
+                    <a class="inner_btn" href="index.php?jm=1&jm_create=1&edit=<?php echo $row['id']?>">编辑</a>
+                    <a class="inner_btn delete" id="del<?php echo $row['id']?>"
+                       >删除</a>
                 </td>
             </tr>
         <?php endforeach ?>
@@ -96,5 +97,15 @@ $getStr = $GLOBALS['getStr']
 
         });
         });
+    $('.delete').click(function(){
+        if(confirm('确认删除此文章？')){
+            var id=$(this).attr('id').slice(3);
+            loading();
+            $.post('ajax_request.php',{delJmNews:1,id:id},function(data){
+                stopLoading();
+                location.reload(true);
+            });
+        }
+    });
 
 </script>

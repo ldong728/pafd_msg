@@ -285,6 +285,27 @@ if(isset($_GET['temp'])){
     exit;
 }
 if(isset($_GET['jmrh'])){
+    $cate=pdoQuery('jm_cate_tbl',null,null,' order by f_id asc,id asc');
+    foreach ($cate as $row) {
+        if(-1==$row['f_id']){
+            $cateList[$row['id']]=$row;
+        }else{
+            $cateList[$row['f_id']]['sub'][]=$row;
+        }
+        if($row['sub_num']==0){
+            $front=pdoQuery('jm_news_tbl',array('id','title','title_img'),array('category'=>$row['id'],'type'=>'title'),' order by create_time limit 2');
+            $frontList=$front->fetchAll();
+            $pre=pdoQuery('jm_news_tbl',array('id','title'),array('category'=>$row['id']),' order by create_time limit 8');
+            $preList=$pre->fetchAll();
+            $contentList[$row['id']]=array(
+              'id'=>$row['id'],
+                'name'=>$row['name'],
+                'front'=>$frontList,
+                'pre'=>$preList
+            );
+        }
+    }
+
 
     include 'view/jmrh_list.html.php';
     exit;
