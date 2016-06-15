@@ -11,74 +11,52 @@
 <body>
 <div class="wrap">
     <div class="banner">
-        <img style="width: 100%;height: 100%" src="../img/0.jpg"/>
+        <img src="../img/indexbanner.jpg"/>
     </div>
     <div class="nav">
         <ul>
-           <li>
-               <a>导航栏</a>
-           </li><li>
-                <a>导航栏</a>
-            </li><li>
-                <a>导航栏</a>
-            </li>
             <li>
-                <a>导航栏</a>
-            </li><li>
-                <a>导航栏</a>
-            </li><li>
-                <a>导航栏</a>
+                <a>首页</a>
             </li>
+            <?php foreach($cateList as $row):?>
+           <li <?php echo (mb_strlen($row['name']))/3>5 ?'class="muti-line"':'' ?>>
+               <a><?php echo $row['name']?></a>
+               <?php if($row['sub']):?>
+                    <select class="hidden-select">
+                        <option value="-1">选择子分类</option>
+                        <?php foreach($row['sub'] as $sRow):?>
+                       <option value="<?php echo $sRow['id']?>"><?php echo $sRow['name']?></option>
+                       <?php endforeach ?>
+                    </select>
+                    <?php endif ?>
+           </li>
+            <?php endforeach ?>
         </ul>
     </div>
     <div class="module-container">
+        <?php foreach($contentList as $row):?>
         <div class="module-block">
             <div class="module-title">
-                栏目名称
+                <?php echo $row['name']?>
             </div>
             <div class="module-more">
-                更多>>
+                <?php if($row['sub_num']==0):?>
+                <a>更多>></a>
+                <?php endif ?>
             </div>
             <div class="clear"></div>
             <div class="pic">
-                <li><img src="../img/0.jpg"/></li>
-                <li><img src="../img/0.jpg"/></li>
+                <?php foreach($row['front'] as $fRow):?>
+                <li><img src="../<?php echo $fRow['title_img']?>"/></li>
+                <?php endforeach ?>
             </div>
             <div class="link">
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
+                <?php foreach($row['pre'] as $pRow):?>
+                <li <?php echo $pRow['category']? 'class="li-block"':''?>><a href="controller.php?<?php echo $pRow['category']? 'jmrh_sub='.$pRow['id']:'jm_content='.$pRow['id']?>"><?php echo $pRow['title']?></a></li>
+                <?php endforeach ?>
             </div>
         </div>
-        <div class="module-block">
-            <div class="module-title">
-                栏目名称
-            </div>
-            <div class="module-more">
-                更多>>
-            </div>
-            <div class="clear"></div>
-            <div class="pic">
-                <li><img src="../img/0.jpg"/></li>
-                <li><img src="../img/0.jpg"/></li>
-            </div>
-            <div class="link">
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-                <li>文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题</li>
-            </div>
-        </div>
+        <?php endforeach ?>
     </div>
 </div>
 </body>

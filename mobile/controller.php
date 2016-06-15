@@ -285,6 +285,10 @@ if(isset($_GET['temp'])){
     exit;
 }
 if(isset($_GET['jmrh'])){
+    if(isset($_GET['static'])){
+        include 'view/jmrh_list.html';
+        exit;
+    }
     $cate=pdoQuery('jm_cate_tbl',null,null,' order by f_id asc,id asc');
     foreach ($cate as $row) {
         if(-1==$row['f_id']){
@@ -292,25 +296,68 @@ if(isset($_GET['jmrh'])){
         }else{
             $cateList[$row['f_id']]['sub'][]=$row;
         }
-        if($row['sub_num']==0){
-            $front=pdoQuery('jm_news_tbl',array('id','title','title_img'),array('category'=>$row['id'],'type'=>'title'),' order by create_time limit 2');
-            $frontList=$front->fetchAll();
-            $pre=pdoQuery('jm_news_tbl',array('id','title'),array('category'=>$row['id']),' order by create_time limit 8');
-            $preList=$pre->fetchAll();
-            $contentList[$row['id']]=array(
-              'id'=>$row['id'],
-                'name'=>$row['name'],
-                'front'=>$frontList,
-                'pre'=>$preList
+        if($row['f_id']==-1){
+
+            if($row['sub_num']==0){
+                $front=pdoQuery('jm_news_tbl',array('id','title','title_img'),array('category'=>$row['id'],'type'=>'title'),' order by create_time limit 2');
+                $frontList=$front->fetchAll();
+                $pre=pdoQuery('jm_news_tbl',array('id','title'),array('category'=>$row['id']),' order by create_time limit 8');
+                $preList=$pre->fetchAll();
+                $contentList[$row['id']]=array(
+                    'id'=>$row['id'],
+                    'name'=>$row['name'],
+                    'sub_num'=>$row['sub_num'],
+                    'front'=>$frontList,
+                    'pre'=>$preList
+                );
+            }else{
+                $contentList[$row['id']]=array(
+                    'id'=>$row['id'],
+                    'name'=>$row['name'],
+                    'sub_num'=>$row['sub_num']
+//                    'front'=>$frontList,
+                );
+            }
+        }else{
+            $contentList[$row['f_id']]['pre'][]=array(
+              'id'=>  $row['id'],
+                'title'=>$row['name'],
+                'category'=>1
             );
         }
+
     }
-
-
+    foreach ($cateList as $key=>$row) {
+        if($row['sub_num']==0)continue;
+        $cId=array_column($row['sub'],'id');
+        $front=pdoQuery('jm_news_tbl',array('id','title','title_img'),array('category'=>$cId,'type'=>'title'),' order by create_time limit 2');
+        $frontList=$front->fetchAll();
+        $contentList[$key]['front']=$frontList;
+    }
+    function mysort($a,$b){ //排序规则
+        if($GLOBALS['cateList'][$a]['sub_num']==$GLOBALS['cateList'][$b]['sub_num'])return 0;
+        return $GLOBALS['cateList'][$a]<$GLOBALS['cateList'][$b]? -1:1;
+    }
+    uksort($contentList,'mysort');
+    ob_start();
+    include 'view/jmrh_list.html.php';
+    $content=ob_get_contents();
+    file_put_contents('view/jmrh_list.html',$content);
+    ob_end_clean();
     include 'view/jmrh_list.html.php';
     exit;
 }
-
+if(isset($_GET['jmrh_sub'])){
+    $cate=$_GET['jmrh_sub'];
+    exit;
+}
+if(isset($_GET['jm_content'])){
+    $id=$_GET['jm_content'];
+    $newsInf=pdoQuery('jm_news_tbl',array('content'),array('id'=>$id),' limit 1');
+    $newsInf=$newsInf->fetch();
+    include 'view/new.html.php';
+    exit;
+}
 
 
 

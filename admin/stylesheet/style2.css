@@ -469,7 +469,7 @@ header .rt_nav li .quit_icon:before {
     position: absolute;
     top: 70px;
     left: 0;
-    background: #fcfcfc;
+    background: #efefef;
 }
 
 .lt_aside_nav h2 {
@@ -700,14 +700,14 @@ header .rt_nav li .quit_icon:before {
 }
 
 .table td .inner_btn {
-    background: #F9F;
+    background:  #2b82d9;
     color: white;
     padding: 5px 8px;
     border-radius: 2px;
 }
 
 .table td .inner_btn:hover {
-    background: #ffa4ff;
+    background:  #2b82d9;
     color: #f8f8f8;
 }
 
