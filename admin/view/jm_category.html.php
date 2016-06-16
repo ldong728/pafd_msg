@@ -115,7 +115,7 @@ $sc = $GLOBALS['sc'];
             loading();
             $.post('ajax_request.php',{delJmCate:1,id:id},function(data){
                 stopLoading();
-                id(1==data){
+                if(1==data){
                     location.reload(true);
                 }else{
                     alert('无法删除');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cn">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title><?php echo $title ?></title>
@@ -15,15 +15,16 @@
 
 </head>
 
-<header>
+
+
+<body>
+<div class="header">
     <h1><img src="logo/logo.png"/></h1>
     <ul class="rt_nav">
         <li><a href="#" target="_blank" class="website_icon">站点首页</a></li>
         <li><a href="index.php?logout=1" class="quit_icon">安全退出</a></li>
     </ul>
-</header>
-
-<body>
+</div>
 <div class="toast"></div>
 <div class="loading"></div>
 <aside class="lt_aside_nav content mCustomScrollbar">

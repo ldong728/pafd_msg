@@ -45,20 +45,20 @@
         }
     </style>
     <script src="../js/jquery.js"></script>
-    <script src="js/verificationNumbers.js"></script>
-    <script src="js/Particleground.js"></script>
-    <script>
-        $(document).ready(function () {
-            //粒子背景特效
-            $('body').particleground({
-                dotColor: '#2b82d9',
-                lineColor: '#2b82d9'
-            });
-            //验证码
-            createCode();
-
-        });
-    </script>
+<!--    <script src="js/verificationNumbers.js"></script>-->
+<!--    <script src="js/Particleground.js"></script>-->
+<!--    <script>-->
+<!--        $(document).ready(function () {-->
+<!--            //粒子背景特效-->
+<!--            $('body').particleground({-->
+<!--                dotColor: '#2b82d9',-->
+<!--                lineColor: '#2b82d9'-->
+<!--            });-->
+<!--            //验证码-->
+<!--//            createCode();-->
+<!---->
+<!--        });-->
+<!--    </script>-->
 </head>
 <body>
 

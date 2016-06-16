@@ -329,7 +329,10 @@ if(isset($_GET['jmrh'])){
     }
     foreach ($cateList as $key=>$row) {
         if($row['sub_num']==0)continue;
-        $cId=array_column($row['sub'],'id');
+//        $cId=array_column($row['sub'],'id');
+        foreach ($row['sub'] as $idRow) {
+            $cId[]=$idRow['id'];
+        }
         $front=pdoQuery('jm_news_tbl',array('id','title','title_img'),array('category'=>$cId,'type'=>'title'),' order by create_time limit 2');
         $frontList=$front->fetchAll();
         $contentList[$key]['front']=$frontList;
@@ -348,7 +351,28 @@ if(isset($_GET['jmrh'])){
     exit;
 }
 if(isset($_GET['jmrh_sub'])){
-    $cate=$_GET['jmrh_sub'];
+    $category=$_GET['jmrh_sub'];
+    $cateName='';
+    $page=$_GET['page']?$_GET['page'] : 0;
+    $num=30;
+    $index=$page*$num;
+    $cate=pdoQuery('jm_cate_tbl',null,null,' order by f_id asc,id asc');
+    foreach ($cate as $row) {
+        if (-1 == $row['f_id']) {
+            $cateList[$row['id']] = $row;
+        } else {
+            $cateList[$row['f_id']]['sub'][] = $row;
+        }
+        if($row['id']==$category)$cateName=$row['name'];
+    }
+    $inf=pdoQuery('jm_news_tbl',array('id','category','title','title_img'),array('category'=>$category)," order by create_time desc limit $index,$num");
+//    $inf=pdoQuery('jm_news_tbl',array('id','category','title','title_img'),array('category'=>$category),null);
+    foreach ($inf as $row) {
+        $newsList[]=$row;
+    }
+    if(!isset($newsList))$newsList=array();
+
+    include 'view/jm_sub_list.html.php';
     exit;
 }
 if(isset($_GET['jm_content'])){

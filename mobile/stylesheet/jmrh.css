@@ -84,6 +84,9 @@ a {
     zoom:1;
 }
 .module-block .module-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     box-sizing: border-box;
     width: 45%;
     color: #666;
@@ -113,9 +116,11 @@ a {
     clear: both;
 }
 .module-block .pic {
+    box-sizing: border-box;
     float: left;
-    margin: 18px 20px 0 15px;
-    width: 28%;
+    margin: 0;
+    padding: 18px 5% 0;
+    width: 45%;
     overflow: hidden;
 }
 .pic li {
@@ -127,14 +132,31 @@ a {
     /*overflow: hidden;*/
     position: relative;
 }
+.pic li i {
+    font-style: normal;
+    font-weight: normal;
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.55);
+    background-color: #000 \9;
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 .pic li img {
     width: 100%;
     height: auto;
     max-height: 120px;
 }
 .module-block .link {
+    box-sizing: border-box;
     float: left;
-    width: 60%;
+    width: 55%;
     /*overflow: hidden;*/
     margin-top: 18px;
 }
@@ -153,12 +175,14 @@ a {
 .link li.li-block {
     background: url(images/class.jpg) no-repeat;
     background-size: 100% 100%;
+    box-sizing: border-box;
     text-align: center;
-    padding: 0;
+    padding: 0 5px;
     width: 40%;
     height: 36px;
     line-height: 36px;
     float: left;
     margin: 4px 10px 5px 0;
+    font-size: 14px;
 }
 

@@ -16,13 +16,13 @@
     <div class="nav">
         <ul>
             <li>
-                <a>首页</a>
+                <a href="controller.php?jmrh=1&static=1">首页</a>
             </li>
             <?php foreach($cateList as $row):?>
            <li <?php echo (mb_strlen($row['name']))/3>5 ?'class="muti-line"':'' ?>>
-               <a><?php echo $row['name']?></a>
+               <a <?php echo $row['sub_num']==0 ? 'href="controller.php?jmrh_sub='.$row['id'].'"':'' ?>><?php echo $row['name']?></a>
                <?php if($row['sub']):?>
-                    <select class="hidden-select">
+                    <select class="hidden-select j-cate-select">
                         <option value="-1">选择子分类</option>
                         <?php foreach($row['sub'] as $sRow):?>
                        <option value="<?php echo $sRow['id']?>"><?php echo $sRow['name']?></option>
@@ -41,13 +41,13 @@
             </div>
             <div class="module-more">
                 <?php if($row['sub_num']==0):?>
-                <a>更多>></a>
+                <a href="controller.php?jmrh_sub=<?php echo $row['id']?>">更多>></a>
                 <?php endif ?>
             </div>
             <div class="clear"></div>
             <div class="pic">
                 <?php foreach($row['front'] as $fRow):?>
-                <li><img src="../<?php echo $fRow['title_img']?>"/></li>
+                <li><a href="controller.php?jm_content=<?php echo $fRow['id']?>"><i><?php echo $fRow['title']?></i><img src="../<?php echo $fRow['title_img']?>"/></a></li>
                 <?php endforeach ?>
             </div>
             <div class="link">
@@ -60,3 +60,9 @@
     </div>
 </div>
 </body>
+<script>
+    $('.j-cate-select').change(function(){
+        var id=$(this).val();
+        window.location.href='controller.php?jmrh_sub='+id;
+    })
+</script>

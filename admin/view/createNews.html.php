@@ -101,7 +101,7 @@ $f_id=isset($GLOBALS['f_id'])?$GLOBALS['f_id'] : -1;
 
             </script>
             <script type="text/javascript" src="../uedit/ueditor.config.js"></script>
-            <script type="text/javascript" src="../uedit/ueditor.all.js"></script>
+            <script type="text/javascript" src="../uedit/ueditor.all.js" charset="utf-8"></script>
             <script type="text/javascript">
                 var ue = UE.getEditor('container');
             </script>
@@ -124,10 +124,11 @@ $f_id=isset($GLOBALS['f_id'])?$GLOBALS['f_id'] : -1;
 </section>
 <div class="space"></div>
 <script>
-
+    $('.send').hide();
     ue.ready(function(){
+        $('.send').show();
         var mode=<?php echo $mode ?>;
-        var id=<?php echo $inf['id']? $inf['id']:false ?>;
+        var id=<?php echo $inf['id']? $inf['id']:'false' ?>;
         if(id){
             $.post('ajax_request.php',{getNews:1,id:id,mode:mode},function(data){
                 ue.setContent(data);

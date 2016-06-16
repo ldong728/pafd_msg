@@ -271,6 +271,7 @@ if (isset($_SESSION['login'])) {
                         );
                     }
                 }
+                if(!isset($sc))$sc=array();
                 printView('admin/view/jm_category.html.php','军民融合分类');
                 exit;
             }
@@ -285,6 +286,8 @@ if (isset($_SESSION['login'])) {
                         $jmSCate[$row['f_id']]['option'][]=$row;
                     }
                 }
+                if(!$jmCate)$jmCate=array();
+                if(!$jmSCate)$jmSCate=array();
                 $order= isset($_GET['order']) ? $_GET['order'] : 'create_time';
                 $order_rule=isset($_GET['rule']) ? $_GET['rule'] : 'desc';
                 $num = 15;
@@ -302,7 +305,7 @@ if (isset($_SESSION['login'])) {
                 foreach ($query as $row) {
                     $newsList[]=$row;
                 }
-                if(!$newsList)$nearList=array();
+                if(!$newsList)$newsList=array();
                 printView('admin/view/jm_list.html.php','文章列表');
                 exit;
 

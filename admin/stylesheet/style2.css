@@ -388,77 +388,77 @@ small, weak {
 }
 
 /*header*/
-header {
+.header {
     background: #30719B;
     overflow: hidden;
     height: 69px;
 }
 
-header h1 {
+.header h1 {
     margin: 0;
     float: left;
     margin-left: 1%;
 }
 
-header h1 img {
+.header h1 img {
     margin-top: 12px;
     width: auto;
     max-width: 300px;
 }
 
-header .rt_nav {
+.header .rt_nav {
     float: right;
     overflow: hidden;
     margin-right: 3%;
     margin-top: 12px;
 }
 
-header .rt_nav li {
+.header .rt_nav li {
     float: left;
     padding: 0 25px;
     text-align: center;
     border-right: 1px #30719B solid;
 }
 
-header .rt_nav li:last-child {
+.header .rt_nav li:last-child {
     border: none;
 }
 
-header .rt_nav li a {
+.header .rt_nav li a {
     color: white;
     font-size: 12px;
     text-shadow: 0 0 1px #20af83;
     display: block;
 }
 
-header .rt_nav li a:hover {
+.header .rt_nav li a:hover {
     color: #f4f4f4;
 }
 
-header .rt_nav li a:hover:before {
+.header .rt_nav li a:hover:before {
     color: #f4f4f4;
 }
 
-header .rt_nav li a:before {
+.header .rt_nav li a:before {
     font-family: 'adminthemesregular';
     color: white;
     font-size: 30px;
     display: block;
 }
 
-header .rt_nav li .website_icon:before {
+.header .rt_nav li .website_icon:before {
     content: "I";
 }
 
-header .rt_nav li .admin_icon:before {
+.header .rt_nav li .admin_icon:before {
     content: "U";
 }
 
-header .rt_nav li .set_icon:before {
+.header .rt_nav li .set_icon:before {
     content: "S";
 }
 
-header .rt_nav li .quit_icon:before {
+.header .rt_nav li .quit_icon:before {
     content: "Q";
 }
 
