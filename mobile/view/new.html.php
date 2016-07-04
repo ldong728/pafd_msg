@@ -4,6 +4,14 @@
         img {
             max-width: 100%;
         }
+        .wrap {
+            width: 95%;
+            margin: 0 auto;
+            white-space: normal;
+        }
+        .content {
+            width: 100%;
+        }
     </style>
 </head>
 

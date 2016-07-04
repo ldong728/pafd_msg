@@ -1,36 +1,23 @@
 <?php
+include 'context.class.php';
 
 
  function normalReply($weixin, $msg){
      $openid=$msg['from'];
+     $context=new context($openid);
+     $content=$context->get();
+     $curReply='';
      if($msg['MsgType']=='voice'){
 
      }elseif($msg['MsgType']=='img'){
 
      }else{
-//         $match=array('专武干部','应急力量','基干民兵');
-//         $content=$msg['content'];
-//         if(in_array($content,$match)){
-//             if($content=='专武干部'){
-//                 $groupid=100;
-//             }
-//             if($content=='应急力量'){
-//                $groupid=101;
-//             }
-//             if($content=='基干民兵'){
-//                 $groupid=102;
-//             }
-//             $re=changeGroup($openid,$groupid);
-//             mylog($re);
-//             $re=json_decode($re,true);
-//             if($re['errcode']=='0'){
-//                 pdoUpdate('user_tbl',array('groupid'=>$groupid),array('openid'=>$openid));
-//                 $weixin->replytext('已加入“'.$content.'”分组');
-//             }else{
-//                 $weixin->replytext('服务器错误，请稍后再试');
-//             }
-//
-//         }
+
+
+         $content=$msg['content'];
+         if($content=='修改密码'){
+
+         }
      }
 
  }

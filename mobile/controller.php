@@ -247,7 +247,7 @@ if(isset($_GET['study'])){
             $idList[]=$row['id'];
         }
         $count=count($idList);
-        mylog($count);
+//        mylog($count);
         $query=pdoQuery('std_question_view',null,array('id'=>$idList)," order by $order $order_rule");
         foreach ($query as $row) {
             if(!isset($qList[$row['id']]))$qList[$row['id']]=$row;
@@ -330,6 +330,7 @@ if(isset($_GET['jmrh'])){
     foreach ($cateList as $key=>$row) {
         if($row['sub_num']==0)continue;
 //        $cId=array_column($row['sub'],'id');
+        $cId=array();
         foreach ($row['sub'] as $idRow) {
             $cId[]=$idRow['id'];
         }

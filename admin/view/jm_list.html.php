@@ -36,21 +36,13 @@ $getStr = $GLOBALS['getStr']
     <table class="table">
         <tr>
             <th>标题</th>
-            <th>类别</th>
+<!--            <th>类别</th>-->
             <th>首页</th>
             <th>操作</th>
         </tr>
         <?php foreach ($newsList as $row): ?>
             <tr>
                 <td><a href="index.php?jm=1&jm_create=1&edit=<?php echo $row['id']?>"><?php echo $row['title'] ?></a></td>
-                <td><select class="select changeCategory" id="sle<?php echo $row['id'] ?>">
-                        <option value="0"<?php echo $row['category'] == 0 ? 'selected="selected"' : '' ?>>未分类</option>
-                        <?php foreach ($cateList as $crow): ?>
-                            <option
-                                value="<?php echo $crow['id'] ?>"<?php echo $row['category'] == $crow['id'] ? 'selected="selected"' : '' ?>><?php echo $crow['name'] ?></option>
-                        <?php endforeach ?>
-
-                    </select></td>
                 <td><input type="checkbox" class="addToTitle" id="tit<?php echo $row['id'] ?>"
                            <?php echo 'title' == $row['type'] ? 'checked="checked"' : '' ?>value="<?php echo $row['id'] ?>"/>
                 </td>
