@@ -63,7 +63,7 @@ function mylog($str='mark'){
         $debugInfo=debug_backtrace();
         $message = $debugInfo[0]['file'].$debugInfo[0]['line'];
         $log = date('Y.m.d.H:i:s', time()) . ':'.$message.':' . $str . "\n";
-        file_put_contents($GLOBALS['mypath'].'/log.txt', $log, FILE_APPEND);
+        file_put_contents('log.txt', $log, FILE_APPEND);
     }
 }
 
